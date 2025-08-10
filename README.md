@@ -21,3 +21,7 @@ API_KEY = os.environ["VIDEO_API_KEY"]
 
 Ensure each variable is validated before use and avoid committing `.env` files to version control.
 
+
+## Deployment Notes
+
+Deployment scripts must source API keys from environment variables and include retry logic for API calls.
