@@ -6,8 +6,25 @@
 ![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
 ![AI Modes](https://img.shields.io/badge/AI%20Modes-40+-purple.svg)
 ![SPARC](https://img.shields.io/badge/methodology-SPARC-orange.svg)
+![Node.js](https://img.shields.io/badge/node.js-16+-green.svg)
+![Platform](https://img.shields.io/badge/platform-VSCode-blue.svg)
 
 SPARC40 is a revolutionary development framework that implements the SPARC methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with 40+ specialized AI agents, persistent knowledge management, and built-in security controls. Whether you're building a simple application or a complex enterprise system, SPARC40 provides the structure, tools, and guidance for consistent, high-quality outcomes.
+
+## 📋 Table of Contents
+
+- [🚀 Quick Start](#-quick-start)
+- [🔄 SPARC Methodology Overview](#-sparc-methodology-overview)
+- [🤖 AI Mode Ecosystem](#-ai-mode-ecosystem)
+- [🧠 Memory Bank System](#-memory-bank-system)
+- [🏗️ System Architecture](#️-system-architecture)
+- [📦 Installation](#-installation)
+- [📖 Usage Guide](#-usage-guide)
+- [⚙️ Configuration](#️-configuration)
+- [🔒 Security](#-security)
+- [🚀 Advanced Features](#-advanced-features)
+- [🤝 Contributing](#-contributing)
+- [📞 Support](#-support)
 
 ## 🚀 Quick Start
 
@@ -23,22 +40,7 @@ cd sparc40
 # Activate SPARC Specification Writer mode to begin
 ```
 
-## 📋 Table of Contents
-
-- [Key Features](#-key-features)
-- [SPARC Methodology Overview](#-sparc-methodology-overview)
-- [AI Mode Ecosystem](#-ai-mode-ecosystem)
-- [Memory Bank System](#-memory-bank-system)
-- [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Usage Guide](#-usage-guide)
-- [Configuration](#-configuration)
-- [Security](#-security)
-- [Advanced Features](#-advanced-features)
-- [Contributing](#-contributing)
-- [Support](#-support)
-
-## ✨ Key Features
+### Key Benefits
 
 - **🤖 40+ Specialized AI Modes** - Expert AI agents for every aspect of development
 - **🧠 Memory Bank System** - Persistent knowledge management across all phases
@@ -46,8 +48,6 @@ cd sparc40
 - **🔒 Security-First Design** - Comprehensive access controls and security patterns
 - **⚡ Autonomous Development** - AI modes can work independently with proper context
 - **📝 Complete Templates** - Ready-to-use templates for all development artifacts
-- **📊 Decision Tracking** - Full rationale for all architectural and strategic decisions
-- **🚀 One-Command Setup** - Automated project initialization with best practices
 
 ## 🔄 SPARC Methodology Overview
 
@@ -210,7 +210,7 @@ classDiagram
 
 </details>
 
-## 🏗️ Architecture
+## 🏗️ System Architecture
 
 ### System Architecture Overview
 
@@ -319,7 +319,7 @@ sparc40/
 
 2. **Clone SPARC40 Repository**
    ```bash
-   git clone https://github.com/your-org/sparc40.git
+   git clone https://github.com/JackSmack1971/SPARC40.git
    cd sparc40
    ```
 
@@ -559,7 +559,7 @@ We welcome contributions to SPARC40! Here's how to get involved:
 
 1. **Fork and Clone**
    ```bash
-   git fork https://github.com/your-org/sparc40.git
+   git fork https://github.com/JackSmack1971/SPARC40.git
    cd sparc40
    ```
 
@@ -626,6 +626,6 @@ SPARC40 builds on best practices from:
 
 Start with `./init-sparc-project.sh --name "Your Project"` and experience systematic, AI-assisted development.
 
-*Generated: 2025-01-12 | Analysis includes 142 files and comprehensive architecture mapping*
+*Generated: 2025-01-12 | Analysis includes 174 files and comprehensive architecture mapping*
 
 </div>
