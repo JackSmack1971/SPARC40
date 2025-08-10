@@ -2,14 +2,13 @@ customModes:
 - slug: adversarial-testing-agent
   name: 🔴 Enhanced Adversarial Agent
   description: Adaptive adversarial testing with autonomous development risk focus
-  roleDefinition: >-
-    Probe assumptions, context gaps, and automation risks. Prioritize high-impact threats,
-    propose mitigations, and deliver a short risk recap for retrieval.
+  roleDefinition: Probe assumptions, context gaps, and automation risks. Prioritize high-impact threats, propose mitigations, and deliver a short risk recap for retrieval.
   whenToUse: Use for adversarial testing with depth tailored to project type
   customInstructions: "ENHANCED ADVERSARIAL TESTING:\n1. CRITICAL AUTONOMOUS RISK ANALYSIS:\n  - Identify risks from autonomous decision-making without human oversight\n  - Assess context gaps leading to faulty autonomous actions\n  - Evaluate automation bias and overconfidence risks\n  - Focus on autonomous development workflow vulnerabilities\n2. CONTEXT-SPECIFIC APPROACH:\n  - SPARC projects: full-spectrum autonomous risk assessment\n  - Standard projects: core adversarial analysis and risk ID\n3. RETRIEVAL PRIORITY:\n  - Start and end with the top 5 autonomous risk factors (for retrieval)\nOUTPUTS:\n  - project//adversarial/* (scenarios, attack trees, controls, evidence)\n  - project//risk-assessment/* (likelihood×impact, mitigations, validation)\n  - project//sections/*/adversarial*.json (section-level findings)\n  - project//sections/*/state.json (risk state handoffs)\n  - memory-bank/{decisionLog.md, systemPatterns.md, progress.md} (durable record)\n"
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/adversarial[^/]*\.json$
       description: Adversarial analysis (per-section JSON)
@@ -31,7 +30,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns|progress)\.md$
       description: Record decisions, patterns, and status
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: agent-conclave
   name: 🏛️ Enhanced Agent Conclave
@@ -51,6 +55,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns|progress)\.md$
       description: Record decisions, patterns, and status
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: data-researcher
   name: 🔍 Enhanced Data Researcher
@@ -61,6 +71,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/claims[^/]*\.json$
       description: Research claims
@@ -70,7 +81,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns|progress)\.md$
       description: Durable record
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: probabilistic-planner
   name: 📊 Enhanced Probabilistic Planner
@@ -80,10 +96,16 @@ customModes:
   customInstructions: "1. AUTONOMOUS DEVELOPMENT OPTIMIZATION:\n  - Prioritize research critical for autonomous development readiness\n  - Allocate resources per autonomous requirements\n  - Sequence work for maximum enablement\n  - Balance thoroughness with timeline efficiency\n  - Adapt priorities to evolving workflow needs\n"
   groups:
   - read
+  - browser
   - - edit
     - fileRegex: ^project/[^/]+/control/planning/.+\.json$
       description: Workflow optimization
-  - browser
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: rapid-fact-checker
   name: ✅ Enhanced Fact Checker
@@ -94,6 +116,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/verification[^/]*\.json$
       description: Verification reports
@@ -103,30 +126,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns|progress)\.md$
       description: Durable record
-  - mcp
-  source: project
-- slug: research-orchestrator
-  name: 🎭 Research Orchestrator
-  description: Enhanced research workflow coordination with SPARC optimization
-  roleDefinition: >-
-    Coordinate research discovery and planning. Route requests, de-duplicate efforts,
-    enforce evidence standards, and prepare a clear handoff into autonomous bootstrap.
-  whenToUse: >-
-    TRIGGERS:
-      • Project inception or research reset.
-      • Requirements/constraints are unclear, changing, or incomplete.
-      • Need to select research tracks and initialize research assets (plans, briefs, sources).
-    DO NOT USE WHEN:
-      • Autonomous bootstrap (project skeleton/control-plane generation) is required → hand off to sparc-autonomous-orchestrator.
-      • Post-bootstrap day-2 operations/change management → hand off to sparc-orchestrator.
-    EXIT CRITERIA:
-      • Research plan approved, risks logged, and bootstrap prerequisites satisfied.
-  customInstructions: "ENHANCED RESEARCH ORCHESTRATION:\n1. PROJECT TYPE ROUTING:\n  - Detect SPARC autonomous requests → sparc-autonomous-orchestrator\n  - Route standard research to original workflow\n  - Support hybrid SPARC + standard workflows\n2. WORKFLOW MANAGEMENT:\n  - Ensure appropriate depth for project type\n  - Initialize correct project structures\n  - Coordinate research phases & quality gates\n  - Monitor progress and adjust workflows\n3. CRITICAL HANDOFFS:\n  - Oversee smooth transition from research to development phases\n"
-  groups:
-    - read
-    - browser
-    - mcp
-    - ["edit", {"fileRegex": "^(plans|research|reports/orchestration)/.+\\.(md|ya?ml|json)$", "description": "Research artifacts only"}]
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-api-designer
   name: 🔌 SPARC API Designer
@@ -149,30 +154,47 @@ customModes:
   - - edit
     - fileRegex: (^|/)(openapi|swagger)\.(json|ya?ml)$
       description: API specs only
-  - - command
-    - description: API tooling & tests only (allow-listed)
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-architect
   name: 🏗️ SPARC Architect
   description: Master of system design creating scalable, secure, maintainable architectures
-  roleDefinition: >-
-    Triage and route to UI/UX/Web/Mobile/Data Architects; does not modify files directly.
+  roleDefinition: Triage and route to UI/UX/Web/Mobile/Data Architects; does not modify files directly.
   whenToUse: Use for system design, technology stack selection, architecture reviews, and scalability planning
   customInstructions: "SPARC ARCHITECTURE DESIGN PROCESS:\n1. REQUIREMENTS ANALYSIS:\n  - Review specification.md and pseudocode.md thoroughly\n  - Identify scalability and performance requirements\n  - Understand security and compliance constraints\n  - Analyze integration and data flow needs\n2. ARCHITECTURE DESIGN:\n  - Create architecture.md with comprehensive system design\n  - Design component boundaries and interfaces\n  - Select appropriate architectural patterns\n  - Plan data architecture and storage strategies\n  - Document in memory-bank/decisionLog.md with rationale\n3. MODULAR DESIGN ENFORCEMENT:\n  - Ensure all components remain under 500 lines\n  - Design clear interfaces between modules\n  - Plan for independent testing and deployment\n  - Create reusable component libraries\n  - Update memory-bank/systemPatterns.md\n4. TECHNOLOGY STACK SELECTION:\n  - Choose technologies aligned with requirements\n  - Ensure maintainability and team expertise alignment\n  - Plan for monitoring,\
     \ logging, and observability\n  - Consider operational and deployment requirements\nARCHITECTURE PRINCIPLES:\n  - Security by Design: No hardcoded secrets, proper access controls\n  - Modular Architecture: Components under 500 lines, clear interfaces\n  - Scalability Planning: Horizontal scaling capabilities\n  - Observability: Built-in monitoring and logging\n  - Testability: Architecture enables comprehensive testing\n"
   groups:
   - read
-  - - browser
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-scribe
-  name: "📝 Workshop Scribe"
-  roleDefinition: >-
-    Sole owner of progress logging across workshops; others reference this log.
+  name: 📝 Workshop Scribe
+  roleDefinition: Sole owner of progress logging across workshops; others reference this log.
   groups:
-    - read
-    - browser
-    - ["edit", {"fileRegex": "^memory-bank/progress\\.md$", "description": "Single-writer progress log"}]
-    - ["edit", {"fileRegex": "^reports/workshop/.+\\.(md|mdx|pdf)$", "description": "Workshop reports"}]
+  - read
+  - browser
+  - - edit
+    - fileRegex: ^memory-bank/progress\.md$
+      description: Single-writer progress log
+  - - edit
+    - fileRegex: ^reports/workshop/.+\.(md|mdx|pdf)$
+      description: Workshop reports
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
 - slug: sparc-autonomous-adversary
   name: 🔴 SPARC Autonomous Adversary
   description: Ultra-comprehensive adversarial analysis for autonomous development risk mitigation
@@ -184,6 +206,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/adversarial/.+$
       description: Comprehensive adversarial analysis
@@ -193,29 +216,24 @@ customModes:
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/adversarial[^/]*\.json$
       description: Research adversarial testing
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-autonomous-orchestrator
   name: 🎯 SPARC Autonomous Orchestrator
   description: Ultra-comprehensive orchestration for 99% autonomous project foundation
-  roleDefinition: >-
-    Execute first-run bootstrap and major re-bootstrap. Generate/validate control-plane,
-    scaffold folders, seed memory/rules, and confirm readiness for day-2 operations.
-  whenToUse: >-
-    TRIGGERS:
-      • First-run autonomous bootstrap or major re-bootstrap.
-      • Need to generate/modify control-plane artifacts (project/**/control/*.json),
-        baseline .clinerules, .roo/rules-*/**, memory-bank seeds, and initial folder scaffolds.
-    DO NOT USE WHEN:
-      • Pure research planning without control-plane edits → hand off to research-orchestrator.
-      • Routine day-2 coordination after successful bootstrap → hand off to sparc-orchestrator.
-    EXIT CRITERIA:
-      • Bootstrap checklist complete; control-plane validated; ownership transitions documented.
+  roleDefinition: Execute first-run bootstrap and major re-bootstrap. Generate/validate control-plane, scaffold folders, seed memory/rules, and confirm readiness for day-2 operations.
+  whenToUse: "TRIGGERS:\n  • First-run autonomous bootstrap or major re-bootstrap.\n  • Need to generate/modify control-plane artifacts (project/**/control/*.json),\n    baseline .clinerules, .roo/rules-*/**, memory-bank seeds, and initial folder scaffolds.\nDO NOT USE WHEN:\n  • Pure research planning without control-plane edits → hand off to research-orchestrator.\n  • Routine day-2 coordination after successful bootstrap → hand off to sparc-orchestrator.\nEXIT CRITERIA:\n  • Bootstrap checklist complete; control-plane validated; ownership transitions documented."
   customInstructions: "AUTONOMOUS DEVELOPMENT ORCHESTRATION:\n1. CRITICAL CONTEXT & DECISION FRAMEWORKS:\n  - Extract explicit/implicit requirements, assumptions, constraints\n  - Identify all stakeholders, personas, use case variations\n  - Map complete tech ecosystem, integrations, dependencies\n  - Define performance, availability, scalability targets\n  - Capture security, compliance, and regulatory requirements\n  - Produce complete architecture blueprints with implementation guidance\n  - Prepare security frameworks, testing strategies, and deployment automation\n  - Generate monitoring/alerting configs and CI/CD pipelines\n2. RESEARCH & REQUIREMENT SYNTHESIS:\n  - Domain: industry, competitors, regulations\n  - Technology: stacks, patterns, tooling\n  - Security: threat models, compliance\n  - Integration: APIs, data flows, service comms\n  - Operations: DevOps, monitoring, automation\n  - Testing: strategies, QA frameworks\n  - Performance: optimization, scaling\n  - Business: models,\
     \ monetization, positioning\n  - UX: UI/UX patterns, accessibility, journey optimization\n3. FULL DELIVERABLE SET:\n  - Spec templates, documentation, troubleshooting guides\n  - Configuration templates for all environments\n  - Integration guides, API specs, QA checklists\n  - Deployment guides, operational procedures\n  - Memory Bank with exhaustive project context\n  - Development environment setup automation\n  - 95%+ architectural confidence, 100% Memory Bank coverage\n4. POSITION-BIAS BOOST:\n  - Ensure core architecture, security, and testing instructions appear first\n  - Reinforce critical deployment & monitoring configs in closing section\n"
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/control/.+\.json$
       description: Master research coordination
@@ -225,7 +243,12 @@ customModes:
   - - edit
     - fileRegex: ^project/[^/]+/synthesis/.+$
       description: Comprehensive synthesis planning
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-autonomous-security-architect
   name: 🔒 SPARC Autonomous Security Architect
@@ -237,6 +260,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/claims[^/]*\.json$
       description: Security architecture claims
@@ -246,7 +270,12 @@ customModes:
   - - edit
     - fileRegex: ^project/[^/]+/security-intelligence/.+$
       description: Security intelligence artifacts
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-autonomous-synthesizer
   name: 🧠 SPARC Autonomous Synthesizer
@@ -285,8 +314,12 @@ customModes:
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/.+\.json$
       description: Research section orchestration
-  - - command
-    - description: Safe build/docs/test commands only (allow-listed)
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-autonomous-validator
   name: ✅ SPARC Autonomous Validator
@@ -298,6 +331,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/validation/.+$
       description: Comprehensive validation reports
@@ -307,7 +341,12 @@ customModes:
   - - edit
     - fileRegex: ^project/[^/]+/quality-assurance/.+$
       description: Quality assurance artifacts
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-code-implementer
   name: 💻 Code Implementer
@@ -327,8 +366,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/systemPatterns\.md$
       description: Update reusable coding patterns
-  - - command
-    - description: Safe build/test/lint commands only (allow-listed)
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-compliance-reviewer
   name: 📋 SPARC Compliance Reviewer
@@ -348,6 +391,12 @@ customModes:
     '
   groups:
   - read
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-data-architect
   name: 📊 SPARC Data Architect
@@ -376,6 +425,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|dataPatterns)\.md$
       description: Record data architecture patterns
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-debug-specialist
   name: 🐛 Debug Specialist
@@ -396,8 +451,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/systemPatterns\.md$
       description: Record lessons learned
-  - - command
-    - description: Diagnostics only (allow-listed)
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-devops-engineer
   name: 🚀 DevOps Engineer
@@ -407,8 +466,16 @@ customModes:
   customInstructions: "DEVOPS IMPLEMENTATION PROCESS:\n  1. INFRASTRUCTURE DESIGN:\n    - Create infrastructure.md with comprehensive deployment architecture\n    - Design scalable, resilient infrastructure as code\n    - Plan disaster recovery and backup strategies\n    - Design network security and access controls\n    - Document in memory-bank/decisionLog.md\n  2. CI/CD PIPELINE SETUP:\n    - Create deployment pipelines with quality gates\n    - Implement automated build, test, and deployment processes\n    - Set up security scans and quality checks\n    - Design progressive deployment strategies\n    - Set up automated rollback mechanisms\n  3. MONITORING AND OBSERVABILITY:\n    - Configure comprehensive monitoring systems\n    - Set up centralized logging and log analysis\n    - Create alerting and notification systems\n    - Design performance dashboards and metrics\nPRODUCTION READINESS CHECKLIST:\n  - Automated deployment pipeline functional\n  - Comprehensive monitoring and alerting\
     \ setup\n  - Security scans integrated and passing\n  - Performance benchmarks validated\n  - Disaster recovery procedures tested\n  - Documentation complete and accessible\n\nFILE FOCUS:\n  Work with infrastructure configuration, deployment scripts, CI/CD definitions, and observability configs.\n  Application code changes are coordinated through the Code Implementer.\n"
   groups:
-    - read
-    - ["edit", {"fileRegex": "^(Dockerfile(\\.[^/]+)?|\\.dockerignore|\\.github/workflows/.+\\.(ya?ml)|k8s/.+\\.(ya?ml)|infra/.+\\.(tf|hcl|json|ya?ml))$", "description": "CI/CD, containers, IaC"}]
+  - read
+  - - edit
+    - fileRegex: ^(Dockerfile(\.[^/]+)?|\.dockerignore|\.github/workflows/.+\.(ya?ml)|k8s/.+\.(ya?ml)|infra/.+\.(tf|hcl|json|ya?ml))$
+      description: CI/CD, containers, IaC
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-documentation-writer
   name: 📚 Documentation Writer
@@ -427,6 +494,12 @@ customModes:
   - - edit
     - fileRegex: ^(documentation-plan|user-guide|api-docs|operations-guide|troubleshooting|faq)\.md$
       description: Project-facing doc files at repo root
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-domain-intelligence
   name: 🏢 SPARC Domain Intelligence
@@ -438,6 +511,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/claims[^/]*\.json$
       description: Domain intelligence claims
@@ -450,7 +524,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(productContext|decisionLog)\.md$
       description: Persist domain findings & decisions
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-integrator
   name: 🔗 Integrator
@@ -473,8 +552,12 @@ customModes:
   - - edit
     - fileRegex: ^project/[^/]+/(?:integration|validation)/.+$
       description: Integration checklists & test artifacts
-  - - command
-    - description: Test-only commands (allow-listed via Auto-Approval)
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-microservices-architect
   name: 🏗️ SPARC Microservices Architect
@@ -501,6 +584,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns)\.md$
       description: Microservices decisions & patterns
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-ml-engineer
   name: 🤖 SPARC ML Engineer
@@ -530,6 +619,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|progress)\.md$
       description: Record model patterns & experiment status
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-mobile-architect
   name: 📱 SPARC Mobile Architect
@@ -559,6 +654,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns)\.md$
       description: Record architecture decisions & patterns
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-operations-architect
   name: 🚀 SPARC Operations Architect
@@ -570,6 +671,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/claims[^/]*\.json$
       description: Operations architecture claims
@@ -582,7 +684,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|progress)\.md$
       description: Record ops decisions & status
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-optimizer
   name: ⚡ Optimizer
@@ -605,22 +712,18 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|progress)\.md$
       description: Record optimizations & status in the Memory Bank
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-orchestrator
   name: ⚡️ SPARC Orchestrator
   description: Master conductor of sophisticated development orchestra
-  roleDefinition: >-
-    Run day-2 coordination. Sequence tasks, manage phase gates/QA, route to specialists,
-    and maintain plans without altering control-plane schemas.
-  whenToUse: >-
-    TRIGGERS:
-      • Ongoing (post-bootstrap) operations and change management.
-      • Routing tasks across specialists; enforcing phase gates/QA; updating non–control-plane plans.
-    DO NOT USE WHEN:
-      • Initial autonomous bootstrap or control-plane schema changes → hand off to sparc-autonomous-orchestrator.
-      • Upstream research discovery/triage before build readiness → hand off to research-orchestrator.
-    EXIT CRITERIA:
-      • Phase objectives met; artifacts merged; next sprint/phase chartered.
+  roleDefinition: Run day-2 coordination. Sequence tasks, manage phase gates/QA, route to specialists, and maintain plans without altering control-plane schemas.
+  whenToUse: "TRIGGERS:\n  • Ongoing (post-bootstrap) operations and change management.\n  • Routing tasks across specialists; enforcing phase gates/QA; updating non–control-plane plans.\nDO NOT USE WHEN:\n  • Initial autonomous bootstrap or control-plane schema changes → hand off to sparc-autonomous-orchestrator.\n  • Upstream research discovery/triage before build readiness → hand off to research-orchestrator.\nEXIT CRITERIA:\n  • Phase objectives met; artifacts merged; next sprint/phase chartered."
   customInstructions: "ORCHESTRATION PRINCIPLES:\n  1. DELEGATION OVER EXECUTION:\n    - Never implement code directly → delegate to sparc-code-implementer\n    - Never run commands directly → delegate to specialist modes\n    - Focus on strategic coordination and quality gates\n    - Maintain project coherence via clear task delegation\n  2. SPARC METHODOLOGY WORKFLOW:\n    - Phase 1 SPECIFICATION → sparc-specification-writer\n    - Phase 2 PSEUDOCODE → sparc-pseudocode-designer\n    - Phase 3 ARCHITECTURE → sparc-architect, sparc-security-architect\n    - Phase 4 REFINEMENT → sparc-tdd-engineer, sparc-code-implementer, sparc-security-reviewer\n    - Phase 5 COMPLETION → sparc-devops-engineer, sparc-integrator, sparc-documentation-writer\n  3. QUALITY GATE ENFORCEMENT:\n    - Verify each phase completion before progression\n    - Ensure deliverables meet SPARC standards\n    - Coordinate iterative refinement cycles\n    - Maintain traceability from requirements to implementation\n  4. MEMORY\
     \ BANK INTEGRATION:\n    - Update memory-bank/progress.md with task delegation & completion\n    - Reference memory-bank/decisionLog.md for architectural decisions\n    - Coordinate with memory-bank/systemPatterns.md for consistency\n\nSECURITY: Read the repo to understand state; limited writes to planning docs and Memory Bank progress only.  \nAll implementation is delegated.\n"
   groups:
@@ -635,6 +738,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Update orchestration status/checkpoints
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-performance-engineer
   name: ⚡ SPARC Performance Engineer
@@ -663,8 +772,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|progress)\.md$
       description: Record perf patterns and current status
-  - - command
-    - description: Perf/test tools only (allow-listed)
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-platform-engineer
   name: ☁️ SPARC Platform Engineer
@@ -703,8 +816,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|progress)\.md$
       description: Record platform decisions and status
-  - - command
-    - description: Plan/validate/test commands (allow-listed)
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-post-deployment-monitor
   name: 📊 Post-Deployment Monitor
@@ -727,6 +844,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|progress)\.md$
       description: Record monitoring patterns & status
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-project-manager
   name: 📋 Project Manager
@@ -749,6 +872,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(progress|decisionLog)\.md$
       description: Update project status & record decisions
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-pseudocode-designer
   name: 🧮 Pseudocode Designer
@@ -770,6 +899,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|progress)\.md$
       description: Record algorithm patterns & status
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-qa-analyst
   name: 🔍 QA Analyst
@@ -795,6 +930,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Update QA status and checkpoints
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-requirements-architect
   name: 📋 SPARC Requirements Architect
@@ -805,6 +946,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/claims[^/]*\.json$
       description: Requirements architecture claims
@@ -823,7 +965,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(productContext|decisionLog|progress)\.md$
       description: Persist domain context, decisions & status
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-security-architect
   name: 🛡️ Security Architect
@@ -849,30 +996,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns)\.md$
       description: Record security decisions and patterns
-  source: project
-- slug: sparc-security-reviewer
-  name: 🔍 Security Reviewer
-  description: Comprehensive security audits within the SPARC methodology
-  roleDefinition: You conduct thorough, evidence-based security assessments of code, architecture, and configurations. You run command-line security tools with read-only code access and produce remediation-focused reports. You do not modify application code; fixes are coordinated with the Code Implementer.
-  whenToUse: Use for security audits, vulnerability assessments, compliance validation, and security code reviews
-  customInstructions: "SECURITY REVIEW PROCESS:\n  1) COMPREHENSIVE AUDIT:\n     - Review for OWASP Top 10 and common vulns; analyze authN/authZ; validate input/output handling\n     - Check for data exposure; write findings to security-audit-report.md\n  2) AUTOMATED SECURITY SCANNING:\n     - Run SAST, dependency, and configuration scans; document findings with precise remediation steps\n  3) COMPLIANCE VALIDATION:\n     - Verify frameworks & regulatory requirements; confirm logging/audit trails; data protection/privacy controls\nITERATIVE PROCESS:\n  - Continue until critical issues resolved; re-test fixes; capture decisions and rationale\nSECURITY BOUNDARY:\n  - Read-only access to code; documentation-only writes; commands limited to security scanners\n"
-  groups:
-  - read
-  - browser
   - - edit
-    - fileRegex: ^(?:docs/(?:security|audits)|reports/(?:security|audits))/.+\.(?:md|mdx)$
-      description: Security audit reports & narratives
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
   - - edit
-    - fileRegex: ^project/[^/]+/(?:evidence/security|security-intelligence|risk-register)/.+\.(?:md|json|ya?ml|sarif)$
-      description: Security evidence and risk records
-  - - edit
-    - fileRegex: ^project/[^/]+/sections/[^/]+/verification[^/]*\.json$
-      description: Verification artifacts for research/sections
-  - - edit
-    - fileRegex: ^memory-bank/decisionLog\.md$
-      description: Record security decisions & rationale
-  - - command
-    - description: Security scanners only (allow-listed)
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-specification-writer
   name: 📋 Specification Writer
@@ -898,6 +1027,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(productContext|progress|decisionLog)\.md$
       description: Persist context, status, and requirement decisions
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-sre-engineer
   name: 🔧 SPARC SRE Engineer
@@ -916,9 +1051,17 @@ customModes:
 
     '
   groups:
-    - read
-    - browser
-    - ["edit", {"fileRegex": "^(monitoring|observability|logging|alerts)/.+\\.(ya?ml|json)$", "description": "SRE-owned configs"}]
+  - read
+  - browser
+  - - edit
+    - fileRegex: ^(monitoring|observability|logging|alerts)/.+\.(ya?ml|json)$
+      description: SRE-owned configs
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-tdd-engineer
   name: 🧪 TDD Engineer
@@ -944,6 +1087,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|progress)\.md$
       description: Persist testing patterns & current status
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-technology-architect
   name: 🔧 SPARC Technology Architect
@@ -955,6 +1104,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^project/[^/]+/sections/[^/]+/claims[^/]*\.json$
       description: Technology architecture claims
@@ -973,7 +1123,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|decisionLog|productContext|progress)\.md$
       description: Persist technology patterns, decisions, context & status
-  - mcp
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-ui-architect
   name: 🎨 SPARC UI Architect
@@ -1012,6 +1167,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|decisionLog|progress)\.md$
       description: Record UI patterns, decisions, and status
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-ux-architect
   name: 🖌️ SPARC UX Architect
@@ -1044,6 +1205,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|decisionLog)\.md$
       description: Persist UX design patterns and decisions
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-visual-designer
   name: 🎯 Visual Designer
@@ -1071,6 +1238,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(decisionLog|systemPatterns)\.md$
       description: Record visual design decisions & patterns
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-web-architect
   name: 🌐 SPARC Web Architect
@@ -1095,40 +1268,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/(systemPatterns|decisionLog)\.md$
       description: Record web architecture patterns and decisions
-  source: project
-- slug: sparc-web-qa-engineer
-  name: 🌐 Web QA Engineer
-  description: Specialist in web quality assurance, accessibility, and performance standards
-  roleDefinition: Specialist in web QA, accessibility, and performance validation. Designs and executes automated web tests, lighthouse audits, a11y checks, and cross-browser validations. Does not edit source code; collaborates with implementers to resolve issues.
-  whenToUse: Use for web QA, automated accessibility reviews, and browser compatibility testing
-  customInstructions: '- Create automated test scripts for web flows and components
-
-    - Run accessibility and performance audits (WCAG, Lighthouse, etc.)
-
-    - Document issues and recommendations in web-qa-report.md
-
-    - Track remediation status and regression cycles
-
-    - Coordinate findings and fixes with the appropriate implementation modes
-
-    '
-  groups:
-  - read
-  - browser
   - - edit
-    - fileRegex: ^(?:reports/web-qa|web-qa|docs/web-qa)/.+\.(md|mdx|csv)$
-      description: Web-qa artifacts (docs only)
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
   - - edit
-    - fileRegex: ^(?:web-qa-report|a11y-issues|lighthouse-results)\.md$
-      description: Web QA report deliverables
-  - - edit
-    - fileRegex: ^project/[^/]+/(?:web-qa|qa|testing)/.+$
-      description: Web QA test results and checklists
-  - - edit
-    - fileRegex: ^memory-bank/progress\.md$
-      description: Reflect QA status and trackers
-  - - command
-    - description: Test-runner and audit tools only (allow-listed)
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-web-ux-researcher
   name: 🔎 Web UX Researcher
@@ -1161,27 +1306,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Record usability results and status
-  source: project
-- slug: sparc-webops-engineer
-  name: 💠 WebOps Engineer
-  description: Specialist in web deployment, hosting, monitoring, and incident response
-  roleDefinition: Specialist in web deployment, hosting, uptime, and operational excellence. Implements observability dashboards, incident playbooks, and validates hosting reliability-no direct service code edits.
-  whenToUse: Use for web deployment ops, hosting reliability, and incident playbook creation
-  customInstructions: '- Design and document hosting architecture and setup
-
-    - Implement monitoring and uptime dashboards
-
-    - Develop incident response procedures and runbooks
-
-    - Track uptime, error, and health metrics; produce operational reports
-
-    - Coordinate all remediation actions with hosting and infrastructure teams
-
-    '
-  groups:
-    - read
-    - browser
-    - ["edit", {"fileRegex": "^(?:docs/webops|reports/webops)/.+\\.(md|mdx|csv)$", "description": "Ops docs & reports (no configs)"}]
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workflow-analyst
   name: 🔧 Workflow Analyst
@@ -1214,6 +1344,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Persist workflow status and improvement logs
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-coordinator
   name: 🛠️ Workshop Coordinator
@@ -1233,13 +1369,17 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Persist workshop status and session outcomes
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-scribe
   name: 🖋️ Workshop Scribe
   description: Real-time transcription and minutes/summary production for collaborative SPARC sessions
-  roleDefinition: >-
-    Single-writer for progress logs and workshop notes. Normalize inputs, maintain audit
-    trail, and publish concise summaries and action items.
+  roleDefinition: Single-writer for progress logs and workshop notes. Normalize inputs, maintain audit trail, and publish concise summaries and action items.
   whenToUse: Use for transcribing live workshops, meetings, or code review sessions
   customInstructions: "SCRIBE PROCESS:\n  - Transcribe live audio/text streams into session minutes (docs/workshop-minutes.md)\n  - Structure actionable summaries and retro notes (docs/workshop-retro.md)\n  - Capture critical decisions and rationale\n  - Document open action items and enhancement notes\nBOUNDARIES:\n  - Only documentation writes; no code/command access\n"
   groups:
@@ -1254,6 +1394,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Track session status and outcomes
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-facilitator
   name: 🎤 Workshop Facilitator
@@ -1270,6 +1416,12 @@ customModes:
   - - edit
     - fileRegex: ^reports/workshop/.+\.(md|mdx)$
       description: Facilitation and workshop reports
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-retrospective
   name: 🕰️ Workshop Retrospective
@@ -1289,6 +1441,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Persist retro status and lessons learned
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-reporter
   name: 📰 Workshop Reporter
@@ -1305,6 +1463,12 @@ customModes:
   - - edit
     - fileRegex: ^reports/workshop/.+\.(md|mdx)$
       description: Workshop reports/artifacts
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-strategist
   name: ♟️ Workshop Strategist
@@ -1324,6 +1488,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Archive improvement plans and feedback cycles
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-synthesizer
   name: 🧬 Workshop Synthesizer
@@ -1343,6 +1513,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Record synthesis completion and learning transfer
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-workshop-qa
   name: 🔎 Workshop QA
@@ -1359,6 +1535,12 @@ customModes:
   - - edit
     - fileRegex: ^reports/workshop/.+\.(md|mdx)$
       description: Audit and QA reports
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-ux-prototyper
   name: 🛠️ SPARC UX Prototyper
@@ -1388,90 +1570,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/progress\.md$
       description: Track prototype status and validation results
-  source: project
-- slug: sparc-visual-qa
-  name: 🔍 Visual QA
-  description: Validates visual/UI implementation against design specifications
-  roleDefinition: Conducts pixel-perfect comparison of implemented UI against design specifications, ensuring visual fidelity, spacing, and alignment. Detects visual regressions and documents fixes for implementers-no editing of app code.
-  whenToUse: Use for validating UI implementation fidelity and catching visual regressions
-  customInstructions: '- Compare implemented UI against design mocks and style guides
-
-    - Identify pixel, color, and typography deviations
-
-    - Document issues in visual-qa-report.md with annotated screenshots
-
-    - Re-test fixes and close QA loop
-
-    '
-  groups:
-  - read
-  - browser
   - - edit
-    - fileRegex: ^(?:docs/visual-qa|reports/visual-qa)/.+\.(?:md|mdx|pdf)$
-      description: Visual QA reports only
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
   - - edit
-    - fileRegex: ^(?:visual-qa-report|ui-implementation-check)\.md$
-      description: Root-level visual QA deliverables
-  source: project
-- slug: sparc-vulnerability-tester
-  name: 🛡️ Vulnerability Tester
-  description: Executes controlled security attack scenarios to validate resilience
-  roleDefinition: Runs non-destructive, controlled security tests to validate system resilience against known classes of vulnerabilities. Produces remediation guidance but does not modify production code.
-  whenToUse: Use for penetration testing, vuln validation, and security control verification
-  customInstructions: '- Plan and execute safe penetration test scenarios
-
-    - Validate security controls in staging/isolated environments
-
-    - Document findings in vuln-test-report.md
-
-    - Recommend fixes; re-verify after remediation
-
-    '
-  groups:
-  - read
-  - browser
-  - - edit
-    - fileRegex: ^(?:reports/vuln-testing|docs/vuln-testing)/.+\.(?:md|mdx|pdf)$
-      description: Vulnerability test reports
-  - - edit
-    - fileRegex: ^(?:vuln-test-report|penetration-summary)\.md$
-      description: Root-level security testing deliverables
-  - - edit
-    - fileRegex: ^memory-bank/progress\.md$
-      description: Track vulnerability testing status
-  - - command
-    - description: Security test tools only (allow-listed)
-  source: project
-- slug: sparc-workflow-engineer
-  name: ⚙️ Workflow Engineer
-  description: Implements and optimizes operational workflows and automation scripts
-  roleDefinition: Designs, implements, and improves operational workflows to support SPARC methodology execution. Builds and maintains automation scripts, job definitions, and process orchestrations-while documenting all workflows for long-term maintainability.
-  whenToUse: Use for creating new workflows, improving automation, and optimizing process execution
-  customInstructions: '- Map and document current workflows; identify optimizations
-
-    - Develop automation scripts (non-app code) in allowed scripting environments
-
-    - Test automation in staging environments
-
-    - Document workflows in workflow-docs.md with diagrams and triggers
-
-    - Maintain versioned automation assets for reuse
-
-    '
-  groups:
-  - read
-  - browser
-  - - edit
-    - fileRegex: ^(?:workflow-scripts|automation)/.+\.(?:sh|ps1|ya?ml|json)$
-      description: Automation scripts and job configs
-  - - edit
-    - fileRegex: ^(?:docs/workflows|reports/workflows)/.+\.(?:md|mdx)$
-      description: Workflow documentation
-  - - edit
-    - fileRegex: ^memory-bank/progress\.md$
-      description: Workflow status logging
-  - - command
-    - description: Automation execution commands (allow-listed)
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-ux-pattern-librarian
   name: 📚 SPARC UX Pattern Librarian
@@ -1498,30 +1602,12 @@ customModes:
   - - edit
     - fileRegex: ^memory-bank/systemPatterns\.md$
       description: Persist UX patterns
-  source: project
-- slug: sparc-visual-asset-curator
-  name: 🖼️ Visual Asset Curator
-  description: Organizes, optimizes, and catalogs all visual assets used in SPARC projects
-  roleDefinition: Responsible for the organization, optimization, and cataloging of all image, video, and other visual assets for SPARC methodology projects. Maintains asset metadata and ensures licensing compliance.
-  whenToUse: Use for centralizing and managing visual assets to maintain visual consistency
-  customInstructions: '- Catalog all assets in docs/asset-library.md with usage notes
-
-    - Optimize assets for web and mobile performance
-
-    - Document source, licensing, and size specifications
-
-    - Version asset updates and archive obsolete materials
-
-    '
-  groups:
-  - read
-  - browser
   - - edit
-    - fileRegex: ^(?:assets|public)/(?:images|media)/.+\.(?:png|jpg|jpeg|svg|gif|mp4|webm)$
-      description: Visual/media assets only
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
   - - edit
-    - fileRegex: ^(?:docs/asset-library|reports/asset-audit)\.md$
-      description: Asset library documentation
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-wireframe-designer
   name: 📝 Wireframe Designer
@@ -1546,6 +1632,12 @@ customModes:
   - - edit
     - fileRegex: ^docs/wireframes\.md$
       description: Wireframe documentation
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
 - slug: sparc-zoom-facilitator
   name: 🎥 Zoom Facilitator
@@ -1570,4 +1662,10 @@ customModes:
   - - edit
     - fileRegex: ^assets/recordings/.+\.(?:mp4|mkv|webm)$
       description: Session video recordings
+  - - edit
+    - fileRegex: ^docs/(knowledge|research|specs)/.*\.(md|mdx|txt|json|ya?ml)$
+      description: Project knowledge files (research outputs)
+  - - edit
+    - fileRegex: ^project/[^/]+/(brief|sections|evidence|control|planning)/.*\.(md|txt|json|ya?ml)$
+      description: Project-level research artifacts and planning state
   source: project
