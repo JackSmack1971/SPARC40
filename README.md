@@ -13,7 +13,7 @@ SPARC40 is a revolutionary development framework that implements the SPARC metho
 
 ```bash
 # Clone SPARC40
-git clone https://github.com/your-org/sparc40.git
+git clone https://github.com/JackSmack1971/SPARC40.git
 cd sparc40
 
 # Initialize your first project
