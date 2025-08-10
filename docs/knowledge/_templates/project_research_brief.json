@@ -1,0 +1,34 @@
+{
+  "$schema": "https://example.org/schemas/project-research-brief.json",
+  "project": "{{ project_name }}",
+  "date": "{{ date_iso }}",
+  "orchestrator_mode": "{{ mode_slug }}",
+  "version": "1.0",
+  "created_files": [
+    {
+      "path": "docs/knowledge/requirements.md",
+      "purpose": "Requirements",
+      "sha256": "{{sha}}"
+    },
+    {
+      "path": "docs/knowledge/architecture.md",
+      "purpose": "Architecture overview",
+      "sha256": "{{sha}}"
+    },
+    {
+      "path": "docs/knowledge/risk-register.md",
+      "purpose": "Risk register",
+      "sha256": "{{sha}}"
+    },
+    {
+      "path": "docs/knowledge/research-log.md",
+      "purpose": "Traceability log",
+      "sha256": "{{sha}}"
+    }
+  ],
+  "handoff": {
+    "token": "{{handoff_token}}",
+    "next_mode": "impl-orchestrator",
+    "instructions": "Open this JSON and the MD brief; verify files exist and hashes match; begin phase plan."
+  }
+}
