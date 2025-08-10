@@ -1,19 +1,6 @@
 # Project Research Brief
 
-**Handoff Token:** {{handoffToken}}
-
-## 1. Summary
-{{summary}}
-
-## 2. Artifacts
-- Requirements: docs/knowledge/requirements.md
-- Architecture: docs/knowledge/architecture.md
-- Risk Register: docs/knowledge/risk-register.md
-
-## 3. Plan
-{{plan}}
-
-## 4. Quality Gates
-- tests-pass
-- lint-clean
-- no-high-security
+- Handoff Token: {{HANDOFF_TOKEN}}
+- Intent: {{INTENT_SUMMARY}}
+- Artifacts: requirements.md, architecture.md, risk-register.md
+- Quality Gates: tests-pass, lint-clean, security-no-high
