@@ -1,44 +1,15 @@
-# SPARC40: Complete AI-Powered Development Methodology
+# SPARC40: AI-Powered Development Methodology Framework
 
-**Transform your development process with 40+ specialized AI modes, comprehensive knowledge management, and systematic quality gates.**
+> **Transform your development process with 40+ specialized AI modes, comprehensive knowledge management, and systematic quality gates.**
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
+![AI Modes](https://img.shields.io/badge/AI%20Modes-40+-purple.svg)
+![SPARC](https://img.shields.io/badge/methodology-SPARC-orange.svg)
 
 SPARC40 is a revolutionary development framework that implements the SPARC methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with 40+ specialized AI agents, persistent knowledge management, and built-in security controls. Whether you're building a simple application or a complex enterprise system, SPARC40 provides the structure, tools, and guidance for consistent, high-quality outcomes.
 
-## 🚀 Key Features
-
-- **40+ Specialized AI Modes** - Expert AI agents for every aspect of development
-- **Memory Bank System** - Persistent knowledge management across all phases
-- **Quality Gates** - Built-in validation at each development phase  
-- **Security-First Design** - Comprehensive access controls and security patterns
-- **Autonomous Development** - AI modes can work independently with proper context
-- **Complete Templates** - Ready-to-use templates for all development artifacts
-- **Decision Tracking** - Full rationale for all architectural and strategic decisions
-- **One-Command Setup** - Automated project initialization with best practices
-
-## 📋 Table of Contents
-
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [Core Concepts](#core-concepts)
-- [SPARC Methodology](#sparc-methodology)
-- [AI Modes Overview](#ai-modes-overview)
-- [Memory Bank System](#memory-bank-system)
-- [Configuration](#configuration)
-- [Usage Guide](#usage-guide)
-- [Advanced Features](#advanced-features)
-- [Security](#security)
-- [Contributing](#contributing)
-- [Support](#support)
-
-## ⚡ Quick Start
-
-### Prerequisites
-- Roo Code (VSCode extension)
-- Node.js 16+ (for MCP servers)
-- Git for version control
-- Basic understanding of software development
-
-### 1-Minute Setup
+## 🚀 Quick Start
 
 ```bash
 # Clone SPARC40
@@ -52,21 +23,297 @@ cd sparc40
 # Activate SPARC Specification Writer mode to begin
 ```
 
-That's it! You now have a complete SPARC project structure with 40+ AI modes ready to help you build better software.
+## 📋 Table of Contents
+
+- [Key Features](#-key-features)
+- [SPARC Methodology Overview](#-sparc-methodology-overview)
+- [AI Mode Ecosystem](#-ai-mode-ecosystem)
+- [Memory Bank System](#-memory-bank-system)
+- [Architecture](#-architecture)
+- [Installation](#-installation)
+- [Usage Guide](#-usage-guide)
+- [Configuration](#-configuration)
+- [Security](#-security)
+- [Advanced Features](#-advanced-features)
+- [Contributing](#-contributing)
+- [Support](#-support)
+
+## ✨ Key Features
+
+- **🤖 40+ Specialized AI Modes** - Expert AI agents for every aspect of development
+- **🧠 Memory Bank System** - Persistent knowledge management across all phases
+- **🛡️ Quality Gates** - Built-in validation at each development phase  
+- **🔒 Security-First Design** - Comprehensive access controls and security patterns
+- **⚡ Autonomous Development** - AI modes can work independently with proper context
+- **📝 Complete Templates** - Ready-to-use templates for all development artifacts
+- **📊 Decision Tracking** - Full rationale for all architectural and strategic decisions
+- **🚀 One-Command Setup** - Automated project initialization with best practices
+
+## 🔄 SPARC Methodology Overview
+
+The SPARC methodology provides a systematic 5-phase approach to software development:
+
+```mermaid
+flowchart LR
+    A[📋 Specification] --> B[🧮 Pseudocode]
+    B --> C[🏗️ Architecture]
+    C --> D[⚡ Refinement]
+    D --> E[✅ Completion]
+    
+    A1[Requirements & Scope] -.-> A
+    B1[Algorithms & Logic] -.-> B
+    C1[System Design] -.-> C
+    D1[Implementation & Testing] -.-> D
+    E1[Integration & Delivery] -.-> E
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+```
+
+### Phase Breakdown
+
+| Phase | Purpose | Key Deliverables | AI Modes |
+|-------|---------|------------------|----------|
+| **Specification** | Define requirements and scope | `specification.md`, user personas, acceptance criteria | SPARC Specification Writer, Domain Intelligence |
+| **Pseudocode** | Design algorithms and logic | `pseudocode.md`, function specs, data structures | SPARC Pseudocode Designer |
+| **Architecture** | System design and tech selection | `architecture.md`, security framework, tech stack | SPARC Architect, Security Architect |
+| **Refinement** | Implementation and testing | Source code, tests, performance optimization | Code Implementer, TDD Engineer |
+| **Completion** | Integration and delivery | Production deployment, documentation | Integrator, DevOps Engineer |
+
+## 🤖 AI Mode Ecosystem
+
+SPARC40 includes 40+ specialized AI modes organized into functional categories:
+
+```mermaid
+mindmap
+  root((SPARC40 AI Modes))
+    Core Development
+      SPARC Orchestrator
+      SPARC Architect
+      Code Implementer
+      TDD Engineer
+      Security Architect
+    Specialized Architecture
+      Microservices Architect
+      Mobile Architect
+      Data Architect
+      ML Engineer
+      Platform Engineer
+    Operations Excellence
+      DevOps Engineer
+      SRE Engineer
+      Performance Engineer
+      Post-Deployment Monitor
+    Quality & Research
+      QA Analyst
+      Security Reviewer
+      Domain Intelligence
+      Requirements Architect
+    Autonomous Development
+      Autonomous Orchestrator
+      Autonomous Synthesizer
+      Autonomous Validator
+```
+
+### Mode Interaction Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Orchestrator as SPARC Orchestrator
+    participant SpecWriter as Specification Writer
+    participant Architect as SPARC Architect
+    participant CodeImpl as Code Implementer
+    participant MemoryBank as Memory Bank
+    
+    User->>Orchestrator: Start new project
+    Orchestrator->>MemoryBank: Initialize context
+    Orchestrator->>SpecWriter: Begin specification
+    SpecWriter->>MemoryBank: Update product context
+    SpecWriter->>Architect: Handoff requirements
+    Architect->>MemoryBank: Log decisions
+    Architect->>CodeImpl: Provide architecture
+    CodeImpl->>MemoryBank: Update patterns
+    CodeImpl->>User: Deliver implementation
+```
+
+## 🧠 Memory Bank System
+
+The Memory Bank is SPARC40's knowledge management core, preserving context and decisions across all development phases:
+
+```mermaid
+classDiagram
+    class MemoryBank {
+        +activeContext.md
+        +decisionLog.md
+        +productContext.md
+        +progress.md
+        +systemPatterns.md
+    }
+    
+    class ActiveContext {
+        +currentPhase: String
+        +activeMode: String
+        +nextActions: Array
+        +blockers: Array
+        +handoffState: Object
+    }
+    
+    class DecisionLog {
+        +architecturalDecisions: Array
+        +rationale: String
+        +alternatives: Array
+        +reviewDate: Date
+    }
+    
+    class ProductContext {
+        +businessVision: String
+        +targetMarket: String
+        +stakeholders: Array
+        +domainKnowledge: Object
+    }
+    
+    class Progress {
+        +milestones: Array
+        +qualityGates: Array
+        +timeline: Object
+        +resourceAllocation: Object
+    }
+    
+    class SystemPatterns {
+        +codePatterns: Array
+        +architecturePatterns: Array
+        +securityPatterns: Array
+        +testingPatterns: Array
+    }
+    
+    MemoryBank --> ActiveContext
+    MemoryBank --> DecisionLog
+    MemoryBank --> ProductContext
+    MemoryBank --> Progress
+    MemoryBank --> SystemPatterns
+```
+
+### Memory Bank Usage
+
+<details>
+<summary>Click to expand Memory Bank file descriptions</summary>
+
+- **`activeContext.md`** - Current working state and mode handoffs
+- **`decisionLog.md`** - All architectural decisions with full rationale
+- **`productContext.md`** - Business and domain knowledge foundation
+- **`progress.md`** - Status tracking and milestone management
+- **`systemPatterns.md`** - Reusable technical solutions and patterns
+
+</details>
+
+## 🏗️ Architecture
+
+### System Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "User Interface"
+        UI[Roo Code Extension]
+        CLI[Command Line Interface]
+    end
+    
+    subgraph "SPARC40 Core"
+        OM[Orchestration Manager]
+        MB[Memory Bank]
+        QG[Quality Gates]
+        SC[Security Controls]
+    end
+    
+    subgraph "AI Mode Layer"
+        AM1[Architecture Modes]
+        AM2[Development Modes]
+        AM3[Operations Modes]
+        AM4[Research Modes]
+    end
+    
+    subgraph "Configuration"
+        RM[.roomodes]
+        RI[.rooignore]
+        RC[.roo/config]
+    end
+    
+    subgraph "External Integrations"
+        MCP[MCP Servers]
+        API[External APIs]
+        TOOLS[Development Tools]
+    end
+    
+    UI --> OM
+    CLI --> OM
+    OM --> MB
+    OM --> QG
+    OM --> SC
+    OM --> AM1
+    OM --> AM2
+    OM --> AM3
+    OM --> AM4
+    
+    AM1 --> MB
+    AM2 --> MB
+    AM3 --> MB
+    AM4 --> MB
+    
+    RM --> AM1
+    RM --> AM2
+    RM --> AM3
+    RM --> AM4
+    
+    RI --> SC
+    RC --> MCP
+    MCP --> API
+    MCP --> TOOLS
+```
+
+### Project Structure
+
+```
+sparc40/
+├── 📁 memory-bank/              # Core knowledge management
+│   ├── activeContext.md         # Current working context
+│   ├── decisionLog.md          # Architectural decisions
+│   ├── productContext.md       # Business knowledge
+│   ├── progress.md             # Status tracking
+│   └── systemPatterns.md       # Technical patterns
+├── 📁 project/{project-id}/     # Project-specific workspace
+│   ├── control/                # Orchestration controls
+│   ├── sections/               # Research sections
+│   ├── evidence/               # Supporting evidence
+│   └── synthesis/              # Final synthesis
+├── 📁 docs/                    # Documentation structure
+├── 📁 reports/                 # Analysis reports
+├── 📁 infrastructure/          # Infrastructure templates
+├── 📁 security/                # Security frameworks
+├── 📄 .roomodes                # AI mode definitions
+├── 📄 .rooignore               # Security access controls
+├── 📁 .roo/                    # Configuration directory
+├── 📄 specification.md         # Requirements template
+├── 📄 architecture.md          # Architecture template
+├── 📄 pseudocode.md           # Algorithm template
+└── 📄 init-sparc-project.sh   # Project initialization
+```
 
 ## 📦 Installation
 
-### System Requirements
-- **Operating System**: Windows 10+, macOS 10.15+, or Linux
-- **Memory**: 4GB RAM minimum, 8GB recommended
-- **Storage**: 1GB free space for project structure and templates
-- **Network**: Internet connection for MCP servers and external tools
+### Prerequisites
+
+- **Roo Code** - VSCode extension for AI mode integration
+- **Node.js 16+** - For MCP servers and tooling
+- **Git** - Version control system
+- **4GB RAM** minimum (8GB recommended)
 
 ### Step-by-Step Installation
 
 1. **Install Roo Code Extension**
    ```bash
-   # Install through VSCode marketplace or from command line
    code --install-extension roo-code
    ```
 
@@ -78,225 +325,14 @@ That's it! You now have a complete SPARC project structure with 40+ AI modes rea
 
 3. **Set Up Environment Variables**
    ```bash
-   # Copy example environment file
    cp .env.example .env
-   
    # Edit .env with your configuration
-   nano .env
    ```
 
 4. **Verify Installation**
    ```bash
-   # Check initialization script
    ./init-sparc-project.sh --help
    ```
-
-## 🧠 Core Concepts
-
-### SPARC Methodology
-SPARC40 implements a systematic 5-phase development approach:
-
-- **S**pecification - Requirements and scope definition
-- **P**seudocode - Algorithm and logic design  
-- **A**rchitecture - System design and technology selection
-- **R**efinement - Implementation and testing
-- **C**ompletion - Integration and delivery
-
-### Memory Bank System
-The Memory Bank preserves all knowledge and context across development phases:
-
-- **activeContext.md** - Current working state and handoffs
-- **decisionLog.md** - All architectural decisions with rationale
-- **productContext.md** - Business and domain knowledge
-- **progress.md** - Status tracking and milestones
-- **systemPatterns.md** - Reusable technical solutions
-
-### AI Mode System
-40+ specialized AI agents handle different aspects of development:
-- **Architects** - System and security design
-- **Engineers** - Code implementation and testing
-- **Specialists** - Performance, DevOps, documentation
-- **Orchestrators** - Project coordination and quality gates
-
-## 🔄 SPARC Methodology
-
-### Phase 1: Specification
-**AI Modes**: SPARC Specification Writer, Domain Intelligence, Requirements Architect
-
-Define what you're building with crystal clarity:
-```markdown
-# What you get:
-- Complete specification.md with requirements
-- User personas and journey mapping
-- Acceptance criteria for testing
-- Business context and constraints
-```
-
-### Phase 2: Pseudocode  
-**AI Modes**: SPARC Pseudocode Designer
-
-Transform requirements into implementable logic:
-```markdown
-# What you get:
-- Algorithm designs and data structures
-- Function specifications under 50 lines each
-- Error handling and edge case coverage
-- Performance complexity analysis
-```
-
-### Phase 3: Architecture
-**AI Modes**: SPARC Architect, Security Architect, Technology Architect
-
-Design your system for success:
-```markdown
-# What you get:
-- Complete system architecture
-- Technology stack with rationale
-- Security framework and threat model
-- Scalability and performance planning
-```
-
-### Phase 4: Refinement
-**AI Modes**: Code Implementer, TDD Engineer, Security Reviewer
-
-Build it right with quality gates:
-```markdown
-# What you get:
-- Modular code (≤500 lines per file)
-- Comprehensive test coverage
-- Security validation and review
-- Performance optimization
-```
-
-### Phase 5: Completion
-**AI Modes**: Integrator, DevOps Engineer, Documentation Writer
-
-Ship it with confidence:
-```markdown
-# What you get:
-- Production-ready deployment
-- Complete documentation
-- Monitoring and alerting
-- Integration validation
-```
-
-## 🤖 AI Modes Overview
-
-### Core Development Modes
-- **SPARC Orchestrator** - Master project coordination
-- **SPARC Architect** - System design and architecture
-- **SPARC Code Implementer** - High-quality code implementation
-- **SPARC TDD Engineer** - Test-driven development
-- **SPARC Security Architect** - Security design and review
-
-### Specialized Modes
-- **SPARC Domain Intelligence** - Business and market research
-- **SPARC Performance Engineer** - Performance optimization
-- **SPARC DevOps Engineer** - Deployment and operations
-- **SPARC Data Architect** - Data modeling and architecture
-- **SPARC Mobile Architect** - Mobile-specific patterns
-
-### Autonomous Development Modes
-- **SPARC Autonomous Orchestrator** - 99% autonomous project setup
-- **SPARC Autonomous Synthesizer** - Complete knowledge synthesis
-- **SPARC Autonomous Validator** - Comprehensive quality validation
-
-*...and 25+ more specialized modes for every aspect of development*
-
-## 💾 Memory Bank System
-
-The Memory Bank is SPARC40's knowledge management core:
-
-### Core Files
-
-#### activeContext.md
-Current working state and mode handoffs:
-```markdown
-## Current Project State
-- Active Phase: Architecture
-- Current Mode: SPARC Security Architect  
-- Focus: Threat modeling and security controls
-- Next Action: Complete threat model review
-```
-
-#### decisionLog.md
-All architectural decisions with full rationale:
-```markdown
-## [ARCH-001] - Technology Stack Selection
-- Decision: Node.js + TypeScript + PostgreSQL
-- Rationale: Team expertise, ecosystem, performance
-- Alternatives: Python/Django, Go/PostgreSQL
-- Review Date: Quarterly
-```
-
-#### systemPatterns.md
-Reusable technical solutions:
-```typescript
-// Error Handling Pattern
-type Result<T, E = Error> = 
-  | { success: true; data: T }
-  | { success: false; error: E };
-```
-
-## ⚙️ Configuration
-
-### Project Configuration
-
-#### .roomodes
-Defines all 40+ AI modes with their permissions:
-```yaml
-customModes:
-  - slug: sparc-architect
-    name: "🏗️ SPARC Architect"
-    description: "System architecture and design"
-    groups:
-      - read
-      - edit: 
-          fileRegex: '^architecture/.*\.(md|yaml)$'
-```
-
-#### .rooignore
-Security controls for file access:
-```
-# Security-critical files
-.env*
-secrets/
-*.key
-
-# Allow templates
-!examples/
-!templates/
-```
-
-#### .roo/mcp.json
-External tool integration:
-```json
-{
-  "mcpServers": {
-    "research-tools": {
-      "enabled": true,
-      "allowedModes": ["sparc-domain-intelligence"]
-    }
-  }
-}
-```
-
-### Environment Variables
-
-Create a `.env` file with your configuration:
-```bash
-# MCP Server Configuration
-RESEARCH_API_KEY=your_research_api_key
-DATABASE_URL=postgresql://user:pass@localhost:5432/db
-
-# Project Settings
-PROJECT_NAME="Your Project Name"
-SPARC_VERSION=1.0.0
-
-# Security Settings
-JWT_SECRET=your_jwt_secret
-ENCRYPTION_KEY=your_encryption_key
-```
 
 ## 📖 Usage Guide
 
@@ -307,251 +343,289 @@ ENCRYPTION_KEY=your_encryption_key
    ./init-sparc-project.sh --name "E-commerce Platform" --id "ecommerce-api"
    ```
 
-2. **Review Generated Structure**
+2. **Begin SPARC Methodology**
+   ```bash
+   # Activate SPARC Specification Writer mode
+   @sparc-specification-writer
+   
+   # The mode will guide you through:
+   # - Stakeholder identification
+   # - Requirements gathering
+   # - Acceptance criteria definition
    ```
-   your-project/
-   ├── memory-bank/           # Knowledge management
-   ├── project/your-id/       # Project-specific work
-   ├── docs/                  # Documentation
-   ├── specification.md       # Requirements template
-   ├── architecture.md        # Architecture template
-   └── .roomodes             # AI mode configuration
+
+3. **Follow SPARC Phases**
+   ```bash
+   # Phase 1: Specification
+   @sparc-specification-writer
+   @sparc-domain-intelligence
+   
+   # Phase 2: Pseudocode
+   @sparc-pseudocode-designer
+   
+   # Phase 3: Architecture
+   @sparc-architect
+   @sparc-security-architect
+   
+   # Phase 4: Refinement
+   @sparc-code-implementer
+   @sparc-tdd-engineer
+   
+   # Phase 5: Completion
+   @sparc-integrator
+   @sparc-devops-engineer
    ```
 
-3. **Begin Specification Phase**
-   - Activate SPARC Specification Writer mode
-   - Update `memory-bank/productContext.md` with business context
-   - Complete `specification.md` with requirements
+### Memory Bank Workflow
 
-### Working with AI Modes
-
-#### Activating Modes
-```bash
-# In Roo Code, activate specific modes for different tasks
-@sparc-specification-writer
-@sparc-architect  
-@sparc-code-implementer
+```mermaid
+stateDiagram-v2
+    [*] --> CheckContext: Start Work
+    CheckContext --> ReadMemoryBank: Read activeContext.md
+    ReadMemoryBank --> DoWork: Understand Current State
+    DoWork --> UpdateProgress: Complete Tasks
+    UpdateProgress --> LogDecisions: Record Important Decisions
+    LogDecisions --> HandoffContext: Update activeContext.md
+    HandoffContext --> [*]: Ready for Next Mode
+    
+    DoWork --> UpdatePatterns: Discover New Patterns
+    UpdatePatterns --> DoWork: Continue Work
 ```
 
-#### Mode Coordination
-AI modes coordinate through the Memory Bank:
-1. **Check Context** - Read `activeContext.md` before starting
-2. **Do Work** - Complete assigned tasks following SPARC principles
-3. **Update Progress** - Record progress in `progress.md`
-4. **Hand Off** - Update `activeContext.md` with next actions
+## ⚙️ Configuration
 
-### Quality Gates
+### AI Mode Configuration (.roomodes)
 
-Each SPARC phase has validation requirements:
-
-#### Specification Gate
-- [ ] Requirements complete and validated
-- [ ] Stakeholder sign-off obtained
-- [ ] Acceptance criteria defined
-- [ ] User personas documented
-
-#### Architecture Gate  
-- [ ] System architecture complete
-- [ ] Security review passed
-- [ ] Technology decisions documented
-- [ ] Performance targets defined
-
-#### Implementation Gate
-- [ ] Code complete with tests
-- [ ] Security scan passed
-- [ ] Performance validated
-- [ ] Documentation updated
-
-## 🚀 Advanced Features
-
-### Autonomous Development
-
-For near-autonomous development, use the Autonomous modes:
-
-```bash
-# Set up autonomous development environment
-@sparc-autonomous-orchestrator
-
-# The orchestrator will:
-# 1. Conduct comprehensive research
-# 2. Set up complete project foundation  
-# 3. Prepare all templates and configurations
-# 4. Enable 99% autonomous development
-```
-
-### Custom Mode Development
-
-Create your own specialized modes:
+The `.roomodes` file defines all 40+ AI modes with their specific permissions and capabilities:
 
 ```yaml
 customModes:
-  - slug: my-custom-mode
-    name: "🔧 My Custom Mode"
-    description: "Specialized for my specific needs"
+  - slug: sparc-architect
+    name: "🏗️ SPARC Architect"
+    description: "Master of system design"
     roleDefinition: >-
-      Expert in custom domain-specific tasks
+      You are a SPARC Architect, a master of system design who creates
+      scalable, secure, and maintainable architectures.
+    whenToUse: "Use for system design and architecture reviews"
     groups:
       - read
       - edit:
-          fileRegex: '^custom/.*\.(md|json)$'
+          fileRegex: '^(?:architecture|docs/architecture|memory-bank)/.+\.(md|yaml)$'
+          description: 'Architecture documentation only'
     source: project
 ```
 
-### Integration Patterns
+### Security Controls (.rooignore)
 
-SPARC40 supports various integration patterns:
+```
+# Security-critical files
+.env*
+secrets/
+*.key
+*.pem
 
-#### API Integration
-```typescript
-// Structured API client with error handling
-class APIClient {
-  async request<T>(endpoint: string): Promise<Result<T>> {
-    try {
-      const response = await fetch(endpoint);
-      return { success: true, data: await response.json() };
-    } catch (error) {
-      return { success: false, error };
+# System files
+node_modules/
+.git/
+logs/
+
+# Allow templates
+!examples/
+!templates/
+```
+
+### MCP Server Configuration (.roo/mcp.json)
+
+```json
+{
+  "mcpServers": {
+    "research-tools": {
+      "enabled": true,
+      "allowedModes": ["sparc-domain-intelligence"]
+    },
+    "security-scanner": {
+      "enabled": true,
+      "allowedModes": ["sparc-security-reviewer"]
     }
   }
 }
 ```
 
-#### Database Patterns
-```typescript
-// Repository pattern for data access
-interface IUserRepository {
-  findById(id: string): Promise<User | null>;
-  save(user: User): Promise<User>;
-}
-```
-
 ## 🔒 Security
 
-SPARC40 implements security at every level:
+SPARC40 implements comprehensive security at every level:
 
-### Access Controls
-- **File-level permissions** through `.rooignore` and mode configurations
-- **Mode-specific access** patterns for different AI agents
-- **Environment variable** management for secrets
-- **Audit logging** for all mode activities
+### Security Architecture
 
-### Security Patterns
-- **Zero-trust architecture** by default
-- **Input validation** at all boundaries  
-- **Error handling** without information leakage
-- **Secure defaults** in all templates
-
-### Compliance Support
-- **Audit trails** through decision and progress logging
-- **Documentation standards** for regulatory compliance
-- **Security review** processes built into quality gates
-- **Data protection** patterns and templates
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-#### Mode Access Problems
-```bash
-# Check .roomodes file for correct permissions
-# Verify .rooignore isn't blocking access
-# Ensure file paths match regex patterns
+```mermaid
+graph TD
+    subgraph "Access Control Layer"
+        AC1[File-level Permissions]
+        AC2[Mode-specific Access]
+        AC3[Environment Variables]
+    end
+    
+    subgraph "Security Patterns"
+        SP1[Input Validation]
+        SP2[Error Handling]
+        SP3[Audit Logging]
+    end
+    
+    subgraph "Compliance"
+        C1[Decision Tracking]
+        C2[Change Management]
+        C3[Security Reviews]
+    end
+    
+    AC1 --> SP1
+    AC2 --> SP2
+    AC3 --> SP3
+    SP1 --> C1
+    SP2 --> C2
+    SP3 --> C3
 ```
 
-#### Memory Bank Context Loss
+### Security Features
+
+- **🛡️ Zero-trust architecture** by default
+- **🔐 Environment-based secrets** management
+- **📝 Comprehensive audit trails** through Memory Bank
+- **🚫 File access restrictions** via `.rooignore`
+- **🔍 Mode-specific permissions** in `.roomodes`
+- **⚠️ Input validation** patterns built-in
+
+## 🚀 Advanced Features
+
+### Autonomous Development
+
+For near-autonomous development capabilities:
+
 ```bash
-# Always update activeContext.md when switching modes
-# Check handoff states in Memory Bank files
-# Verify progress.md is current
+# Activate autonomous orchestrator
+@sparc-autonomous-orchestrator
+
+# This will:
+# 1. Conduct comprehensive research
+# 2. Set up complete project foundation
+# 3. Prepare templates and configurations
+# 4. Enable 99% autonomous development
 ```
 
-#### Configuration Issues
-```bash
-# Verify environment variables are set
-# Check .roo/mcp.json for MCP server config
-# Validate .roomodes syntax
+### Custom Mode Development
+
+Create specialized modes for your domain:
+
+```yaml
+customModes:
+  - slug: my-domain-expert
+    name: "🎯 Domain Expert"
+    description: "Specialized for my industry"
+    roleDefinition: >-
+      Expert in domain-specific requirements and patterns
+    customInstructions: |
+      - Focus on industry-specific best practices
+      - Validate against regulatory requirements
+      - Implement domain-specific patterns
+    groups:
+      - read
+      - edit:
+          fileRegex: '^domain/.*\.(md|json)$'
+    source: project
 ```
 
-### Getting Help
+### Performance Optimization
 
-1. **Check Memory Bank** - Review context and decision files
-2. **Consult Patterns** - Reference `systemPatterns.md` for solutions
-3. **Review Progress** - Check `progress.md` for current status
-4. **Mode Documentation** - Reference mode definitions in `.roomodes`
+Built-in performance patterns and monitoring:
+
+```typescript
+// Example pattern from systemPatterns.md
+type Result<T, E = Error> = 
+  | { success: true; data: T }
+  | { success: false; error: E };
+
+// Caching pattern
+class CacheService {
+  async get<T>(key: string, fallback: () => Promise<T>): Promise<T> {
+    // Implementation with TTL and error handling
+  }
+}
+```
 
 ## 🤝 Contributing
 
 We welcome contributions to SPARC40! Here's how to get involved:
 
-### Development Setup
+### Development Workflow
 
-1. **Fork the Repository**
+1. **Fork and Clone**
    ```bash
    git fork https://github.com/your-org/sparc40.git
    cd sparc40
    ```
 
-2. **Set Up Development Environment**
-   ```bash
-   npm install
-   # Set up pre-commit hooks
-   # Configure development tools
-   ```
-
-3. **Follow SPARC Methodology**
+2. **Follow SPARC Methodology**
    - Use SPARC phases for new features
    - Update Memory Bank with decisions
-   - Follow existing patterns in `systemPatterns.md`
+   - Follow patterns in `systemPatterns.md`
 
-### Contribution Guidelines
-
-- **Code Quality**: Follow modular design (≤500 lines per file)
-- **Security**: Never commit secrets or sensitive data
-- **Documentation**: Update relevant Memory Bank files
-- **Testing**: Include comprehensive tests for new features
-- **Patterns**: Document reusable solutions in `systemPatterns.md`
+3. **Quality Standards**
+   - ≤500 lines per file (modular design)
+   - Comprehensive test coverage
+   - Security-first implementation
+   - Documentation updates
 
 ### Pull Request Process
 
-1. Create feature branch from `main`
-2. Follow SPARC methodology for implementation
-3. Update documentation and Memory Bank files
-4. Ensure all tests pass and security scans clear
-5. Submit PR with detailed description and rationale
+- Create feature branch from `main`
+- Follow SPARC methodology for implementation
+- Update Memory Bank files with decisions
+- Ensure all tests pass and security scans clear
+- Submit PR with detailed description
 
 ## 📞 Support
 
-### Community Support
-- **GitHub Issues** - Bug reports and feature requests
-- **GitHub Discussions** - Community Q&A and sharing
-- **Documentation** - Comprehensive guides and examples
+### Community Resources
+
+- **📝 GitHub Issues** - Bug reports and feature requests
+- **💬 GitHub Discussions** - Community Q&A and sharing
+- **📚 Documentation** - Comprehensive guides and examples
+
+### Getting Help
+
+1. **Check Memory Bank** - Review context and decision files
+2. **Consult Patterns** - Reference `systemPatterns.md`
+3. **Review Progress** - Check `progress.md` for status
+4. **Mode Documentation** - Reference `.roomodes` definitions
 
 ### Enterprise Support
-- **Training** - SPARC methodology and SPARC40 usage
-- **Consulting** - Custom mode development and integration
-- **Support Plans** - Priority support and custom development
 
-### Resources
-- **SPARC Methodology Guide** - Complete methodology documentation
-- **Mode Reference** - Detailed documentation for all 40+ modes
-- **Pattern Library** - Reusable solutions and best practices
-- **Video Tutorials** - Step-by-step usage guides
+- **🎓 Training** - SPARC methodology and usage
+- **🏢 Consulting** - Custom mode development
+- **📞 Support Plans** - Priority support and development
 
 ---
 
 ## 📄 License
 
-SPARC40 is released under the MIT License. See [LICENSE](LICENSE) file for details.
+SPARC40 is released under the [MIT License](LICENSE).
 
-## 🌟 Acknowledgments
+## 🏆 Acknowledgments
 
-SPARC40 builds on the collective knowledge of the software development community and incorporates best practices from:
+SPARC40 builds on best practices from:
 - Software architecture patterns
-- AI-assisted development practices  
+- AI-assisted development practices
 - Quality assurance methodologies
 - Security-first design principles
 - Knowledge management systems
 
 ---
 
-**Ready to transform your development process?** Start with `./init-sparc-project.sh --name "Your Project"` and experience the power of systematic, AI-assisted development with SPARC40.
+<div align="center">
+
+**Ready to transform your development process?**
+
+Start with `./init-sparc-project.sh --name "Your Project"` and experience systematic, AI-assisted development.
+
+*Generated: 2025-01-12 | Analysis includes 142 files and comprehensive architecture mapping*
+
+</div>
