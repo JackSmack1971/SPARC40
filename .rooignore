@@ -1,1 +1,248 @@
-# Access control and security rules placeholder
+# .rooignore - Security and Access Control for SPARC Project
+# This file controls what Roo Code modes can access and prevents security risks
+
+# =============================================================================
+# SECURITY-CRITICAL FILES (NEVER ALLOW ACCESS)
+# =============================================================================
+
+# Environment and secrets
+.env*
+.secret*
+secrets/
+credentials/
+keys/
+certs/
+*.key
+*.pem
+*.p12
+*.crt
+config/secrets/
+
+# Database and authentication
+database.yml
+database.json
+auth-config.*
+jwt-secrets.*
+api-keys.*
+connection-strings.*
+
+# Cloud provider credentials
+.aws/
+.gcp/
+.azure/
+terraform.tfstate*
+*.tfvars
+
+# CI/CD secrets
+.github/secrets/
+.gitlab/secrets/
+ci-secrets/
+deploy-keys/
+
+# =============================================================================
+# SYSTEM AND BUILD FILES
+# =============================================================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+
+# Java/JVM
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# .NET
+bin/
+obj/
+*.dll
+*.exe
+
+# Native
+*.o
+*.so
+*.dylib
+*.a
+
+# =============================================================================
+# DEVELOPMENT TOOLS AND CACHES
+# =============================================================================
+
+# IDEs and editors
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Package managers
+.npm/
+.yarn/
+.pnpm-store/
+composer.phar
+vendor/
+
+# =============================================================================
+# LOGS AND TEMPORARY FILES
+# =============================================================================
+
+# Application logs
+logs/
+*.log
+log-*.txt
+debug-*.txt
+error-*.txt
+
+# System logs
+/var/log/
+/tmp/
+temp/
+*.tmp
+*.temp
+
+# Test artifacts
+coverage/
+test-results/
+.nyc_output/
+junit.xml
+
+# =============================================================================
+# GENERATED AND COMPILED FILES
+# =============================================================================
+
+# Documentation generation
+docs/_build/
+site/
+_site/
+.docusaurus/
+.vuepress/dist/
+
+# Asset compilation
+public/assets/
+static/built/
+webpack-stats.json
+*.bundle.js
+*.bundle.css
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+
+# =============================================================================
+# SPARC-SPECIFIC EXCLUSIONS
+# =============================================================================
+
+# Sensitive research data (allow sanitized versions only)
+project/*/evidence/*/raw-data/
+project/*/logs/sensitive/
+project/*/debug/private/
+
+# Internal communications (modes should use structured handoffs)
+project/*/internal-notes/
+project/*/private-discussions/
+project/*/draft-communications/
+
+# Personal development files
+scratch/
+personal-notes/
+todo-private.md
+local-experiments/
+
+# =============================================================================
+# PROJECT-SPECIFIC EXCLUSIONS
+# =============================================================================
+
+# Add project-specific exclusions here
+# Example:
+# custom-config/
+# proprietary-algorithms/
+# client-data/
+
+# =============================================================================
+# INCLUSION OVERRIDES (Allow specific files despite patterns above)
+# =============================================================================
+
+# Allow specific config templates (use ! to override exclusions)
+!config/template.yml
+!.env.example
+!secrets/README.md
+!docs/database-setup.md
+
+# Allow sanitized logs for debugging
+!project/*/logs/sanitized/
+!project/*/debug/public/
+
+# Allow example files
+!examples/
+!samples/
+!templates/
+
+# =============================================================================
+# SPARC MODE-SPECIFIC ACCESS CONTROLS
+# =============================================================================
+
+# These patterns work with file regex restrictions in .roomodes
+# They provide defense-in-depth by blocking access at the .rooignore level
+
+# Restrict source code access (modes should use specific fileRegex)
+# Uncomment if you want to force explicit permissions:
+# src/
+# apps/
+# packages/
+# services/
+# libs/
+
+# Restrict infrastructure access (only specific modes should access)
+# Uncomment for tighter control:
+# infrastructure/
+# k8s/
+# terraform/
+# ansible/
+
+# =============================================================================
+# USAGE NOTES
+# =============================================================================
+
+# SPARC Mode Integration:
+# - This file provides baseline security by blocking dangerous files
+# - Individual modes use fileRegex in .roomodes for specific permissions
+# - Modes should never need access to files listed above
+# - If a mode needs access to a blocked pattern, carefully consider security
+
+# Security Principles:
+# - Default deny for sensitive files
+# - Explicit allow through mode-specific fileRegex
+# - Layer security controls (rooignore + mode restrictions)
+# - Regular security review of access patterns
+
+# Maintenance:
+# - Review quarterly for new security risks
+# - Update when adding new tools or frameworks
+# - Test access controls with security review mode
+# - Document any security exceptions with clear rationale
