@@ -1,0 +1,2 @@
+- BRIEF.md: executive summary, decisions, file map, handoff token
+- brief.json: machine file map
