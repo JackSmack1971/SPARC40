@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# ---- Runtime requirement guard (Bash >= 4) ----
+if [[ -z "${BASH_VERSINFO[0]:-}" || "${BASH_VERSINFO[0]}" -lt 4 ]]; then
+  echo "ERROR: This script requires Bash >= 4.0 (found ${BASH_VERSION:-unknown})." >&2
+  echo "Install a newer bash and run with: /usr/local/bin/bash init-sparc-project.sh" >&2
+  exit 2
+fi
+
 # Enhanced SPARC Project Initialization Script
 # Version: 2.0.0
 # Description: Production-ready SPARC methodology project bootstrapping tool
@@ -44,7 +51,7 @@ BACKUP_EXISTING=false
 # Cleanup state tracking
 CREATED_DIRS=()
 CREATED_FILES=()
-CLEANUP_ON_EXIT=false
+CLEANUP_ON_EXIT=true
 
 # =============================================================================
 # PROJECT TEMPLATES CONFIGURATION
@@ -90,51 +97,43 @@ declare -A CLOUD_PROVIDERS=(
 
 # Enhanced output functions with better formatting
 print_info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+    printf "${BLUE}[INFO]${NC} $1"
 }
 
 print_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+    printf "${GREEN}[SUCCESS]${NC} $1"
 }
 
 print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
+    printf "${YELLOW}[WARNING]${NC} $1"
 }
 
 print_error() {
-    echo -e "${RED}[ERROR]${NC} $1" >&2
+    printf "${RED}[ERROR]${NC} $1" >&2
 }
 
 print_debug() {
     if [[ "$VERBOSE" == "true" ]]; then
-        echo -e "${PURPLE}[DEBUG]${NC} $1"
+        printf "${PURPLE}[DEBUG]${NC} $1"
     fi
 }
 
 print_step() {
-    echo -e "${CYAN}[STEP]${NC} $1"
+    printf "${CYAN}[STEP]${NC} $1"
 }
 
 # Progress bar function
 show_progress() {
-    local current=$1
-    local total=$2
-    local task=$3
-    local percent=$((current * 100 / total))
-    local filled=$((percent / 2))
-    local empty=$((50 - filled))
-    
-    printf "\r🚀 [%s%s] %d%% - %s" \
-        "$(printf "▓%.0s" $(seq 1 $filled))" \
-        "$(printf "░%.0s" $(seq 1 $empty))" \
-        "$percent" "$task"
-    
-    if [[ $current -eq $total ]]; then
-        echo
-    fi
-}
-
-# Spinner for long operations
+  local current=$1 total=$2 task="$3"
+  local percent=$(( total>0 ? (current * 100 / total) : 100 ))
+  local filled=$((percent / 2)); ((filled<0)) && filled=0
+  local empty=$((50 - filled)); ((empty<0)) && empty=0
+  local bar_filled=""; ((filled)) && bar_filled=$(printf "▓%.0s" $(seq 1 $filled))
+  local bar_empty=""; ((empty)) && bar_empty=$(printf "░%.0s" $(seq 1 $empty))
+  printf "
+🚀 [%s%s] %d%% - %s" "$bar_filled" "$bar_empty" "$percent" "$task"
+  (( current >= total )) && echo
+}# Spinner for long operations
 show_spinner() {
     local pid=$1
     local message=$2
@@ -204,33 +203,19 @@ create_directory_safe() {
 
 # Enhanced file creation with tracking and validation
 create_file_safe() {
-    local file_path="$1"
-    local content="$2"
-    local description="${3:-""}"
-    
-    print_debug "Creating file: $file_path"
-    
-    # Check if parent directory is writable
-    local parent_dir=$(dirname "$file_path")
-    if [[ ! -w "$parent_dir" ]]; then
-        print_error "No write permission for directory: $parent_dir"
-        return 1
-    fi
-    
-    # Create file with content
-    if echo "$content" > "$file_path" 2>/dev/null; then
-        CREATED_FILES+=("$file_path")
-        if [[ -n "$description" ]]; then
-            print_debug "✅ $description: $file_path"
-        fi
-        return 0
-    else
-        print_error "Failed to create file: $file_path"
-        return 1
-    fi
-}
-
-# =============================================================================
+  local file_path="$1" content="$2" description="${3:-""}"
+  local parent_dir; parent_dir="$(dirname "$file_path")"
+  [[ -d "$parent_dir" ]] || mkdir -p "$parent_dir"
+  if [[ ! -w "$parent_dir" ]]; then
+    print_error "No write permission for directory: $parent_dir"; return 1
+  fi
+  if printf "%s" "$content" > "$file_path"; then
+    CREATED_FILES+=("$file_path")
+    [[ -n "$description" ]] && print_debug "✅ $description: $file_path"
+  else
+    print_error "Failed to create file: $file_path"; return 1
+  fi
+}# =============================================================================
 # VALIDATION FUNCTIONS
 # =============================================================================
 
@@ -309,45 +294,50 @@ validate_environment() {
     if [[ ${#errors[@]} -gt 0 ]]; then
         print_error "Environment validation failed:"
         for error in "${errors[@]}"; do
-            echo -e "  ${RED}•${NC} $error"
+            printf "  ${RED}•${NC} $error"
         done
         return 1
     fi
     
     print_success "Environment validation passed"
     return 0
+  if [[ "$INIT_GIT" =~ ^[Yy] ]]; then
+    if ! command -v git >/dev/null 2>&1; then
+      print_error "Git is required when initializing a repository (INIT_GIT=Y)."
+      return 1
+    fi
+  fi
 }
-
 # Validate custom_modes.yaml structure
 validate_custom_modes_yaml() {
-    local yaml_file="$1"
-    
-    if [[ ! -f "$yaml_file" ]]; then
-        print_warning "custom_modes.yaml not found - will use comprehensive built-in configuration"
-        return 0
-    fi
-    
-    print_debug "Validating custom_modes.yaml structure..."
-    
-    # Basic YAML syntax validation using Python if available
-    if command -v python3 >/dev/null 2>&1; then
-        if ! python3 -c "import yaml; yaml.safe_load(open('$yaml_file'))" 2>/dev/null; then
-            print_error "Invalid YAML syntax in $yaml_file"
-            return 1
-        fi
-    fi
-    
-    # Check file size (reasonable limits)
-    local file_size=$(wc -c < "$yaml_file")
-    if [[ $file_size -gt 1048576 ]]; then  # 1MB limit
-        print_warning "custom_modes.yaml is very large (${file_size} bytes)"
-    fi
-    
-    print_success "custom_modes.yaml validation passed"
-    return 0
-}
+  local yaml_file="$1"
+  [[ -f "$yaml_file" ]] || { print_warning "custom_modes.yaml not found - will use built-in configuration"; return 0; }
+  print_debug "Validating custom_modes.yaml structure..."
 
-# Security policy validation
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - "$yaml_file" <<'PY'
+import sys, json
+p = sys.argv[1]
+try:
+  import yaml
+except Exception:
+  sys.exit(0)  # PyYAML not installed -> skip strict validation
+with open(p, 'r', encoding='utf-8') as f:
+  yaml.safe_load(f)
+PY
+    status=$?
+    if [[ $status -ne 0 ]]; then
+      print_error "Invalid YAML syntax in $yaml_file"
+      return 1
+    fi
+  else
+    print_warning "python3 not found; skipping YAML validation"
+  fi
+  local file_size; file_size=$(wc -c < "$yaml_file")
+  (( file_size > 1048576 )) && print_warning "custom_modes.yaml is very large (${file_size} bytes)"
+  print_success "custom_modes.yaml validation passed"
+  return 0
+}# Security policy validation
 validate_security_policies() {
     print_debug "Validating security policies..."
     
@@ -382,14 +372,14 @@ validate_security_policies() {
 # Main interactive setup function
 interactive_setup() {
     clear
-    echo -e "${CYAN}"
+    printf "${CYAN}"
     cat << 'EOF'
 ╔══════════════════════════════════════════════════════════════╗
 ║                    SPARC PROJECT SETUP v2.0                 ║
 ║              Interactive Project Configuration               ║
 ╚══════════════════════════════════════════════════════════════╝
 EOF
-    echo -e "${NC}"
+    printf "${NC}"
     
     print_info "🎯 Welcome to Enhanced SPARC Project Interactive Setup"
     echo
@@ -2327,88 +2317,54 @@ EOF
 
 # Generate MCP configuration
 generate_mcp_config() {
-    cat << EOF
+  cat <<EOF
 {
-  "description": "Enhanced MCP configuration for $PROJECT_NAME",
-  "version": "$TEMPLATE_VERSION",
-  "template": "$SELECTED_TEMPLATE",
-  "securityLevel": "$SECURITY_LEVEL",
+  "description": "Enhanced MCP configuration for ${PROJECT_NAME}",
+  "version": "${TEMPLATE_VERSION}",
+  "template": "${SELECTED_TEMPLATE}",
+  "securityLevel": "${SECURITY_LEVEL}",
   "mcpServers": {
-    "research-tools": {
-      "name": "Research & Analysis Tools",
-      "enabled": true,
-      "allowedModes": [
-        "sparc-domain-intelligence",
-        "data-researcher",
-        "rapid-fact-checker"
-      ],
-      "securityLevel": "$SECURITY_LEVEL"
+    "research-tools": { "name": "Research & Analysis Tools", "enabled": true,
+      "allowedModes": ["sparc-domain-intelligence","data-researcher","rapid-fact-checker"],
+      "securityLevel": "${SECURITY_LEVEL}"
     },
-    "development-tools": {
-      "name": "Development & Code Analysis",
-      "enabled": true,
-      "allowedModes": [
-        "sparc-code-implementer",
-        "sparc-architect",
-        "sparc-tdd-engineer",
-        "sparc-performance-engineer"
-      ],
-      "securityLevel": "$SECURITY_LEVEL"
+    "development-tools": { "name": "Development & Code Analysis", "enabled": true,
+      "allowedModes": ["sparc-code-implementer","sparc-architect","sparc-tdd-engineer","sparc-performance-engineer"],
+      "securityLevel": "${SECURITY_LEVEL}"
     },
-    "security-tools": {
-      "name": "Security Analysis & Review",
-      "enabled": $(if [[ "$SECURITY_LEVEL" =~ ^(high|enterprise)$ ]]; then echo "true"; else echo "false"; fi),
-      "allowedModes": [
-        "sparc-security-reviewer",
-        "sparc-security-architect",
-        "adversarial-testing-agent"
-      ],
-      "securityLevel": "$SECURITY_LEVEL"
-    }$(if [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]]; then cat << CLOUD_CONFIG
+    "security-tools": { "name": "Security Analysis & Review",
+      "enabled": $( [[ \"$SECURITY_LEVEL\" =~ ^(high|enterprise)$ ]] && echo true || echo false ),
+      "allowedModes": ["sparc-security-reviewer","sparc-security-architect","adversarial-testing-agent"],
+      "securityLevel": "${SECURITY_LEVEL}"
+    }$( [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]] && cat <<'CLOUD'
 ,
-    "cloud-tools": {
-      "name": "$CLOUD_PROVIDER Cloud Integration",
-      "enabled": true,
-      "allowedModes": [
-        "sparc-devops-engineer",
-        "sparc-platform-engineer"
-      ],
-      "cloudProvider": "$CLOUD_PROVIDER",
-      "securityLevel": "$SECURITY_LEVEL"
+    "cloud-tools": { "name": "'"$CLOUD_PROVIDER"' Cloud Integration", "enabled": true,
+      "allowedModes": ["sparc-devops-engineer","sparc-platform-engineer"],
+      "cloudProvider": "'"$CLOUD_PROVIDER"'", "securityLevel": "'"$SECURITY_LEVEL"'"
     }
-CLOUD_CONFIG
-fi)$(if [[ "$INCLUDE_MONITORING" =~ ^[Yy] ]]; then cat << MONITORING_CONFIG
+CLOUD
+)$( [[ "$INCLUDE_MONITORING" =~ ^[Yy] ]] && cat <<'MON'
 ,
-    "monitoring-tools": {
-      "name": "Monitoring & Observability",
-      "enabled": true,
-      "allowedModes": [
-        "sparc-post-deployment-monitor",
-        "sparc-sre-engineer"
-      ],
-      "securityLevel": "$SECURITY_LEVEL"
+    "monitoring-tools": { "name": "Monitoring & Observability", "enabled": true,
+      "allowedModes": ["sparc-post-deployment-monitor","sparc-sre-engineer"],
+      "securityLevel": "'"$SECURITY_LEVEL"'"
     }
-MONITORING_CONFIG
-fi)
+MON
+)
   },
   "securityPolicies": {
-    "dataRetention": {
-      "enabled": true,
-      "maxRetentionDays": $(case "$SECURITY_LEVEL" in "enterprise") echo "90" ;; "high") echo "60" ;; *) echo "30" ;; esac)
-    },
-    "accessLogging": {
-      "enabled": true,
-      "logLevel": "$(case "$SECURITY_LEVEL" in "enterprise"|"high") echo "DEBUG" ;; *) echo "INFO" ;; esac)"
-    },
-    "encryptionRequired": $(if [[ "$SECURITY_LEVEL" =~ ^(high|enterprise)$ ]]; then echo "true"; else echo "false"; fi)
+    "dataRetention": { "enabled": true, "maxRetentionDays": $(case \"$SECURITY_LEVEL\" in enterprise) echo 90 ;; high) echo 60 ;; *) echo 30 ;; esac)},
+    "accessLogging": { "enabled": true, "logLevel": \"$(case \"$SECURITY_LEVEL\" in enterprise|high) echo DEBUG ;; *) echo INFO ;; esac)\ },
+    "encryptionRequired": $( [[ \"$SECURITY_LEVEL\" =~ ^(high|enterprise)$ ]] && echo true || echo false )
   },
   "teamConfiguration": {
-    "teamSize": "$TEAM_SIZE",
-    "maxConcurrentSessions": $(case "$TEAM_SIZE" in "solo") echo "1" ;; "small") echo "3" ;; "medium") echo "8" ;; "large") echo "16" ;; "enterprise") echo "50" ;; esac),
-    "collaborationMode": "$(case "$TEAM_SIZE" in "solo") echo "individual" ;; "small") echo "informal" ;; "medium") echo "structured" ;; "large"|"enterprise") echo "formal" ;; esac)"
+    "teamSize": "${TEAM_SIZE}",
+    "maxConcurrentSessions": $(case \"$TEAM_SIZE\" in solo) echo 1 ;; small) echo 3 ;; medium) echo 8 ;; large) echo 16 ;; enterprise) echo 50 ;; esac),
+    "collaborationMode": \"$(case \"$TEAM_SIZE\" in solo) echo individual ;; small) echo informal ;; medium) echo structured ;; large|enterprise) echo formal ;; esac)\
   }
 }
 EOF
+}EOF
 }
 
 # Generate project rules
@@ -2727,152 +2683,32 @@ EOF
 
 # Generate comprehensive .roomodes configuration
 generate_comprehensive_roomodes() {
-    if [[ -f "${SCRIPT_DIR}/custom_modes.yaml" ]]; then
-        cat "${SCRIPT_DIR}/custom_modes.yaml"
-    else
-        cat << 'EOF'
-# Comprehensive SPARC40 AI Modes Configuration
-# This configuration includes 40+ specialized AI modes for complete development coverage
-
+  cat <<'YAML'
 customModes:
-  # Core SPARC Methodology Modes
   - slug: sparc-orchestrator
     name: "⚡️ SPARC Orchestrator"
-    description: "Master conductor of sophisticated development orchestra"
     roleDefinition: >-
-      You are the SPARC Orchestrator, coordinating development phases, managing quality gates,
-      and ensuring systematic progression through the SPARC methodology. You delegate to 
-      specialist modes while maintaining project coherence and quality standards.
-    whenToUse: "Use for project coordination, phase management, and workflow orchestration"
+      You are the SPARC Orchestrator responsible for cross-phase planning and handoffs.
     groups:
       - read
-      - edit:
-          fileRegex: '^(memory-bank|docs|reports)/.*\.(md|json)$'
-          description: 'Documentation and progress tracking'
-    customInstructions: |
-      - Maintain SPARC phase progression: Specification → Pseudocode → Architecture → Refinement → Completion
-      - Update memory-bank/progress.md with milestone completion
-      - Coordinate handoffs between specialist modes
-      - Enforce quality gates before phase transitions
-      - Delegate implementation to appropriate specialist modes
+      - - edit
+        - fileRegex: '.*\/(memory-bank|docs|reports)\/.*\.(md|json)$'
+          description: Documentation and progress tracking
 
   - slug: sparc-specification-writer
     name: "📋 Specification Writer"
-    description: "SPARC methodology specification phase specialist"
     roleDefinition: >-
-      Expert in translating stakeholder needs into comprehensive, testable specifications.
-      Creates detailed requirements documentation that anchors all subsequent development phases.
-    whenToUse: "Use for requirements gathering, project scoping, and specification documentation"
+      Expert in translating stakeholder needs into precise specs and acceptance criteria.
     groups:
       - read
-      - edit:
-          fileRegex: '^(specification|acceptance-criteria|user-scenarios|personas)\.md$'
-          description: 'Specification documents'
-      - edit:
-          fileRegex: '^(memory-bank|docs)/.*\.md$'
-          description: 'Documentation updates'
-    customInstructions: |
-      - Create comprehensive specification.md with testable acceptance criteria
-      - Document user personas and scenarios
-      - Define clear project boundaries and constraints
-      - Update memory-bank/productContext.md with business knowledge
-
-  - slug: sparc-architect
-    name: "🏗️ SPARC Architect"
-    description: "Master of system design creating scalable, secure, maintainable architectures"
-    roleDefinition: >-
-      Expert system architect designing comprehensive, scalable solutions following SPARC principles.
-      Creates detailed architecture documentation with security, performance, and maintainability focus.
-    whenToUse: "Use for system design, technology stack selection, and architecture reviews"
-    groups:
-      - read
-      - edit:
-          fileRegex: '^(architecture|technology-architecture)\.md$'
-          description: 'Architecture documents'
-      - edit:
-          fileRegex: '^(memory-bank|docs)/.*\.md$'
-          description: 'Documentation updates'
-    customInstructions: |
-      - Design modular architecture with components under 500 lines
-      - Document technology stack decisions with rationale
-      - Create security-first architecture designs
-      - Update memory-bank/decisionLog.md with architectural decisions
-      - Ensure scalability and performance considerations
-
-  - slug: sparc-code-implementer
-    name: "💻 Code Implementer"
-    description: "Translates SPARC architecture into high-quality, maintainable code"
-    roleDefinition: >-
-      Expert developer implementing SPARC designs with focus on quality, security, and maintainability.
-      Follows established patterns and maintains strict modular design principles.
-    whenToUse: "Use for code implementation, refactoring, and feature development"
-    groups:
-      - read
-      - edit:
-          fileRegex: '^(src|apps|packages|services|libs)/.*\.(ts|tsx|js|jsx|py|java|go|rs|php|rb)$'
-          description: 'Source code files'
-      - edit:
-          fileRegex: '^(tests|__tests__)/.*\.(ts|tsx|js|jsx|py|java|go|rs|php|rb)$'
-          description: 'Test files'
-    customInstructions: |
-      - Keep files under 500 lines maximum
-      - Follow patterns in memory-bank/systemPatterns.md
-      - Implement comprehensive error handling
-      - Write self-documenting code with clear naming
-      - Update systemPatterns.md with new reusable patterns
-
-  - slug: sparc-security-architect
-    name: "🛡️ Security Architect"
-    description: "Secure-by-design principles within the SPARC methodology"
-    roleDefinition: >-
-      Security expert implementing comprehensive security frameworks, threat modeling,
-      and secure development practices throughout the SPARC lifecycle.
-    whenToUse: "Use for security architecture, threat modeling, and security reviews"
-    groups:
-      - read
-      - edit:
-          fileRegex: '^(security-architecture|threat-model)\.md$'
-          description: 'Security documents'
-      - edit:
-          fileRegex: '^(security|docs/security)/.*\.md$'
-          description: 'Security documentation'
-    customInstructions: |
-      - Create comprehensive threat-model.md
-      - Design security-first architectures
-      - Document security decisions with rationale
-      - Implement zero-trust principles
-      - Regular security pattern updates
-
-  - slug: sparc-tdd-engineer
-    name: "🧪 TDD Engineer"
-    description: "Test-driven development specialist within the SPARC methodology"
-    roleDefinition: >-
-      Expert in test-driven development implementing comprehensive testing strategies.
-      Creates robust test suites that validate requirements and enable confident refactoring.
-    whenToUse: "Use for test strategy, test implementation, and quality assurance"
-    groups:
-      - read
-      - edit:
-          fileRegex: '^(tests|__tests__|spec)/.*\.(ts|tsx|js|jsx|py|java|go|rs|php|rb)$'
-          description: 'Test files'
-      - edit:
-          fileRegex: '^test-strategy\.md$'
-          description: 'Test strategy documentation'
-    customInstructions: |
-      - Write tests before implementation (TDD)
-      - Maintain >90% test coverage
-      - Create comprehensive test documentation
-      - Implement testing best practices
-      - Coordinate with code implementer for quality
-
-  # Additional specialized modes would continue here...
-  # (In a production environment, this would include all 40+ modes)
-
-EOF
-    fi
-}
-
-# Generate specification template
+      - - edit
+        - fileRegex: '^(specification|acceptance-criteria|user-scenarios|personas)\.md$'
+          description: Specification documents
+      - - edit
+        - fileRegex: '.*\/(memory-bank|docs)\/.*\.md$'
+          description: Documentation updates
+YAML
+}# Generate specification template
 generate_specification_template() {
     cat << EOF
 # Project Specification
@@ -5686,7 +5522,7 @@ cleanup_on_error() {
     fi
     
     # Reset cleanup flag
-    CLEANUP_ON_EXIT=false
+    CLEANUP_ON_EXIT=true
 }
 
 # Cleanup function for signals
@@ -5707,4 +5543,26 @@ backup_existing_project() {
     }
     
     print_success "Backup created: $backup_name"
+}
+
+list_and_choose_from_map() {
+  local title="$1" mapName="$2"
+  local keys; IFS=$'\n' read -r -d '' -a keys < <(eval "printf '%s\n' \"\${!$mapName[@]}\" | sort" && printf '\0')
+  print_info "$title"
+  local i=1 key
+  for key in "${keys[@]}"; do
+    eval "echo \"   $i. \$key - \${$mapName[\"\$key\"]}\""
+    ((i++))
+  done
+  echo
+  local choice
+  while true; do
+    read -p "Choose (number or key): " choice
+    if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice>=1 && choice<=${#keys[@]} )); then
+      echo "${keys[choice-1]}"; return 0
+    elif eval "[[ -n \"\${$mapName[\"$choice\"]+x}\" ]]" ; then
+      echo "$choice"; return 0
+    fi
+    print_warning "Invalid selection."
+  done
 }
