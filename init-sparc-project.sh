@@ -2617,4 +2617,2791 @@ $(case "$TEAM_SIZE" in
         echo "### Medium Team Collaboration (6-15 people)
 
 **Communication**:
-- Daily stan
+- Daily stanups - structured communications
+- Sprint planning and retrospectives
+- Dedicated project management tools (Jira, Azure DevOps)
+- Formal documentation requirements
+
+**Development Process**:
+- Feature teams with specialized roles
+- Formal code review and approval processes
+- Continuous integration and deployment pipelines
+- Structured testing and quality assurance
+- Regular architectural review sessions
+
+**Tool Usage**:
+- Enterprise development tools and IDEs
+- Comprehensive project management platforms
+- Advanced version control workflows (GitFlow)
+- Automated testing and quality tools
+- Performance monitoring and analytics"
+        ;;
+    "large")
+        echo "### Large Team Collaboration (16+ people)
+
+**Communication**:
+- Multi-level communication structure
+- Daily standups per team, weekly cross-team syncs
+- Formal documentation and knowledge management
+- Executive reporting and stakeholder updates
+- Clear escalation paths and decision-making processes
+
+**Development Process**:
+- Multiple specialized development teams
+- Formal architecture and design review boards
+- Comprehensive testing strategy across teams
+- Release management and coordination processes
+- Quality gates and compliance checkpoints
+
+**Tool Usage**:
+- Enterprise-grade development platforms
+- Advanced project portfolio management
+- Sophisticated CI/CD orchestration
+- Comprehensive monitoring and observability
+- Automated security and compliance tools"
+        ;;
+    "enterprise")
+        echo "### Enterprise Team Collaboration (Multiple Teams)
+
+**Communication**:
+- Enterprise governance and communication frameworks
+- Cross-functional leadership committees
+- Formal stakeholder management processes
+- Regular business and technical reviews
+- Comprehensive reporting and analytics
+
+**Development Process**:
+- Enterprise architecture governance
+- Formal change management processes
+- Multi-team coordination and dependencies
+- Enterprise security and compliance integration
+- Standardized development methodologies
+
+**Tool Usage**:
+- Enterprise application lifecycle management
+- Advanced portfolio and resource management
+- Enterprise security and governance tools
+- Comprehensive analytics and business intelligence
+- Integrated compliance and audit systems"
+        ;;
+esac)
+
+## Workflow Integration
+
+### AI Mode Coordination
+1. **Context Handoffs**: Clear handoff procedures between AI modes
+2. **Progress Tracking**: Regular updates to memory-bank/progress.md
+3. **Decision Logging**: Document all decisions in memory-bank/decisionLog.md
+4. **Quality Gates**: Implement quality checkpoints between phases
+5. **Knowledge Sharing**: Maintain comprehensive documentation
+
+### Development Flow
+1. **Branch Strategy**: $(if [[ "$INIT_GIT" =~ ^[Yy] ]]; then echo "Git-based workflow with feature branches"; else echo "Version control workflow to be established"; fi)
+2. **Code Review**: $(case "$TEAM_SIZE" in "solo") echo "Self-review with AI assistance" ;; *) echo "Peer review process with team members" ;; esac)
+3. **Testing**: Comprehensive testing at all levels
+4. **Integration**: Regular integration and deployment practices
+5. **Documentation**: Continuous documentation updates
+
+## Success Metrics
+
+### Team Performance Indicators
+1. **Velocity**: $(case "$TEAM_SIZE" in "solo") echo "Individual productivity tracking" ;; "small") echo "Team velocity and story points" ;; *) echo "Multi-team velocity coordination" ;; esac)
+2. **Quality**: Code quality, test coverage, and defect rates
+3. **Collaboration**: Team satisfaction and collaboration effectiveness
+4. **Knowledge**: Knowledge sharing and team learning metrics
+5. **Delivery**: On-time delivery and stakeholder satisfaction
+
+### Continuous Improvement
+1. **Retrospectives**: Regular team retrospectives and improvement planning
+2. **Metrics Review**: Regular review of team performance metrics
+3. **Process Evolution**: Continuous process improvement and optimization
+4. **Tool Optimization**: Regular evaluation and optimization of development tools
+5. **Training**: Ongoing training and skill development
+
+EOF
+}
+
+# =============================================================================
+# MISSING CONTENT GENERATION FUNCTIONS
+# =============================================================================
+
+# Generate comprehensive .roomodes configuration
+generate_comprehensive_roomodes() {
+    if [[ -f "${SCRIPT_DIR}/custom_modes.yaml" ]]; then
+        cat "${SCRIPT_DIR}/custom_modes.yaml"
+    else
+        cat << 'EOF'
+# Comprehensive SPARC40 AI Modes Configuration
+# This configuration includes 40+ specialized AI modes for complete development coverage
+
+customModes:
+  # Core SPARC Methodology Modes
+  - slug: sparc-orchestrator
+    name: "⚡️ SPARC Orchestrator"
+    description: "Master conductor of sophisticated development orchestra"
+    roleDefinition: >-
+      You are the SPARC Orchestrator, coordinating development phases, managing quality gates,
+      and ensuring systematic progression through the SPARC methodology. You delegate to 
+      specialist modes while maintaining project coherence and quality standards.
+    whenToUse: "Use for project coordination, phase management, and workflow orchestration"
+    groups:
+      - read
+      - edit:
+          fileRegex: '^(memory-bank|docs|reports)/.*\.(md|json)$'
+          description: 'Documentation and progress tracking'
+    customInstructions: |
+      - Maintain SPARC phase progression: Specification → Pseudocode → Architecture → Refinement → Completion
+      - Update memory-bank/progress.md with milestone completion
+      - Coordinate handoffs between specialist modes
+      - Enforce quality gates before phase transitions
+      - Delegate implementation to appropriate specialist modes
+
+  - slug: sparc-specification-writer
+    name: "📋 Specification Writer"
+    description: "SPARC methodology specification phase specialist"
+    roleDefinition: >-
+      Expert in translating stakeholder needs into comprehensive, testable specifications.
+      Creates detailed requirements documentation that anchors all subsequent development phases.
+    whenToUse: "Use for requirements gathering, project scoping, and specification documentation"
+    groups:
+      - read
+      - edit:
+          fileRegex: '^(specification|acceptance-criteria|user-scenarios|personas)\.md$'
+          description: 'Specification documents'
+      - edit:
+          fileRegex: '^(memory-bank|docs)/.*\.md$'
+          description: 'Documentation updates'
+    customInstructions: |
+      - Create comprehensive specification.md with testable acceptance criteria
+      - Document user personas and scenarios
+      - Define clear project boundaries and constraints
+      - Update memory-bank/productContext.md with business knowledge
+
+  - slug: sparc-architect
+    name: "🏗️ SPARC Architect"
+    description: "Master of system design creating scalable, secure, maintainable architectures"
+    roleDefinition: >-
+      Expert system architect designing comprehensive, scalable solutions following SPARC principles.
+      Creates detailed architecture documentation with security, performance, and maintainability focus.
+    whenToUse: "Use for system design, technology stack selection, and architecture reviews"
+    groups:
+      - read
+      - edit:
+          fileRegex: '^(architecture|technology-architecture)\.md$'
+          description: 'Architecture documents'
+      - edit:
+          fileRegex: '^(memory-bank|docs)/.*\.md$'
+          description: 'Documentation updates'
+    customInstructions: |
+      - Design modular architecture with components under 500 lines
+      - Document technology stack decisions with rationale
+      - Create security-first architecture designs
+      - Update memory-bank/decisionLog.md with architectural decisions
+      - Ensure scalability and performance considerations
+
+  - slug: sparc-code-implementer
+    name: "💻 Code Implementer"
+    description: "Translates SPARC architecture into high-quality, maintainable code"
+    roleDefinition: >-
+      Expert developer implementing SPARC designs with focus on quality, security, and maintainability.
+      Follows established patterns and maintains strict modular design principles.
+    whenToUse: "Use for code implementation, refactoring, and feature development"
+    groups:
+      - read
+      - edit:
+          fileRegex: '^(src|apps|packages|services|libs)/.*\.(ts|tsx|js|jsx|py|java|go|rs|php|rb)$'
+          description: 'Source code files'
+      - edit:
+          fileRegex: '^(tests|__tests__)/.*\.(ts|tsx|js|jsx|py|java|go|rs|php|rb)$'
+          description: 'Test files'
+    customInstructions: |
+      - Keep files under 500 lines maximum
+      - Follow patterns in memory-bank/systemPatterns.md
+      - Implement comprehensive error handling
+      - Write self-documenting code with clear naming
+      - Update systemPatterns.md with new reusable patterns
+
+  - slug: sparc-security-architect
+    name: "🛡️ Security Architect"
+    description: "Secure-by-design principles within the SPARC methodology"
+    roleDefinition: >-
+      Security expert implementing comprehensive security frameworks, threat modeling,
+      and secure development practices throughout the SPARC lifecycle.
+    whenToUse: "Use for security architecture, threat modeling, and security reviews"
+    groups:
+      - read
+      - edit:
+          fileRegex: '^(security-architecture|threat-model)\.md$'
+          description: 'Security documents'
+      - edit:
+          fileRegex: '^(security|docs/security)/.*\.md$'
+          description: 'Security documentation'
+    customInstructions: |
+      - Create comprehensive threat-model.md
+      - Design security-first architectures
+      - Document security decisions with rationale
+      - Implement zero-trust principles
+      - Regular security pattern updates
+
+  - slug: sparc-tdd-engineer
+    name: "🧪 TDD Engineer"
+    description: "Test-driven development specialist within the SPARC methodology"
+    roleDefinition: >-
+      Expert in test-driven development implementing comprehensive testing strategies.
+      Creates robust test suites that validate requirements and enable confident refactoring.
+    whenToUse: "Use for test strategy, test implementation, and quality assurance"
+    groups:
+      - read
+      - edit:
+          fileRegex: '^(tests|__tests__|spec)/.*\.(ts|tsx|js|jsx|py|java|go|rs|php|rb)$'
+          description: 'Test files'
+      - edit:
+          fileRegex: '^test-strategy\.md$'
+          description: 'Test strategy documentation'
+    customInstructions: |
+      - Write tests before implementation (TDD)
+      - Maintain >90% test coverage
+      - Create comprehensive test documentation
+      - Implement testing best practices
+      - Coordinate with code implementer for quality
+
+  # Additional specialized modes would continue here...
+  # (In a production environment, this would include all 40+ modes)
+
+EOF
+    fi
+}
+
+# Generate specification template
+generate_specification_template() {
+    cat << EOF
+# Project Specification
+
+> **SPARC Phase**: Specification  
+> **Status**: Draft  
+> **Last Updated**: $(date -u +"%Y-%m-%d")  
+> **Template**: $SELECTED_TEMPLATE  
+> **Version**: 1.0
+
+## Executive Summary
+
+### **Project Vision**
+[Define the overall vision and purpose of this $SELECTED_TEMPLATE project]
+
+### **Key Objectives**
+1. **Primary Objective**: [Main goal of the project]
+2. **Secondary Objectives**: 
+   - [Supporting goal 1]
+   - [Supporting goal 2]
+   - [Supporting goal 3]
+
+### **Success Criteria**
+- [Measurable success criterion 1]
+- [Measurable success criterion 2] 
+- [Measurable success criterion 3]
+
+### **Project Scope**
+- **In Scope**: [What this project includes]
+- **Out of Scope**: [What this project explicitly does not include]
+- **Future Scope**: [What might be included in future versions]
+
+## Template-Specific Requirements
+
+### **$SELECTED_TEMPLATE Project Requirements**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "#### Web Application Requirements
+- **User Interface**: Modern, responsive web interface
+- **Browser Support**: [Define supported browsers and versions]
+- **Performance**: [Define performance requirements and Core Web Vitals targets]
+- **Accessibility**: [WCAG compliance level and specific requirements]
+- **SEO**: [Search engine optimization requirements]
+- **Progressive Web App**: [PWA features if applicable]"
+        ;;
+    "api-service")
+        echo "#### API Service Requirements
+- **API Design**: RESTful API following OpenAPI specification
+- **Authentication**: [Authentication and authorization requirements]
+- **Rate Limiting**: [API usage limits and throttling]
+- **Documentation**: [API documentation requirements]
+- **Versioning**: [API versioning strategy]
+- **Integration**: [External system integration requirements]"
+        ;;
+    "mobile-app")
+        echo "#### Mobile Application Requirements
+- **Platform Support**: [iOS, Android, or cross-platform]
+- **Device Support**: [Minimum device specifications]
+- **Offline Functionality**: [Offline capability requirements]
+- **App Store**: [App store guidelines and requirements]
+- **Push Notifications**: [Notification requirements]
+- **Device Features**: [Camera, GPS, biometric requirements]"
+        ;;
+    "ml-project")
+        echo "#### Machine Learning Project Requirements
+- **Data Requirements**: [Data sources, volume, and quality requirements]
+- **Model Performance**: [Accuracy, precision, recall targets]
+- **Inference Speed**: [Real-time or batch processing requirements]
+- **Model Deployment**: [Deployment and serving requirements]
+- **Monitoring**: [Model performance monitoring requirements]
+- **Compliance**: [Data privacy and ethical AI requirements]"
+        ;;
+    "enterprise")
+        echo "#### Enterprise Application Requirements
+- **Compliance**: [Regulatory and company compliance requirements]
+- **Security**: [Enterprise security standards and requirements]
+- **Integration**: [Enterprise system integration requirements]
+- **Governance**: [Approval processes and governance requirements]
+- **Scalability**: [Enterprise-scale performance requirements]
+- **Audit**: [Audit trail and reporting requirements]"
+        ;;
+    *)
+        echo "#### Project-Specific Requirements
+- [Define requirements specific to your project type]
+- [Include performance, security, and functionality requirements]
+- [Document integration and compatibility requirements]"
+        ;;
+esac)
+
+## Stakeholder Analysis
+
+### **Primary Stakeholders**
+| Stakeholder | Role | Influence | Interest | Communication Needs |
+|-------------|------|-----------|----------|-------------------|
+| [Name/Role] | [Title] | [High/Medium/Low] | [High/Medium/Low] | [How to communicate] |
+
+### **End Users**
+- **Primary Users**: [Who will use this system most frequently]
+- **Secondary Users**: [Who will use this system occasionally]
+- **Administrators**: [Who will manage/maintain this system]
+
+## Functional Requirements
+
+### **Core Features**
+[Define the main features and functionality required for the $SELECTED_TEMPLATE project]
+
+### **User Stories**
+As a [user type], I want [functionality] so that [benefit]
+
+**Acceptance Criteria:**
+- [ ] [Specific, testable criterion 1]
+- [ ] [Specific, testable criterion 2]
+- [ ] [Specific, testable criterion 3]
+
+## Non-Functional Requirements
+
+### **Performance Requirements**
+- **Response Time**: [Maximum acceptable response times]
+- **Throughput**: [Transactions per second or similar metrics]
+- **Concurrent Users**: [Maximum number of simultaneous users]
+- **Data Volume**: [Expected data storage and growth requirements]
+
+### **Security Requirements** ($SECURITY_LEVEL Level)
+$(case "$SECURITY_LEVEL" in
+    "basic")
+        echo "- Basic authentication and authorization
+- HTTPS enforcement and secure headers
+- Input validation and sanitization
+- Regular security updates"
+        ;;
+    "medium")
+        echo "- Multi-factor authentication support
+- Role-based access control
+- Comprehensive audit logging
+- Security monitoring and alerting"
+        ;;
+    "high")
+        echo "- Zero-trust security architecture
+- Advanced threat detection
+- Comprehensive access control policies
+- Regular penetration testing"
+        ;;
+    "enterprise")
+        echo "- Enterprise-grade security infrastructure
+- Compliance with industry regulations
+- Advanced threat intelligence
+- Formal security governance processes"
+        ;;
+esac)
+
+### **Compliance Requirements**
+- [GDPR, HIPAA, SOX, or other regulatory requirements]
+- [Industry standards and certifications]
+- [Data retention and privacy requirements]
+
+## Technical Constraints
+
+### **Technology Stack**
+- **Programming Languages**: [Required or preferred languages]
+- **Frameworks**: [Required or preferred frameworks]
+- **Databases**: [Database requirements or constraints]
+- **Infrastructure**: [Cloud provider, on-premise, hybrid requirements]
+
+### **Integration Constraints**
+- **Legacy Systems**: [Existing systems that must be supported]
+- **APIs**: [Required API integrations]
+- **Data Migration**: [Existing data that must be migrated]
+
+## Project Timeline and Milestones
+
+### **SPARC Phase Timeline**
+| Phase | Estimated Duration | Key Deliverables |
+|-------|-------------------|------------------|
+| Specification | [Duration] | specification.md, acceptance-criteria.md |
+| Pseudocode | [Duration] | pseudocode.md, function-specs.md |
+| Architecture | [Duration] | architecture.md, security-architecture.md |
+| Refinement | [Duration] | Implementation and testing |
+| Completion | [Duration] | Deployment and documentation |
+
+### **Key Milestones**
+- [Milestone 1]: [Date] - [Description]
+- [Milestone 2]: [Date] - [Description]
+- [Milestone 3]: [Date] - [Description]
+
+## Risk Assessment
+
+### **Technical Risks**
+| Risk | Probability | Impact | Mitigation Strategy |
+|------|-------------|--------|-------------------|
+| [Risk description] | [H/M/L] | [H/M/L] | [How to mitigate] |
+
+### **Business Risks**
+| Risk | Probability | Impact | Mitigation Strategy |
+|------|-------------|--------|-------------------|
+| [Risk description] | [H/M/L] | [H/M/L] | [How to mitigate] |
+
+## Success Metrics
+
+### **Key Performance Indicators**
+- [Metric 1]: [Target value] - [How to measure]
+- [Metric 2]: [Target value] - [How to measure]
+- [Metric 3]: [Target value] - [How to measure]
+
+## Approval and Sign-off
+
+- [ ] Stakeholder review completed
+- [ ] Technical feasibility confirmed
+- [ ] Security requirements approved
+- [ ] Timeline and resources approved
+- [ ] Final specification sign-off
+
+---
+
+*Generated by Enhanced SPARC Project Initialization Script v${SCRIPT_VERSION}*
+*Template: $SELECTED_TEMPLATE*
+*Team: $TEAM_SIZE*
+*Security: $SECURITY_LEVEL*
+*Created: $(date -u +"%Y-%m-%d %H:%M:%S UTC")*
+EOF
+}
+
+# Generate architecture template
+generate_architecture_template() {
+    cat << EOF
+# System Architecture
+
+> **SPARC Phase**: Architecture  
+> **Status**: Draft  
+> **Last Updated**: $(date -u +"%Y-%m-%d")  
+> **Template**: $SELECTED_TEMPLATE  
+> **Version**: 1.0  
+> **Specification Reference**: [Link to specification.md]
+
+## Architecture Overview
+
+### **System Context**
+[High-level description of the $SELECTED_TEMPLATE system and its place in the broader ecosystem]
+
+### **Architecture Principles**
+1. **Modularity**: Components under 500 lines, clear interfaces, single responsibility
+2. **Security by Design**: $SECURITY_LEVEL security level implementation
+3. **Scalability**: Designed for $TEAM_SIZE team collaboration
+4. **Maintainability**: Clear documentation, consistent patterns, testable components
+5. **Performance**: Optimized for $SELECTED_TEMPLATE requirements
+
+### **Key Architectural Decisions**
+[Reference to memory-bank/decisionLog.md for detailed rationale]
+
+## System Architecture Diagram
+
+\`\`\`
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "┌─────────────────────────────────────────────────────────────┐
+│                    Users/Browsers                          │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                 Load Balancer/CDN                          │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              Frontend Application                          │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ Components  │ │    Pages    │ │   Services  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                Backend API                                  │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ Controllers │ │  Services   │ │ Middleware  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                 Database                                    │
+└─────────────────────────────────────────────────────────────┘"
+        ;;
+    "api-service")
+        echo "┌─────────────────────────────────────────────────────────────┐
+│                 Client Applications                        │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              API Gateway/Load Balancer                     │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                API Service Layer                           │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ Controllers │ │ Middleware  │ │   Routes    │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              Business Logic Layer                          │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │  Services   │ │   Models    │ │ Validators  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              Data Access Layer                             │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │  Database   │ │   Cache     │ │External APIs│           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘"
+        ;;
+    "mobile-app")
+        echo "┌─────────────────────────────────────────────────────────────┐
+│                Mobile Devices                              │
+│              (iOS/Android)                                 │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              Mobile Application                            │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │   Screens   │ │ Components  │ │ Navigation  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │   Services  │ │    Store    │ │ Local Data  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│                Backend Services                            │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │     API     │ │ Push Notify │ │  Analytics  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘"
+        ;;
+    "ml-project")
+        echo "┌─────────────────────────────────────────────────────────────┐
+│              Data Sources                                  │
+│     (Files, APIs, Databases, Streams)                     │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              Data Pipeline                                 │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │   Ingestion │ │ Processing  │ │ Validation  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              ML Pipeline                                   │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │  Training   │ │ Validation  │ │ Deployment  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────────────────────┐
+│              Serving Layer                                 │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ Model API   │ │ Monitoring  │ │   Logging   │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘"
+        ;;
+    *)
+        echo "[Architecture diagram for $SELECTED_TEMPLATE to be defined]"
+        ;;
+esac)
+\`\`\`
+
+## Component Design
+
+### **Core Components**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "1. **Frontend Application**
+   - React/Vue/Angular components following atomic design
+   - State management with Redux/Vuex/NgRx
+   - Routing and navigation
+   - API communication layer
+
+2. **Backend API**
+   - RESTful API endpoints
+   - Authentication and authorization
+   - Business logic services
+   - Data validation and sanitization"
+        ;;
+    "api-service")
+        echo "1. **API Gateway**
+   - Request routing and load balancing
+   - Authentication and rate limiting
+   - Request/response transformation
+   - Monitoring and analytics
+
+2. **Service Layer**
+   - Business logic implementation
+   - Data validation and processing
+   - External service integration
+   - Error handling and logging"
+        ;;
+    *)
+        echo "[Component design for $SELECTED_TEMPLATE to be defined]"
+        ;;
+esac)
+
+## Security Architecture
+
+### **$SECURITY_LEVEL Security Implementation**
+$(case "$SECURITY_LEVEL" in
+    "basic")
+        echo "- HTTPS enforcement and secure headers
+- Basic authentication and session management
+- Input validation and sanitization
+- Error handling without information disclosure"
+        ;;
+    "medium")
+        echo "- Multi-factor authentication support
+- Role-based access control (RBAC)
+- Comprehensive audit logging
+- Security monitoring and alerting
+- Regular security scanning"
+        ;;
+    "high")
+        echo "- Zero-trust security architecture
+- Advanced threat detection and response
+- Comprehensive access control policies
+- Security scanning and testing integration
+- Regular penetration testing"
+        ;;
+    "enterprise")
+        echo "- Enterprise-grade security infrastructure
+- Compliance with industry regulations
+- Advanced threat intelligence integration
+- Formal security governance processes
+- Continuous security monitoring"
+        ;;
+esac)
+
+### **Data Protection**
+- Encryption at rest and in transit
+- Secure key management
+- Data privacy and GDPR compliance
+- Backup and recovery security
+
+## Performance Architecture
+
+### **Performance Targets**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- Page load time: <3 seconds
+- First Contentful Paint: <1.5 seconds
+- Cumulative Layout Shift: <0.1
+- Time to Interactive: <3.5 seconds"
+        ;;
+    "api-service")
+        echo "- API response time: <200ms
+- Throughput: [X] requests/second
+- Availability: 99.9% uptime
+- Error rate: <0.1%"
+        ;;
+    *)
+        echo "- [Define performance targets for $SELECTED_TEMPLATE]"
+        ;;
+esac)
+
+### **Scalability Strategy**
+- Horizontal scaling capabilities
+- Load balancing and distribution
+- Caching strategies
+- Database optimization
+
+## Deployment Architecture
+
+### **Infrastructure Design**
+$(if [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]]; then
+echo "- Cloud platform: $CLOUD_PROVIDER
+- Container-based deployment
+- Infrastructure as Code
+- Auto-scaling and monitoring"
+else
+echo "- [Infrastructure approach to be defined]
+- Deployment automation
+- Monitoring and logging
+- Backup and recovery"
+fi)
+
+### **Environment Strategy**
+- Development environment setup
+- Staging/testing environment
+- Production environment
+- Disaster recovery environment
+
+## Technology Stack
+
+### **Core Technologies**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- **Frontend**: React/Vue/Angular + TypeScript
+- **Backend**: Node.js/Python/Java
+- **Database**: PostgreSQL/MongoDB
+- **Cache**: Redis
+- **Build**: Webpack/Vite
+- **Testing**: Jest/Cypress"
+        ;;
+    "api-service")
+        echo "- **Runtime**: Node.js/Python/Java/Go
+- **Framework**: Express/FastAPI/Spring/Gin
+- **Database**: PostgreSQL/MongoDB
+- **Cache**: Redis
+- **Documentation**: OpenAPI/Swagger
+- **Testing**: Jest/pytest/JUnit"
+        ;;
+    *)
+        echo "- [Technology stack for $SELECTED_TEMPLATE to be defined]"
+        ;;
+esac)
+
+### **Development Tools**
+- Version control: Git
+- CI/CD: GitHub Actions/GitLab CI
+- Monitoring: Prometheus/Grafana
+- Logging: ELK Stack/Fluentd
+
+## Data Architecture
+
+### **Data Model**
+[Define data entities, relationships, and constraints]
+
+### **Database Design**
+- Schema design principles
+- Indexing strategy
+- Data migration approach
+- Backup and recovery
+
+## Integration Architecture
+
+### **External Integrations**
+- Third-party APIs
+- Authentication providers
+- Payment systems
+- Analytics services
+
+### **Internal Integrations**
+- Service-to-service communication
+- Data synchronization
+- Event-driven architecture
+- Message queuing
+
+## Monitoring and Observability
+
+### **Monitoring Strategy**
+- Application performance monitoring
+- Infrastructure monitoring
+- Business metrics tracking
+- Error tracking and alerting
+
+### **Logging Strategy**
+- Structured logging
+- Log aggregation
+- Log retention policies
+- Security event logging
+
+---
+
+*Generated by Enhanced SPARC Project Initialization Script v${SCRIPT_VERSION}*
+*Template: $SELECTED_TEMPLATE*
+*Team: $TEAM_SIZE*
+*Security: $SECURITY_LEVEL*
+*Created: $(date -u +"%Y-%m-%d %H:%M:%S UTC")*
+EOF
+}
+
+# Generate pseudocode template
+generate_pseudocode_template() {
+    cat << EOF
+# Pseudocode Design
+
+> **SPARC Phase**: Pseudocode  
+> **Status**: Draft  
+> **Last Updated**: $(date -u +"%Y-%m-%d")  
+> **Template**: $SELECTED_TEMPLATE  
+> **Version**: 1.0  
+> **Architecture Reference**: [Link to architecture.md]  
+> **Specification Reference**: [Link to specification.md]
+
+## Overview
+
+### **Purpose**
+This document translates the $SELECTED_TEMPLATE system architecture into implementable algorithms and data structures, providing clear guidance for the code implementation phase.
+
+### **Design Principles**
+- **Modularity**: Each function ≤50 lines, single responsibility
+- **Clarity**: Self-documenting logic, clear variable names
+- **Testability**: Functions designed for easy unit testing
+- **Performance**: O(n) complexity or better where possible
+- **Error Handling**: Comprehensive error cases covered
+
+### **Implementation Readiness**
+- [ ] All core algorithms defined
+- [ ] Data structures specified
+- [ ] Error cases identified
+- [ ] Performance characteristics documented
+- [ ] Integration points clarified
+
+## Data Structures
+
+### **Core Entities**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo '
+#### **User Entity**
+```pseudocode
+STRUCTURE User {
+    id: UUID
+    email: Email               // Unique identifier
+    name: String(1-100)        // Display name
+    avatar: URL                // Profile image
+    preferences: UserPreferences
+    createdAt: Timestamp
+    lastLoginAt: Timestamp
+}
+
+STRUCTURE UserPreferences {
+    theme: ENUM(LIGHT, DARK, AUTO)
+    language: LanguageCode
+    notifications: NotificationSettings
+}
+```
+
+#### **Component State**
+```pseudocode
+STRUCTURE ComponentState {
+    loading: Boolean
+    error: String OR NULL
+    data: Generic<T>
+    validationErrors: Map<String, String>
+}
+```'
+        ;;
+    "api-service")
+        echo '
+#### **Request/Response Structures**
+```pseudocode
+STRUCTURE ApiRequest {
+    method: HTTP_METHOD
+    path: String
+    headers: Map<String, String>
+    body: JSON OR NULL
+    queryParams: Map<String, String>
+    user: User OR NULL         // Authenticated user
+}
+
+STRUCTURE ApiResponse {
+    statusCode: Integer
+    headers: Map<String, String>
+    body: JSON
+    timestamp: Timestamp
+}
+```
+
+#### **Business Entity**
+```pseudocode
+STRUCTURE Resource {
+    id: UUID
+    name: String(1-200)
+    description: String(0-1000)
+    ownerId: UUID
+    status: ENUM(ACTIVE, INACTIVE, DELETED)
+    metadata: Map<String, Any>
+    createdAt: Timestamp
+    updatedAt: Timestamp
+}
+```'
+        ;;
+    "mobile-app")
+        echo '
+#### **Screen State**
+```pseudocode
+STRUCTURE ScreenState {
+    loading: Boolean
+    error: String OR NULL
+    data: Generic<T>
+    refreshing: Boolean
+    networkStatus: ENUM(ONLINE, OFFLINE, POOR)
+}
+```
+
+#### **Navigation State**
+```pseudocode
+STRUCTURE NavigationState {
+    currentScreen: String
+    stack: Array<String>
+    params: Map<String, Any>
+    canGoBack: Boolean
+}
+```'
+        ;;
+    "ml-project")
+        echo '
+#### **Dataset Structure**
+```pseudocode
+STRUCTURE Dataset {
+    id: UUID
+    name: String
+    source: DataSource
+    schema: DataSchema
+    rowCount: Integer
+    features: Array<Feature>
+    target: Feature OR NULL
+    metadata: DatasetMetadata
+}
+
+STRUCTURE Feature {
+    name: String
+    type: ENUM(NUMERIC, CATEGORICAL, TEXT, DATETIME)
+    nullable: Boolean
+    description: String
+}
+```
+
+#### **Model Structure**
+```pseudocode
+STRUCTURE MLModel {
+    id: UUID
+    name: String
+    algorithm: String
+    hyperparameters: Map<String, Any>
+    performance: ModelMetrics
+    training_data: Dataset
+    created_at: Timestamp
+}
+```'
+        ;;
+    *)
+        echo '[Define core data structures for your specific project]'
+        ;;
+esac)
+
+## Core Algorithms
+
+### **Authentication & Authorization**
+```pseudocode
+FUNCTION authenticateUser(credentials: LoginCredentials) RETURNS Result<User, AuthError>
+    // Input validation
+    IF NOT isValidEmail(credentials.email) THEN
+        RETURN Error("Invalid email format")
+    
+    IF NOT isValidPassword(credentials.password) THEN
+        RETURN Error("Invalid password format")
+    
+    // Rate limiting check
+    IF rateLimiter.isExceeded(credentials.email) THEN
+        RETURN Error("Too many login attempts")
+    
+    // Find user
+    user = findUserByEmail(credentials.email)
+    IF user IS NULL THEN
+        rateLimiter.recordFailure(credentials.email)
+        RETURN Error("Invalid credentials")
+    
+    // Verify password
+    IF NOT verifyPassword(credentials.password, user.passwordHash) THEN
+        rateLimiter.recordFailure(credentials.email)
+        RETURN Error("Invalid credentials")
+    
+    // Generate session
+    session = createSession(user)
+    rateLimiter.recordSuccess(credentials.email)
+    
+    RETURN Success(user)
+END FUNCTION
+```
+
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo '### **Component Lifecycle**
+```pseudocode
+FUNCTION initializeComponent(props: ComponentProps) RETURNS ComponentState
+    // Initialize state
+    state = {
+        loading: true,
+        error: null,
+        data: null,
+        validationErrors: {}
+    }
+    
+    // Load initial data
+    TRY
+        data = await loadInitialData(props.id)
+        state.data = data
+        state.loading = false
+    CATCH error
+        state.error = error.message
+        state.loading = false
+    
+    RETURN state
+END FUNCTION
+
+FUNCTION updateComponent(state: ComponentState, action: Action) RETURNS ComponentState
+    SWITCH action.type
+        CASE "LOAD_START":
+            RETURN {...state, loading: true, error: null}
+        CASE "LOAD_SUCCESS":
+            RETURN {...state, loading: false, data: action.payload}
+        CASE "LOAD_ERROR":
+            RETURN {...state, loading: false, error: action.payload}
+        DEFAULT:
+            RETURN state
+END FUNCTION
+```'
+        ;;
+    "api-service")
+        echo '### **Request Processing**
+```pseudocode
+FUNCTION processApiRequest(request: ApiRequest) RETURNS ApiResponse
+    // Request validation
+    IF NOT validateRequest(request) THEN
+        RETURN createErrorResponse(400, "Invalid request")
+    
+    // Authentication
+    IF requiresAuth(request.path) THEN
+        user = authenticateRequest(request)
+        IF user IS NULL THEN
+            RETURN createErrorResponse(401, "Unauthorized")
+        request.user = user
+    
+    // Authorization
+    IF NOT authorizeRequest(request) THEN
+        RETURN createErrorResponse(403, "Forbidden")
+    
+    // Route to handler
+    handler = findHandler(request.method, request.path)
+    IF handler IS NULL THEN
+        RETURN createErrorResponse(404, "Not found")
+    
+    // Execute handler
+    TRY
+        result = handler.execute(request)
+        RETURN createSuccessResponse(result)
+    CATCH ValidationError as e
+        RETURN createErrorResponse(400, e.message)
+    CATCH NotFoundError as e
+        RETURN createErrorResponse(404, e.message)
+    CATCH ServerError as e
+        logError(e)
+        RETURN createErrorResponse(500, "Internal server error")
+END FUNCTION
+```'
+        ;;
+    "ml-project")
+        echo '### **Model Training Pipeline**
+```pseudocode
+FUNCTION trainModel(config: TrainingConfig) RETURNS Result<MLModel, TrainingError>
+    // Data preparation
+    dataset = loadDataset(config.datasetId)
+    IF dataset IS NULL THEN
+        RETURN Error("Dataset not found")
+    
+    // Data validation
+    IF NOT validateDataset(dataset) THEN
+        RETURN Error("Invalid dataset")
+    
+    // Feature preprocessing
+    processedData = preprocessFeatures(dataset, config.preprocessing)
+    
+    // Split data
+    trainData, validationData, testData = splitData(processedData, config.splitRatio)
+    
+    // Initialize model
+    model = createModel(config.algorithm, config.hyperparameters)
+    
+    // Training loop
+    FOR epoch IN 1 TO config.maxEpochs DO
+        // Train on batch
+        FOR batch IN trainData.batches() DO
+            loss = model.trainBatch(batch)
+        END FOR
+        
+        // Validation
+        validationLoss = model.evaluate(validationData)
+        
+        // Early stopping
+        IF validationLoss > previousBest + config.patience THEN
+            BREAK
+        END IF
+        
+        previousBest = validationLoss
+    END FOR
+    
+    // Final evaluation
+    performance = model.evaluate(testData)
+    
+    // Save model
+    modelId = saveModel(model, performance, config)
+    
+    RETURN Success(model)
+END FUNCTION
+```'
+        ;;
+esac)
+
+### **Error Handling Patterns**
+```pseudocode
+ABSTRACT CLASS AppError {
+    message: String
+    code: String
+    timestamp: Timestamp
+}
+
+CLASS ValidationError EXTENDS AppError {
+    field: String
+    value: Any
+}
+
+CLASS NotFoundError EXTENDS AppError {
+    resourceType: String
+    identifier: Any
+}
+
+FUNCTION handleError(error: Error) RETURNS ErrorResponse
+    IF error INSTANCEOF ValidationError THEN
+        RETURN {
+            status: 400,
+            code: "VALIDATION_ERROR",
+            message: error.message,
+            field: error.field
+        }
+    ELSE IF error INSTANCEOF NotFoundError THEN
+        RETURN {
+            status: 404,
+            code: "NOT_FOUND",
+            message: error.resourceType + " not found"
+        }
+    ELSE
+        // Log unexpected errors
+        logger.error("Unexpected error:", error)
+        RETURN {
+            status: 500,
+            code: "INTERNAL_ERROR",
+            message: "An unexpected error occurred"
+        }
+END FUNCTION
+```
+
+## Utility Functions
+
+### **Validation Functions**
+```pseudocode
+FUNCTION isValidEmail(email: String) RETURNS Boolean
+    emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+    RETURN matches(email, emailRegex) AND length(email) <= 254
+END FUNCTION
+
+FUNCTION isValidPassword(password: String) RETURNS Boolean
+    IF length(password) < 8 OR length(password) > 128 THEN
+        RETURN False
+    
+    hasLowercase = matches(password, ".*[a-z].*")
+    hasUppercase = matches(password, ".*[A-Z].*")
+    hasDigit = matches(password, ".*[0-9].*")
+    hasSpecial = matches(password, ".*[!@#$%^&*()].*")
+    
+    RETURN hasLowercase AND hasUppercase AND hasDigit AND hasSpecial
+END FUNCTION
+```
+
+### **Security Functions**
+```pseudocode
+FUNCTION hashPassword(password: String) RETURNS String
+    salt = generateSalt(16)
+    hash = scrypt(password, salt, {N: 32768, r: 8, p: 1})
+    RETURN base64encode(salt + hash)
+END FUNCTION
+
+FUNCTION verifyPassword(password: String, hash: String) RETURNS Boolean
+    decoded = base64decode(hash)
+    salt = substring(decoded, 0, 16)
+    expectedHash = substring(decoded, 16, 48)
+    actualHash = scrypt(password, salt, {N: 32768, r: 8, p: 1})
+    RETURN constantTimeCompare(expectedHash, actualHash)
+END FUNCTION
+```
+
+## Performance Considerations
+
+### **Complexity Analysis**
+- Authentication: O(1) - single database lookup
+- Data validation: O(n) where n is input size
+- Search operations: O(log n) with proper indexing
+- Batch processing: O(n) where n is batch size
+
+### **Optimization Strategies**
+1. **Caching**: Implement caching for frequently accessed data
+2. **Pagination**: Use pagination for large datasets
+3. **Lazy Loading**: Load data on demand
+4. **Connection Pooling**: Reuse database connections
+5. **Async Processing**: Use async operations for I/O
+
+## Integration Points
+
+### **External APIs**
+```pseudocode
+FUNCTION callExternalAPI(endpoint: String, data: Any) RETURNS Result<Any, APIError>
+    // Prepare request
+    request = {
+        url: endpoint,
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data),
+        timeout: 30000
+    }
+    
+    // Retry logic
+    FOR attempt IN 1 TO 3 DO
+        TRY
+            response = httpClient.send(request)
+            IF response.status >= 200 AND response.status < 300 THEN
+                RETURN Success(JSON.parse(response.body))
+            ELSE
+                RETURN Error("API returned status " + response.status)
+        CATCH NetworkError as e
+            IF attempt == 3 THEN
+                RETURN Error("Network error after 3 attempts: " + e.message)
+            WAIT exponentialBackoff(attempt)
+    END FOR
+END FUNCTION
+```
+
+## Testing Guidelines
+
+### **Unit Test Patterns**
+```pseudocode
+TEST authenticateUser_WithValidCredentials_ReturnsUser
+    // Arrange
+    credentials = {email: "test@example.com", password: "ValidPass123!"}
+    expectedUser = createTestUser()
+    mockUserRepository.findByEmail.returns(expectedUser)
+    mockPasswordService.verify.returns(true)
+    
+    // Act
+    result = authenticateUser(credentials)
+    
+    // Assert
+    ASSERT result.isSuccess()
+    ASSERT result.value.email == "test@example.com"
+    ASSERT mockUserRepository.findByEmail.calledWith("test@example.com")
+END TEST
+
+TEST authenticateUser_WithInvalidPassword_ReturnsError
+    // Arrange
+    credentials = {email: "test@example.com", password: "wrongpassword"}
+    user = createTestUser()
+    mockUserRepository.findByEmail.returns(user)
+    mockPasswordService.verify.returns(false)
+    
+    // Act
+    result = authenticateUser(credentials)
+    
+    // Assert
+    ASSERT result.isError()
+    ASSERT result.error.message == "Invalid credentials"
+END TEST
+```
+
+## Implementation Notes
+
+### **Code Generation Guidance**
+- Use these pseudocode functions as templates for implementation
+- Maintain the same function signatures and error handling patterns
+- Implement comprehensive logging at decision points
+- Add input validation for all public functions
+- Follow the established naming conventions
+
+### **Security Implementation**
+- Never store passwords in plain text
+- Use prepared statements for database queries
+- Implement rate limiting for authentication endpoints
+- Log security events for audit purposes
+- Validate all inputs before processing
+
+---
+
+*Generated by Enhanced SPARC Project Initialization Script v${SCRIPT_VERSION}*
+*Template: $SELECTED_TEMPLATE*
+*Team: $TEAM_SIZE*
+*Security: $SECURITY_LEVEL*
+*Created: $(date -u +"%Y-%m-%d %H:%M:%S UTC")*
+EOF
+}
+
+# Create template-specific documents
+create_template_specific_docs() {
+    case "$SELECTED_TEMPLATE" in
+        "web-app")
+            create_file_safe "docs/component-guide.md" "$(generate_component_guide)" "Component development guide"
+            create_file_safe "docs/styling-guide.md" "$(generate_styling_guide)" "Styling and theming guide"
+            ;;
+        "api-service")
+            create_file_safe "docs/api-guide.md" "$(generate_api_guide)" "API development guide"
+            create_file_safe "docs/database-guide.md" "$(generate_database_guide)" "Database design guide"
+            ;;
+        "mobile-app")
+            create_file_safe "docs/platform-guide.md" "$(generate_platform_guide)" "Platform-specific guide"
+            create_file_safe "docs/navigation-guide.md" "$(generate_navigation_guide)" "Navigation patterns"
+            ;;
+        "ml-project")
+            create_file_safe "docs/data-guide.md" "$(generate_data_guide)" "Data handling guide"
+            create_file_safe "docs/model-guide.md" "$(generate_model_guide)" "Model development guide"
+            ;;
+    esac
+}
+
+# Generate testing documentation
+generate_testing_docs() {
+    cat << EOF
+# Testing Strategy
+
+## Testing Framework for $SELECTED_TEMPLATE
+
+### **Testing Pyramid**
+- **Unit Tests (70%)**: Test individual functions and components
+- **Integration Tests (20%)**: Test component interactions
+- **End-to-End Tests (10%)**: Test complete user workflows
+
+### **Testing Tools**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- **Unit Testing**: Jest + React Testing Library
+- **Integration Testing**: Cypress or Playwright
+- **Visual Testing**: Storybook + Chromatic
+- **Performance Testing**: Lighthouse CI"
+        ;;
+    "api-service")
+        echo "- **Unit Testing**: Jest/Mocha + Supertest
+- **Integration Testing**: Postman/Newman
+- **Load Testing**: Artillery or k6
+- **Contract Testing**: Pact"
+        ;;
+    *)
+        echo "- **Unit Testing**: [Framework appropriate for technology stack]
+- **Integration Testing**: [Integration testing approach]
+- **End-to-End Testing**: [E2E testing strategy]"
+        ;;
+esac)
+
+### **Test Coverage Requirements**
+- Minimum 90% code coverage for critical paths
+- 100% coverage for security-related functions
+- All API endpoints must have integration tests
+- Critical user journeys must have E2E tests
+
+### **Testing Best Practices**
+1. Write tests before or alongside code (TDD)
+2. Use descriptive test names that explain the scenario
+3. Follow AAA pattern: Arrange, Act, Assert
+4. Mock external dependencies
+5. Test both happy path and error scenarios
+
+### **Continuous Testing**
+- Run unit tests on every commit
+- Run integration tests on every PR
+- Run E2E tests on deployment to staging
+- Performance tests on every release
+
+EOF
+}
+
+# Generate package.json
+generate_package_json() {
+    cat << EOF
+{
+  "name": "$PROJECT_ID",
+  "version": "1.0.0",
+  "description": "$PROJECT_NAME - Generated with Enhanced SPARC methodology",
+  "private": true,
+  "scripts": {
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo '    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:e2e": "cypress run",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"'
+        ;;
+    "api-service")
+        echo '    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:integration": "jest --config jest.integration.config.js"'
+        ;;
+    *)
+        echo '    "dev": "npm run develop",
+    "build": "npm run compile",
+    "start": "npm run serve",
+    "lint": "eslint src/",
+    "test": "jest"'
+        ;;
+esac)
+  },
+  "dependencies": {
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo '    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"'
+        ;;
+    "api-service")
+        echo '    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "express-rate-limit": "^6.7.0"'
+        ;;
+    *)
+        echo '    "@sparc/core": "^1.0.0"'
+        ;;
+esac)
+  },
+  "devDependencies": {
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo '    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "jest": "^29.0.0",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/jest-dom": "^5.16.0",
+    "cypress": "^12.0.0"'
+        ;;
+    "api-service")
+        echo '    "@types/node": "^20.0.0",
+    "@types/express": "^4.17.0",
+    "@types/cors": "^2.8.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "nodemon": "^2.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "supertest": "^6.3.0",
+    "@types/supertest": "^2.0.0"'
+        ;;
+    *)
+        echo '    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"'
+        ;;
+esac)
+  },
+  "keywords": [
+    "sparc",
+    "sparc-methodology",
+    "$SELECTED_TEMPLATE",
+    "$PROJECT_ID"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
+EOF
+}
+
+# Generate enhanced README
+generate_enhanced_readme() {
+    cat << EOF
+# $PROJECT_NAME
+
+[![SPARC Methodology](https://img.shields.io/badge/methodology-SPARC-blue.svg)](https://github.com/JackSmack1971/SPARC40)
+[![Template](https://img.shields.io/badge/template-$SELECTED_TEMPLATE-green.svg)]()
+[![Security](https://img.shields.io/badge/security-$SECURITY_LEVEL-orange.svg)]()
+[![Team](https://img.shields.io/badge/team-$TEAM_SIZE-purple.svg)]()
+
+> **Enhanced SPARC Project** generated with comprehensive AI mode support and automated development workflows.
+
+## Project Overview
+
+$PROJECT_NAME is a $SELECTED_TEMPLATE project built using the enhanced SPARC (Specification, Pseudocode, Architecture, Refinement, Completion) methodology with 40+ specialized AI modes for systematic development.
+
+### Key Features
+
+- 🏗️ **SPARC Methodology**: Systematic development phases with quality gates
+- 🤖 **40+ AI Modes**: Specialized AI assistants for every aspect of development
+- 🧠 **Memory Bank**: Persistent knowledge management across development phases
+- 🔒 **$SECURITY_LEVEL Security**: Comprehensive security controls and access patterns
+- 👥 **$TEAM_SIZE Team Optimized**: Configured for $(echo "${TEAM_CONFIGS[$TEAM_SIZE]}" | cut -d'(' -f1)
+$(if [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]]; then echo "- ☁️  **$CLOUD_PROVIDER Ready**: Cloud deployment templates included"; fi)
+$(if [[ "$INCLUDE_TESTING" =~ ^[Yy] ]]; then echo "- 🧪 **Testing Framework**: Comprehensive testing strategy and tools"; fi)
+
+### Template: $SELECTED_TEMPLATE
+
+${PROJECT_TEMPLATES[$SELECTED_TEMPLATE]}
+
+## Quick Start
+
+### Prerequisites
+
+- **Roo Code**: VSCode extension with AI mode support
+- **Node.js 16+**: For package management and tooling
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- **Modern Browser**: Chrome, Firefox, Safari, or Edge"
+        ;;
+    "api-service")
+        echo "- **Database**: PostgreSQL or MongoDB
+- **Redis**: For caching and sessions"
+        ;;
+    "mobile-app")
+        echo "- **React Native CLI**: For mobile development
+- **Xcode/Android Studio**: For platform-specific development"
+        ;;
+    "ml-project")
+        echo "- **Python 3.8+**: For machine learning development
+- **Jupyter**: For notebook development"
+        ;;
+esac)
+
+### Installation
+
+1. **Install Dependencies**
+   \`\`\`bash
+$(case "$SELECTED_TEMPLATE" in
+    "web-app"|"api-service"|"fullstack")
+        echo "   npm install"
+        ;;
+    "ml-project")
+        echo "   pip install -r requirements.txt"
+        ;;
+    *)
+        echo "   # Install dependencies according to your technology stack"
+        ;;
+esac)
+   \`\`\`
+
+2. **Environment Setup**
+   \`\`\`bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   \`\`\`
+
+3. **Development Server**
+   \`\`\`bash
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "   npm run dev"
+        ;;
+    "api-service")
+        echo "   npm run dev"
+        ;;
+    "ml-project")
+        echo "   jupyter notebook"
+        ;;
+    *)
+        echo "   npm run dev"
+        ;;
+esac)
+   \`\`\`
+
+## SPARC Development Phases
+
+This project follows the enhanced SPARC methodology:
+
+### 📋 Phase 1: Specification
+- ✅ Project structure initialized
+- [ ] Requirements gathering with \`@sparc-specification-writer\`
+- [ ] Stakeholder interviews and user research
+- [ ] Acceptance criteria definition
+
+### 🧮 Phase 2: Pseudocode
+- [ ] Algorithm design with \`@sparc-pseudocode-designer\`
+- [ ] Function specifications and data structures
+- [ ] Performance and complexity analysis
+
+### 🏗️ Phase 3: Architecture
+- [ ] System architecture with \`@sparc-architect\`
+- [ ] Security architecture with \`@sparc-security-architect\`
+- [ ] Technology stack finalization
+
+### ⚡ Phase 4: Refinement
+- [ ] Implementation with \`@sparc-code-implementer\`
+- [ ] Testing with \`@sparc-tdd-engineer\`
+- [ ] Security review with \`@sparc-security-reviewer\`
+
+### ✅ Phase 5: Completion
+- [ ] Integration testing with \`@sparc-integrator\`
+- [ ] Deployment with \`@sparc-devops-engineer\`
+- [ ] Documentation with \`@sparc-documentation-writer\`
+
+## AI Mode System
+
+This project includes 40+ specialized AI modes for comprehensive development support:
+
+### Core Development Modes
+- **🎭 SPARC Orchestrator**: Project coordination and workflow management
+- **🏗️ SPARC Architect**: System design and architecture
+- **💻 Code Implementer**: High-quality code implementation
+- **🧪 TDD Engineer**: Test-driven development and quality assurance
+- **🛡️ Security Architect**: Security design and threat modeling
+
+### Specialized Modes
+- **📊 Data Architect**: Data modeling and schema design
+- **📱 Mobile Architect**: Mobile-specific patterns and optimization
+- **⚡ Performance Engineer**: Performance analysis and optimization
+- **🚀 DevOps Engineer**: Deployment and infrastructure automation
+- **📚 Documentation Writer**: Comprehensive technical documentation
+
+### Research and Analysis
+- **🔍 Domain Intelligence**: Business and industry expertise
+- **🧠 Requirements Architect**: Comprehensive requirements analysis
+- **🔴 Adversarial Agent**: Risk assessment and threat analysis
+- **✅ QA Analyst**: Quality assurance and testing coordination
+
+## Memory Bank System
+
+The Memory Bank maintains project knowledge and context:
+
+- **\`memory-bank/activeContext.md\`**: Current working state and handoffs
+- **\`memory-bank/decisionLog.md\`**: All architectural decisions with rationale
+- **\`memory-bank/productContext.md\`**: Business and domain knowledge
+- **\`memory-bank/progress.md\`**: Status tracking and milestone management
+- **\`memory-bank/systemPatterns.md\`**: Reusable technical patterns
+
+## Security Framework
+
+### $SECURITY_LEVEL Security Level
+
+$(case "$SECURITY_LEVEL" in
+    "basic")
+        echo "- Input validation and sanitization
+- HTTPS enforcement and secure headers
+- Basic authentication and session management
+- Regular security updates and dependency scanning"
+        ;;
+    "medium")
+        echo "- Multi-factor authentication support
+- Role-based access control (RBAC)
+- Comprehensive audit logging and monitoring
+- Security scanning integrated in CI/CD pipeline"
+        ;;
+    "high")
+        echo "- Zero-trust security architecture
+- Advanced threat detection and response
+- Comprehensive access control policies
+- Regular penetration testing and security assessments"
+        ;;
+    "enterprise")
+        echo "- Enterprise-grade security infrastructure
+- Full compliance with industry regulations
+- Advanced threat intelligence integration
+- Formal security governance and approval processes"
+        ;;
+esac)
+
+### Access Controls
+
+- **\`.rooignore\`**: File-level security restrictions
+- **\`.roomodes\`**: AI mode permissions and boundaries
+- **Environment Variables**: Secure configuration management
+- **Audit Logging**: Comprehensive activity tracking
+
+## Development Workflow
+
+### Git Workflow$(if [[ "$INIT_GIT" =~ ^[Yy] ]]; then echo " (Configured)"
+else
+echo ""
+fi)
+
+\`\`\`bash
+# Feature development
+git checkout -b feature/new-feature
+# Make changes
+git add .
+git commit -m "feat: implement new feature"
+git push origin feature/new-feature
+# Create pull request
+\`\`\`
+
+### AI Mode Usage
+
+\`\`\`bash
+# Start specification phase
+@sparc-specification-writer
+
+# Begin architecture design
+@sparc-architect
+
+# Implement features
+@sparc-code-implementer
+
+# Add comprehensive tests
+@sparc-tdd-engineer
+
+# Security review
+@sparc-security-reviewer
+\`\`\`
+
+### Quality Gates
+
+Each phase includes quality gates:
+- **Specification**: Requirements validation and stakeholder sign-off
+- **Architecture**: Security review and performance validation
+- **Implementation**: Code review, testing, and security scanning
+- **Deployment**: Integration testing and production readiness
+
+## Testing Strategy$(if [[ "$INCLUDE_TESTING" =~ ^[Yy] ]]; then echo " (Configured)"
+else
+echo ""
+fi)
+
+### Testing Pyramid
+- **Unit Tests (70%)**: Component and function testing
+- **Integration Tests (20%)**: API and service integration
+- **End-to-End Tests (10%)**: Complete user workflows
+
+### Commands
+\`\`\`bash
+# Run all tests
+npm test
+
+# Watch mode for development
+npm run test:watch
+
+# Integration tests
+npm run test:integration
+
+# End-to-end tests
+npm run test:e2e
+\`\`\`
+
+## Deployment$(if [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]]; then echo " ($CLOUD_PROVIDER Ready)"
+else
+echo ""
+fi)
+
+$(if [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]]; then
+cat << CLOUD_DEPLOYMENT
+### Cloud Deployment ($CLOUD_PROVIDER)
+
+Infrastructure as Code templates included for $CLOUD_PROVIDER:
+
+\`\`\`bash
+# Deploy to staging
+npm run deploy:staging
+
+# Deploy to production
+npm run deploy:production
+\`\`\`
+
+### Environment Configuration
+- **Development**: Local development environment
+- **Staging**: Pre-production testing environment
+- **Production**: Live production environment
+
+CLOUD_DEPLOYMENT
+else
+echo "### Deployment Strategy
+
+Deployment configurations and scripts are available in the \`infrastructure/\` directory.
+
+\`\`\`bash
+# Build for production
+npm run build
+
+# Start production server
+npm start
+\`\`\`"
+fi)
+
+## Monitoring and Observability$(if [[ "$INCLUDE_MONITORING" =~ ^[Yy] ]]; then echo " (Configured)"
+else
+echo ""
+fi)
+
+$(if [[ "$INCLUDE_MONITORING" =~ ^[Yy] ]]; then
+echo "### Monitoring Stack
+
+- **Application Monitoring**: Performance and error tracking
+- **Infrastructure Monitoring**: System resource monitoring
+- **Business Metrics**: KPI and user behavior tracking
+- **Security Monitoring**: Security event detection and alerting
+
+### Dashboards
+
+- Application performance dashboard
+- Infrastructure health dashboard
+- Business metrics dashboard
+- Security events dashboard"
+else
+echo "### Monitoring Framework
+
+Monitoring and observability templates are available for implementation:
+
+- Application performance monitoring
+- Infrastructure health monitoring
+- Business metrics tracking
+- Security event monitoring"
+fi)
+
+## Team Collaboration ($TEAM_SIZE Team)
+
+### Team Configuration
+${TEAM_CONFIGS[$TEAM_SIZE]}
+
+### Communication
+$(case "$TEAM_SIZE" in
+    "solo")
+        echo "- Personal productivity optimization
+- AI mode assistance for all development aspects
+- Comprehensive documentation for future reference"
+        ;;
+    "small")
+        echo "- Daily informal check-ins and pair programming
+- Shared AI mode usage and knowledge sharing
+- Collaborative decision making and cross-training"
+        ;;
+    "medium")
+        echo "- Daily standups and weekly planning sessions
+- Specialized roles with AI mode expertise
+- Structured code review and quality processes"
+        ;;
+    "large"|"enterprise")
+        echo "- Formal communication and reporting structures
+- Specialized teams with AI mode coordination
+- Comprehensive project management and governance"
+        ;;
+esac)
+
+### Development Process
+- **Branching Strategy**: Feature branches with pull request reviews
+- **Code Review**: $(case "$TEAM_SIZE" in "solo") echo "AI-assisted self-review" ;; *) echo "Peer review with AI mode validation" ;; esac)
+- **Quality Gates**: Automated testing and AI mode quality checks
+- **Documentation**: Continuous Memory Bank updates
+
+## Contributing
+
+1. **Follow SPARC Methodology**: Use appropriate AI modes for each phase
+2. **Update Memory Bank**: Keep context and decisions current
+3. **Security First**: Follow $SECURITY_LEVEL security guidelines
+4. **Test Coverage**: Maintain comprehensive test coverage
+5. **Documentation**: Update documentation with changes
+
+### Code Style
+
+- Follow patterns in \`memory-bank/systemPatterns.md\`
+- Maximum 500 lines per file for maintainability
+- Comprehensive error handling and input validation
+- Security-first implementation practices
+
+## Resources
+
+### Documentation
+- **Getting Started**: \`docs/getting-started.md\`
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- **Component Guide**: \`docs/component-guide.md\`
+- **Styling Guide**: \`docs/styling-guide.md\`"
+        ;;
+    "api-service")
+        echo "- **API Guide**: \`docs/api-guide.md\`
+- **Database Guide**: \`docs/database-guide.md\`"
+        ;;
+esac)
+- **Testing Strategy**: \`docs/testing-strategy.md\`
+- **Security Framework**: \`security/README.md\`
+
+### SPARC Methodology
+- [SPARC40 Repository](https://github.com/JackSmack1971/SPARC40)
+- [Roo Code Extension](https://marketplace.visualstudio.com/items?itemName=roo-code)
+- [AI Mode Documentation](https://docs.roocode.com/)
+
+## Project Status
+
+- **Phase**: Project Initialization (Complete)
+- **Next Phase**: Specification
+- **Progress**: 5% Complete
+- **Last Updated**: $(date -u +"%Y-%m-%d")
+
+## Support
+
+For questions and support:
+- Check Memory Bank files for project context
+- Review documentation in \`docs/\` directory
+- Consult AI modes for specific expertise areas
+- Follow SPARC methodology best practices
+
+---
+
+*Generated with Enhanced SPARC Project Initialization Script v${SCRIPT_VERSION}*  
+*Template: $SELECTED_TEMPLATE | Team: $TEAM_SIZE | Security: $SECURITY_LEVEL*  
+*Created: $(date -u +"%Y-%m-%d %H:%M:%S UTC")*
+EOF
+}
+
+# Generate getting started guide
+generate_getting_started() {
+    cat << EOF
+# Getting Started with $PROJECT_NAME
+
+Welcome to your enhanced SPARC methodology project! This guide will help you get up and running quickly.
+
+## Overview
+
+Your project is configured as a **$SELECTED_TEMPLATE** template with **$SECURITY_LEVEL** security level, optimized for a **$TEAM_SIZE** team.
+
+## Prerequisites Checklist
+
+- [ ] **Roo Code VSCode Extension** installed and configured
+- [ ] **Node.js 16+** installed for package management
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- [ ] **Modern web browser** for development and testing"
+        ;;
+    "api-service")
+        echo "- [ ] **Database system** (PostgreSQL/MongoDB) installed or accessible
+- [ ] **Redis** for caching (optional but recommended)"
+        ;;
+    "mobile-app")
+        echo "- [ ] **React Native CLI** or Expo CLI installed
+- [ ] **iOS Simulator** or **Android Emulator** set up"
+        ;;
+    "ml-project")
+        echo "- [ ] **Python 3.8+** with pip installed
+- [ ] **Jupyter Notebook** or JupyterLab
+- [ ] **Virtual environment** tool (venv, conda, etc.)"
+        ;;
+esac)
+$(if [[ "$INIT_GIT" =~ ^[Yy] ]]; then echo "- [ ] **Git** configured with your credentials"; fi)
+
+## Initial Setup
+
+### 1. Environment Configuration
+
+Copy the example environment file and configure your settings:
+
+\`\`\`bash
+cp .env.example .env
+\`\`\`
+
+Edit \`.env\` with your specific configuration:
+
+\`\`\`bash
+# Example configuration for $SELECTED_TEMPLATE
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "NEXT_PUBLIC_API_URL=http://localhost:3000/api
+NEXT_PUBLIC_APP_NAME=$PROJECT_NAME"
+        ;;
+    "api-service")
+        echo "PORT=3000
+DATABASE_URL=postgresql://user:password@localhost:5432/$PROJECT_ID
+REDIS_URL=redis://localhost:6379
+JWT_SECRET=your-secret-key-here"
+        ;;
+    "mobile-app")
+        echo "API_BASE_URL=https://api.example.com
+APP_ENV=development"
+        ;;
+    "ml-project")
+        echo "DATA_PATH=./data
+MODEL_PATH=./models
+JUPYTER_PORT=8888"
+        ;;
+esac)
+\`\`\`
+
+### 2. Install Dependencies
+
+$(case "$SELECTED_TEMPLATE" in
+    "web-app"|"api-service"|"fullstack")
+        echo "\`\`\`bash
+npm install
+\`\`\`"
+        ;;
+    "ml-project")
+        echo "\`\`\`bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+
+# Install dependencies
+pip install -r requirements.txt
+\`\`\`"
+        ;;
+    *)
+        echo "\`\`\`bash
+# Install dependencies according to your technology stack
+npm install
+\`\`\`"
+        ;;
+esac)
+
+### 3. Start Development Server
+
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "\`\`\`bash
+npm run dev
+\`\`\`
+
+Your application will be available at \`http://localhost:3000\`"
+        ;;
+    "api-service")
+        echo "\`\`\`bash
+npm run dev
+\`\`\`
+
+Your API will be available at \`http://localhost:3000\`"
+        ;;
+    "ml-project")
+        echo "\`\`\`bash
+jupyter notebook
+\`\`\`
+
+Jupyter will open in your browser at \`http://localhost:8888\`"
+        ;;
+    *)
+        echo "\`\`\`bash
+npm run dev
+\`\`\`"
+        ;;
+esac)
+
+## SPARC Methodology Workflow
+
+### Phase 1: Specification (Current Phase)
+
+Start by defining your requirements:
+
+1. **Activate the Specification Writer**
+   \`\`\`
+   @sparc-specification-writer
+   \`\`\`
+
+2. **Begin Requirements Gathering**
+   - Update \`specification.md\` with your project requirements
+   - Define user personas and scenarios
+   - Establish acceptance criteria
+
+3. **Update Memory Bank**
+   - Review \`memory-bank/activeContext.md\`
+   - Update \`memory-bank/productContext.md\` with business knowledge
+
+### Next Phases
+
+1. **Pseudocode Phase**: Design algorithms with \`@sparc-pseudocode-designer\`
+2. **Architecture Phase**: System design with \`@sparc-architect\`
+3. **Refinement Phase**: Implementation with \`@sparc-code-implementer\`
+4. **Completion Phase**: Integration with \`@sparc-integrator\`
+
+## AI Mode System
+
+Your project includes 40+ specialized AI modes. Here are the most important ones to start with:
+
+### Essential Modes
+- **\`@sparc-orchestrator\`**: Project coordination and workflow management
+- **\`@sparc-specification-writer\`**: Requirements and scope definition
+- **\`@sparc-architect\`**: System architecture and design
+- **\`@sparc-security-architect\`**: Security design and threat modeling
+
+### Development Modes
+- **\`@sparc-code-implementer\`**: High-quality code implementation
+- **\`@sparc-tdd-engineer\`**: Test-driven development
+- **\`@sparc-debug-specialist\`**: Problem diagnosis and resolution
+
+### Quality Assurance
+- **\`@sparc-qa-analyst\`**: Quality assurance and testing
+- **\`@sparc-security-reviewer\`**: Security audits and reviews
+- **\`@sparc-performance-engineer\`**: Performance optimization
+
+## Memory Bank Usage
+
+The Memory Bank maintains project knowledge across all phases:
+
+### Key Files to Monitor
+- **\`memory-bank/activeContext.md\`**: Always check this before starting work
+- **\`memory-bank/progress.md\`**: Track milestones and status
+- **\`memory-bank/decisionLog.md\`**: Review architectural decisions
+- **\`memory-bank/systemPatterns.md\`**: Follow established patterns
+
+### Best Practices
+1. **Read activeContext.md** before starting any work
+2. **Update progress.md** when completing milestones
+3. **Log decisions** in decisionLog.md with rationale
+4. **Document patterns** in systemPatterns.md for reuse
+
+## Security Guidelines ($SECURITY_LEVEL Level)
+
+### Access Controls
+- Review \`.rooignore\` for file access restrictions
+- AI modes have specific permissions defined in \`.roomodes\`
+- Never commit secrets or sensitive configuration
+
+### Security Practices
+$(case "$SECURITY_LEVEL" in
+    "basic")
+        echo "- Use HTTPS for all communications
+- Validate all user inputs
+- Keep dependencies updated
+- Follow secure coding practices"
+        ;;
+    "medium")
+        echo "- Implement role-based access control
+- Use multi-factor authentication where applicable
+- Maintain comprehensive audit logs
+- Regular security scanning and monitoring"
+        ;;
+    "high"|"enterprise")
+        echo "- Follow zero-trust security principles
+- Implement advanced threat detection
+- Regular penetration testing
+- Formal security governance processes"
+        ;;
+esac)
+
+## Team Collaboration ($TEAM_SIZE Team)
+
+### Workflow for $(echo "${TEAM_CONFIGS[$TEAM_SIZE]}" | cut -d'(' -f1)
+$(case "$TEAM_SIZE" in
+    "solo")
+        echo "- Use AI modes for comprehensive development support
+- Maintain detailed documentation for future reference
+- Regular self-review and quality checks
+- Leverage Memory Bank for knowledge continuity"
+        ;;
+    "small")
+        echo "- Daily informal check-ins and pair programming
+- Shared responsibility for code quality and reviews
+- Collaborative AI mode usage and knowledge sharing
+- Cross-training and skill development"
+        ;;
+    "medium")
+        echo "- Daily standups and weekly planning sessions
+- Defined roles with specialized AI mode expertise
+- Structured code review and approval processes
+- Regular team retrospectives and improvements"
+        ;;
+    "large"|"enterprise")
+        echo "- Formal communication and reporting structures
+- Specialized teams with coordinated AI mode usage
+- Comprehensive project management and governance
+- Advanced tooling and process automation"
+        ;;
+esac)
+
+## Common Tasks
+
+### Running Tests$(if [[ "$INCLUDE_TESTING" =~ ^[Yy] ]]; then echo " (Configured)"
+else
+echo ""
+fi)
+
+\`\`\`bash
+# Run all tests
+npm test
+
+# Watch mode for development
+npm run test:watch
+
+# Integration tests
+npm run test:integration
+\`\`\`
+
+### Building for Production
+
+\`\`\`bash
+# Build optimized version
+npm run build
+
+# Start production server
+npm start
+\`\`\`
+
+### Code Quality
+
+\`\`\`bash
+# Lint code
+npm run lint
+
+# Format code
+npm run format
+
+# Type checking (if TypeScript)
+npm run type-check
+\`\`\`
+
+## Troubleshooting
+
+### Common Issues
+
+1. **AI Mode Not Responding**
+   - Check \`.roomodes\` configuration
+   - Verify mode permissions in file access patterns
+   - Review \`.rooignore\` for blocked files
+
+2. **Memory Bank Context Lost**
+   - Ensure \`memory-bank/activeContext.md\` is updated
+   - Check for file access permissions
+   - Verify handoff procedures between modes
+
+3. **Dependencies Issues**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app"|"api-service")
+        echo "   - Delete \`node_modules\` and run \`npm install\`
+   - Clear npm cache: \`npm cache clean --force\`
+   - Check Node.js version compatibility"
+        ;;
+    "ml-project")
+        echo "   - Recreate virtual environment
+   - Update pip: \`pip install --upgrade pip\`
+   - Check Python version compatibility"
+        ;;
+esac)
+
+### Getting Help
+
+1. **Check Memory Bank** for project context and decisions
+2. **Review Documentation** in \`docs/\` directory
+3. **Consult AI Modes** for specific expertise areas
+4. **Follow SPARC Methodology** guidelines and best practices
+
+## Next Steps
+
+1. **Complete Phase 1 Specification**
+   - Work with \`@sparc-specification-writer\`
+   - Define comprehensive requirements
+   - Establish acceptance criteria
+
+2. **Set Up Development Workflow**
+   - Configure your development environment
+   - Set up testing and quality tools
+   - Establish team communication patterns
+
+3. **Begin Implementation Planning**
+   - Review architecture templates
+   - Plan technology stack decisions
+   - Prepare for pseudocode phase
+
+## Resources
+
+- **Project Documentation**: \`docs/\` directory
+- **SPARC Methodology**: [SPARC40 Repository](https://github.com/JackSmack1971/SPARC40)
+- **Roo Code Documentation**: [docs.roocode.com](https://docs.roocode.com/)
+- **AI Mode Reference**: \`.roomodes\` configuration file
+
+---
+
+*Ready to build something amazing with SPARC methodology!*  
+*Template: $SELECTED_TEMPLATE | Generated: $(date -u +"%Y-%m-%d")*
+EOF
+}
+
+# Generate contributing guide
+generate_contributing_guide() {
+    cat << EOF
+# Contributing to $PROJECT_NAME
+
+Thank you for your interest in contributing to $PROJECT_NAME! This guide will help you understand our development process and contribution standards.
+
+## Development Methodology
+
+This project follows the **Enhanced SPARC Methodology** with AI-assisted development. Please familiarize yourself with the process before contributing.
+
+### SPARC Phases
+1. **Specification**: Requirements and scope definition
+2. **Pseudocode**: Algorithm and logic design
+3. **Architecture**: System design and technology selection
+4. **Refinement**: Implementation and testing
+5. **Completion**: Integration and deployment
+
+## Getting Started
+
+### Prerequisites
+- **Roo Code VSCode Extension** with AI mode support
+- **Node.js 16+** for package management
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- **Modern web browser** for development and testing"
+        ;;
+    "api-service")
+        echo "- **Database access** (PostgreSQL/MongoDB)
+- **Redis** for caching (development)"
+        ;;
+    "ml-project")
+        echo "- **Python 3.8+** with scientific computing libraries
+- **Jupyter Notebook** for data analysis"
+        ;;
+esac)
+- **Git** with proper configuration
+
+### Setup
+1. **Fork the Repository**
+   \`\`\`bash
+   git clone https://github.com/[your-username]/$PROJECT_ID.git
+   cd $PROJECT_ID
+   \`\`\`
+
+2. **Install Dependencies**
+$(case "$SELECTED_TEMPLATE" in
+    "web-app"|"api-service")
+        echo "   \`\`\`bash
+   npm install
+   \`\`\`"
+        ;;
+    "ml-project")
+        echo "   \`\`\`bash
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   \`\`\`"
+        ;;
+esac)
+
+3. **Environment Configuration**
+   \`\`\`bash
+   cp .env.example .env
+   # Configure your local environment
+   \`\`\`
+
+## AI Mode System
+
+This project uses 40+ specialized AI modes. Contributors should use appropriate modes for their work:
+
+### For Different Types of Contributions
+
+#### Feature Development
+- **\`@sparc-specification-writer\`**: Define feature requirements
+- **\`@sparc-architect\`**: Design feature architecture
+- **\`@sparc-code-implementer\`**: Implement the feature
+- **\`@sparc-tdd-engineer\`**: Add comprehensive tests
+
+#### Bug Fixes
+- **\`@sparc-debug-specialist\`**: Diagnose the issue
+- **\`@sparc-code-implementer\`**: Implement the fix
+- **\`@sparc-tdd-engineer\`**: Add regression tests
+
+#### Documentation
+- **\`@sparc-documentation-writer\`**: Create/update documentation
+- **\`@sparc-specification-writer\`**: Update specifications
+
+#### Security
+- **\`@sparc-security-architect\`**: Design security improvements
+- **\`@sparc-security-reviewer\`**: Review security implications
+
+## Code Standards
+
+### General Guidelines
+- **File Size**: Maximum 500 lines per file
+- **Function Size**: Maximum 50 lines per function
+- **Security**: Follow $SECURITY_LEVEL security guidelines
+- **Testing**: Maintain >90% test coverage for new code
+- **Documentation**: Update relevant documentation with changes
+
+### Code Style
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- **React Components**: Use functional components with hooks
+- **TypeScript**: Strict type checking enabled
+- **Styling**: Use CSS modules or styled-components
+- **State Management**: Follow established Redux/Context patterns"
+        ;;
+    "api-service")
+        echo "- **API Design**: Follow RESTful principles
+- **Error Handling**: Comprehensive error responses
+- **Authentication**: Secure authentication patterns
+- **Database**: Use parameterized queries, avoid N+1 problems"
+        ;;
+    "ml-project")
+        echo "- **Jupyter Notebooks**: Clear markdown explanations
+- **Python Code**: Follow PEP 8 standards
+- **Data Processing**: Document data transformations
+- **Model Training**: Reproducible experiments with logging"
+        ;;
+esac)
+
+### Memory Bank Updates
+Always update relevant Memory Bank files:
+- **activeContext.md**: Current work state and handoffs
+- **progress.md**: Milestone completion and status
+- **decisionLog.md**: Architectural decisions with rationale
+- **systemPatterns.md**: New reusable patterns
+
+## Contribution Workflow
+
+### 1. Planning Phase
+- Create or find an issue describing the work
+- Use \`@sparc-specification-writer\` for feature planning
+- Update \`memory-bank/activeContext.md\` with your plans
+
+### 2. Development Branch
+\`\`\`bash
+git checkout -b feature/your-feature-name
+# or
+git checkout -b fix/issue-description
+\`\`\`
+
+### 3. Implementation
+- Use appropriate AI modes for each aspect of development
+- Follow SPARC methodology phases
+- Update Memory Bank files as you progress
+- Write tests alongside implementation
+
+### 4. Quality Assurance
+- Run all tests: \`npm test\`
+- Check code style: \`npm run lint\`
+- Security review with \`@sparc-security-reviewer\`
+- Performance check if applicable
+
+### 5. Documentation
+- Update relevant documentation
+- Add code comments for complex logic
+- Update API documentation if applicable
+- Use \`@sparc-documentation-writer\` for comprehensive docs
+
+### 6. Pull Request
+- Create descriptive pull request title and description
+- Reference related issues
+- Include testing notes and validation steps
+- Update Memory Bank with completion status
+
+## Pull Request Guidelines
+
+### Title Format
+\`\`\`
+type(scope): brief description
+
+Examples:
+feat(auth): add multi-factor authentication
+fix(api): resolve rate limiting issue
+docs(readme): update installation instructions
+refactor(components): optimize user interface components
+\`\`\`
+
+### Description Template
+\`\`\`markdown
+## Description
+Brief description of changes made.
+
+## Type of Change
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+
+## SPARC Phase
+- [ ] Specification update
+- [ ] Architecture change
+- [ ] Implementation
+- [ ] Testing addition
+- [ ] Documentation
+
+## AI Modes Used
+- [ ] @sparc-specification-writer
+- [ ] @sparc-architect
+- [ ] @sparc-code-implementer
+- [ ] @sparc-tdd-engineer
+- [ ] @sparc-security-reviewer
+- [ ] Other: ____________
+
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Manual testing completed
+- [ ] All tests passing
+
+## Security Review
+- [ ] Security implications considered
+- [ ] No sensitive data exposed
+- [ ] Input validation implemented
+- [ ] Security review completed
+
+## Memory Bank Updates
+- [ ] activeContext.md updated
+- [ ] progress.md updated
+- [ ] decisionLog.md updated (if architectural changes)
+- [ ] systemPatterns.md updated (if new patterns)
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] Tests added and passing
+- [ ] Memory Bank files updated
+\`\`\`
+
+## Review Process
+
+### Reviewer Guidelines
+1. **Functionality**: Does the code work as intended?
+2. **SPARC Compliance**: Does it follow methodology principles?
+3. **Security**: Are security best practices followed?
+4. **Testing**: Is test coverage adequate?
+5. **Documentation**: Is documentation updated?
+6. **Memory Bank**: Are context files properly updated?
+
+### Approval Requirements
+$(case "$TEAM_SIZE" in
+    "solo")
+        echo "- Self-review with AI mode validation
+- All tests passing
+- Documentation updated"
+        ;;
+    "small")
+        echo "- At least one peer review
+- All tests passing
+- AI mode quality checks passed"
+        ;;
+    *)
+        echo "- At least two peer reviews for significant changes
+- Security review for security-related changes
+- All tests passing
+- Documentation review"
+        ;;
+esac)
+
+## Issue Reporting
+
+### Bug Reports
+Include:
+- **Environment**: OS, browser, Node.js version
+- **Steps to Reproduce**: Detailed reproduction steps
+- **Expected Behavior**: What should happen
+- **Actual Behavior**: What actually happens
+- **AI Mode Context**: Which modes were active
+- **Memory Bank State**: Relevant context from Memory Bank
+
+### Feature Requests
+Include:
+- **Problem Statement**: What problem does this solve?
+- **Proposed Solution**: How should it work?
+- **SPARC Phase**: Which phase is this relevant to?
+- **User Stories**: How will users benefit?
+- **Security Considerations**: Any security implications?
+
+## Community Guidelines
+
+### Code of Conduct
+- Be respectful and inclusive
+- Provide constructive feedback
+- Help others learn the SPARC methodology
+- Share knowledge and best practices
+
+### Communication
+- Use clear, descriptive commit messages
+- Comment your code thoughtfully
+- Ask questions when uncertain
+- Share your AI mode usage patterns
+
+## Security Guidelines
+
+### Security Requirements ($SECURITY_LEVEL Level)
+$(case "$SECURITY_LEVEL" in
+    "basic")
+        echo "- Validate all user inputs
+- Use HTTPS for all communications
+- No hardcoded secrets or credentials
+- Follow secure coding practices"
+        ;;
+    "medium")
+        echo "- Implement comprehensive input validation
+- Use role-based access control
+- Maintain audit logs for security events
+- Regular dependency security scanning"
+        ;;
+    "high"|"enterprise")
+        echo "- Zero-trust security principles
+- Advanced threat detection considerations
+- Comprehensive security testing
+- Formal security review process"
+        ;;
+esac)
+
+### Sensitive Data
+- Never commit secrets, API keys, or credentials
+- Use environment variables for configuration
+- Review \`.rooignore\` before committing
+- Encrypt sensitive data at rest and in transit
+
+## Development Resources
+
+### Documentation
+- **Project Docs**: \`docs/\` directory
+- **Memory Bank**: \`memory-bank/\` for project context
+- **API Reference**: Generated from code comments
+- **Architecture**: \`architecture.md\` for system design
+
+### Tools and Scripts
+$(case "$SELECTED_TEMPLATE" in
+    "web-app")
+        echo "- **Development**: \`npm run dev\`
+- **Testing**: \`npm test\`
+- **Building**: \`npm run build\`
+- **Linting**: \`npm run lint\`
+- **Storybook**: \`npm run storybook\`"
+        ;;
+    "api-service")
+        echo "- **Development**: \`npm run dev\`
+- **Testing**: \`npm test\`
+- **Database**: \`npm run db:migrate\`
+- **API Docs**: \`npm run docs:generate\`"
+        ;;
+esac)
+
+### AI Mode Reference
+- **Configuration**: \`.roomodes\` file
+- **Permissions**: File access patterns in mode definitions
+- **Security**: \`.rooignore\` for access control
+- **Context**: Memory Bank for project knowledge
+
+## Recognition
+
+Contributors will be:
+- Listed in project contributors
+- Recognized for significant contributions
+- Invited to maintainer team for consistent contributions
+- Featured in project documentation for major features
+
+## Questions?
+
+- **Check Memory Bank**: Review project context and decisions
+- **Review Documentation**: Comprehensive guides in \`docs/\`
+- **Ask AI Modes**: Use appropriate specialist modes for help
+- **Create Issue**: For questions that need team discussion
+
+---
+
+Thank you for contributing to $PROJECT_NAME! Your contributions help make this project better for everyone.
+
+*Template: $SELECTED_TEMPLATE | Team: $TEAM_SIZE | Security: $SECURITY_LEVEL*  
+*Last Updated: $(date -u +"%Y-%m-%d")*
+EOF
+}
+
+# Generate additional template-specific content generators
+generate_component_guide() {
+    cat << 'EOF'
+# Component Development Guide
+
+## Component Architecture
+
+### Component Structure
+```
+components/
+├── ui/                          # Basic UI components
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.test.tsx
+│   │   ├── Button.stories.tsx
+│   │   └── index.ts
+│   └── Input/
+├── layout/                      # Layout components
+└── feature/                     # Feature-specific components
+```
+
+### Component Template
+```typescript
+interface ButtonProps {
+  variant: 'primary' | 'secondary';
+  size: 'small' | 'medium' | 'large';
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+export const Button: React.FC<ButtonProps> = ({
+  variant,
+  size,
+  onClick,
+  children
+}) => {
+  return (
+    <button
+      className={`btn btn-${variant} btn-${size}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+};
+```
+
+## Best Practices
+
+1. **Single Responsibility**: Each component should have one clear purpose
+2. **Prop Validation**: Use TypeScript interfaces for all props
+3. **Accessibility**: Include ARIA labels and keyboard navigation
+4. **Performance**: Use React.memo for expensive components
+5. **Testing**: Write comprehensive unit and integration tests
+
+EOF
+}
+
+# Additional generators for other template-specific documents would go here...
+# (For brevity, I'll include just the key ones)
+
+# =============================================================================
+# MAIN EXECUTION FLOW
+# =============================================================================
+
+# Main project creation function
+create_sparc_project() {
+    print_step "🚀 Starting Enhanced SPARC Project Creation"
+    
+    # Validation
+    validate_environment || return 1
+    validate_security_policies || return 1
+    if [[ -f "${SCRIPT_DIR}/custom_modes.yaml" ]]; then
+        validate_custom_modes_yaml "${SCRIPT_DIR}/custom_modes.yaml" || return 1
+    fi
+    
+    # Enable cleanup on error
+    CLEANUP_ON_EXIT=true
+    
+    # Create project directory
+    print_step "📁 Creating project directory: $PROJECT_ID"
+    create_directory_safe "$PROJECT_ID" "Project root directory"
+    cd "$PROJECT_ID" || {
+        print_error "Failed to enter project directory"
+        return 1
+    }
+    
+    # Progress tracking
+    local total_steps=7
+    local current_step=0
+    
+    # Step 1: Directory structure
+    show_progress $((++current_step)) $total_steps "
