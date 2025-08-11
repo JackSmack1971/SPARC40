@@ -5370,38 +5370,341 @@ export const Button: React.FC<ButtonProps> = ({
 EOF
 }
 
-# Additional generators for other template-specific documents would go here...
-# (For brevity, I'll include just the key ones)
+# =============================================================================
+# CLI ARGUMENT PARSING
+# =============================================================================
+
+show_help() {
+    cat << EOF
+Enhanced SPARC Project Initialization Script v${SCRIPT_VERSION}
+
+USAGE:
+    $0 [OPTIONS]
+
+OPTIONS:
+    -n, --name NAME              Project name (required)
+    -i, --id ID                  Project identifier (auto-generated if not provided)
+    -t, --template TEMPLATE      Project template (default: web-app)
+    -s, --team-size SIZE         Team size configuration (default: small)
+    -l, --security-level LEVEL   Security level (default: medium)
+    -c, --cloud PROVIDER         Include cloud templates for provider
+    -g, --git                    Initialize Git repository (default: true)
+    -S, --security               Include enterprise security templates
+    -T, --testing                Include testing framework setup (default: true)
+    -M, --monitoring             Include monitoring and observability
+    -d, --dry-run                Preview creation without making changes
+    -v, --verbose                Enable verbose output
+    -h, --help                   Show this help message
+    --interactive                Run in interactive mode
+    --config FILE                Load configuration from file
+    --backup                     Backup existing directory if it exists
+
+TEMPLATES:
+    web-app         Modern web application with React/Next.js focus
+    api-service     RESTful API service with database integration
+    mobile-app      Cross-platform mobile application
+    enterprise      Enterprise application with compliance requirements
+    ml-project      Machine learning and data science project
+    microservices   Microservices architecture with distributed systems
+    fullstack       Full-stack application with frontend and backend
+    minimal         Minimal SPARC setup with core features only
+
+TEAM SIZES:
+    solo           Individual developer (1 person)
+    small          Small team (2-5 people)
+    medium         Medium team (6-15 people)
+    large          Large team (16+ people)
+    enterprise     Enterprise organization (multiple teams)
+
+SECURITY LEVELS:
+    basic          Basic security controls and access patterns
+    medium         Standard security with enhanced monitoring
+    high           High security with strict access controls
+    enterprise     Enterprise-grade security with compliance
+
+CLOUD PROVIDERS:
+    aws            Amazon Web Services
+    gcp            Google Cloud Platform
+    azure          Microsoft Azure
+    digitalocean   DigitalOcean
+    none           No cloud provider templates
+
+EXAMPLES:
+    # Interactive mode
+    $0 --interactive
+
+    # Quick start with defaults
+    $0 --name "My Web App"
+
+    # Full configuration
+    $0 --name "E-commerce API" --template api-service --team-size medium \\
+       --security-level high --cloud aws --security --monitoring
+
+    # Dry run preview
+    $0 --name "Test Project" --dry-run
+
+    # Load from config file
+    $0 --config project-config.yaml
+
+For more information, visit: https://github.com/JackSmack1971/SPARC40
+
+EOF
+}
+
+# Parse command line arguments
+parse_arguments() {
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -n|--name)
+                PROJECT_NAME="$2"
+                shift 2
+                ;;
+            -i|--id)
+                PROJECT_ID="$2"
+                shift 2
+                ;;
+            -t|--template)
+                SELECTED_TEMPLATE="$2"
+                shift 2
+                ;;
+            -s|--team-size)
+                TEAM_SIZE="$2"
+                shift 2
+                ;;
+            -l|--security-level)
+                SECURITY_LEVEL="$2"
+                shift 2
+                ;;
+            -c|--cloud)
+                INCLUDE_CLOUD="Y"
+                CLOUD_PROVIDER="$2"
+                shift 2
+                ;;
+            -g|--git)
+                INIT_GIT="Y"
+                shift
+                ;;
+            --no-git)
+                INIT_GIT="N"
+                shift
+                ;;
+            -S|--security)
+                INCLUDE_SECURITY="Y"
+                shift
+                ;;
+            -T|--testing)
+                INCLUDE_TESTING="Y"
+                shift
+                ;;
+            --no-testing)
+                INCLUDE_TESTING="N"
+                shift
+                ;;
+            -M|--monitoring)
+                INCLUDE_MONITORING="Y"
+                shift
+                ;;
+            -d|--dry-run)
+                DRY_RUN=true
+                shift
+                ;;
+            -v|--verbose)
+                VERBOSE=true
+                shift
+                ;;
+            --interactive)
+                INTERACTIVE_MODE=true
+                shift
+                ;;
+            --config)
+                CONFIG_FILE="$2"
+                shift 2
+                ;;
+            --backup)
+                BACKUP_EXISTING=true
+                shift
+                ;;
+            -h|--help)
+                show_help
+                exit 0
+                ;;
+            *)
+                print_error "Unknown option: $1"
+                echo "Use --help for usage information"
+                exit 1
+                ;;
+        esac
+    done
+}
+
+# Load configuration from file
+load_config_file() {
+    local config_file="$1"
+    
+    if [[ ! -f "$config_file" ]]; then
+        print_error "Configuration file not found: $config_file"
+        exit 1
+    fi
+    
+    print_info "Loading configuration from: $config_file"
+    
+    # Source the configuration file
+    if [[ "$config_file" == *.yaml || "$config_file" == *.yml ]]; then
+        # Parse YAML configuration (simplified)
+        while IFS= read -r line; do
+            if [[ "$line" =~ ^[[:space:]]*([^:]+):[[:space:]]*(.+)$ ]]; then
+                local key="${BASH_REMATCH[1]// /}"
+                local value="${BASH_REMATCH[2]}"
+                
+                case "$key" in
+                    "projectName") PROJECT_NAME="$value" ;;
+                    "projectId") PROJECT_ID="$value" ;;
+                    "template") SELECTED_TEMPLATE="$value" ;;
+                    "teamSize") TEAM_SIZE="$value" ;;
+                    "securityLevel") SECURITY_LEVEL="$value" ;;
+                    "cloudProvider") CLOUD_PROVIDER="$value"; INCLUDE_CLOUD="Y" ;;
+                    "initGit") INIT_GIT="$value" ;;
+                    "includeSecurity") INCLUDE_SECURITY="$value" ;;
+                    "includeTesting") INCLUDE_TESTING="$value" ;;
+                    "includeMonitoring") INCLUDE_MONITORING="$value" ;;
+                esac
+            fi
+        done < "$config_file"
+    else
+        # Source shell configuration
+        source "$config_file"
+    fi
+}
 
 # =============================================================================
 # MAIN EXECUTION FLOW
 # =============================================================================
 
-# Main project creation function
-create_sparc_project() {
-    print_step "🚀 Starting Enhanced SPARC Project Creation"
+# Main function that orchestrates the entire process
+main() {
+    # Parse arguments first
+    parse_arguments "$@"
     
-    # Validation
-    validate_environment || return 1
-    validate_security_policies || return 1
-    if [[ -f "${SCRIPT_DIR}/custom_modes.yaml" ]]; then
-        validate_custom_modes_yaml "${SCRIPT_DIR}/custom_modes.yaml" || return 1
+    # Load config file if specified
+    if [[ -n "$CONFIG_FILE" ]]; then
+        load_config_file "$CONFIG_FILE"
     fi
     
-    # Enable cleanup on error
-    CLEANUP_ON_EXIT=true
+    # Set up error handling and cleanup
+    setup_error_handling
     
-    # Create project directory
-    print_step "📁 Creating project directory: $PROJECT_ID"
-    create_directory_safe "$PROJECT_ID" "Project root directory"
-    cd "$PROJECT_ID" || {
-        print_error "Failed to enter project directory"
-        return 1
+    # Interactive mode override
+    if [[ "$INTERACTIVE_MODE" == "true" ]]; then
+        interactive_setup
+    fi
+    
+    # Validate required parameters
+    if [[ -z "$PROJECT_NAME" ]]; then
+        if [[ "$INTERACTIVE_MODE" != "true" ]]; then
+            print_error "Project name is required. Use --name or --interactive mode."
+            echo "Use --help for usage information"
+            exit 1
+        fi
+    fi
+    
+    # Generate project ID if not provided
+    if [[ -z "$PROJECT_ID" ]]; then
+        PROJECT_ID="$(generate_project_id "$PROJECT_NAME")"
+        print_info "Generated project ID: $PROJECT_ID"
+    fi
+    
+    # Validate environment and arguments
+    print_step "🔍 Validating environment and configuration..."
+    validate_environment || exit 1
+    validate_security_policies || exit 1
+    
+    # Check if project directory already exists
+    if [[ -d "$PROJECT_ID" ]]; then
+        if [[ "$BACKUP_EXISTING" == "true" ]]; then
+            backup_existing_project
+        else
+            print_error "Project directory '$PROJECT_ID' already exists"
+            print_info "Use --backup to backup existing directory or choose a different name"
+            exit 1
+        fi
+    fi
+    
+    # Show dry run preview if requested
+    if [[ "$DRY_RUN" == "true" ]]; then
+        show_dry_run_preview
+    fi
+    
+    # Create the project
+    print_step "🚀 Creating SPARC project: $PROJECT_NAME"
+    create_sparc_project || {
+        print_error "Project creation failed"
+        cleanup_on_error
+        exit 1
     }
     
-    # Progress tracking
-    local total_steps=7
-    local current_step=0
+    # Show success summary
+    show_success_summary
     
-    # Step 1: Directory structure
-    show_progress $((++current_step)) $total_steps "
+    print_success "🎉 Project '$PROJECT_NAME' created successfully!"
+    print_info "📁 Project location: $(pwd)/$PROJECT_ID"
+    print_info "📖 Next steps: Review the README.md file to get started"
+}
+
+# Error handling setup
+setup_error_handling() {
+    # Set up exit trap for cleanup
+    trap cleanup_on_error ERR EXIT
+    
+    # Enable cleanup on specific signals
+    trap cleanup_on_signal INT TERM
+}
+
+# Cleanup function for errors
+cleanup_on_error() {
+    local exit_code=$?
+    
+    if [[ "$CLEANUP_ON_EXIT" == "true" && $exit_code -ne 0 ]]; then
+        print_warning "🧹 Cleaning up due to error..."
+        
+        # Remove created directories
+        for dir in "${CREATED_DIRS[@]}"; do
+            if [[ -d "$dir" ]]; then
+                print_debug "Removing directory: $dir"
+                rm -rf "$dir"
+            fi
+        done
+        
+        # Remove created files
+        for file in "${CREATED_FILES[@]}"; do
+            if [[ -f "$file" ]]; then
+                print_debug "Removing file: $file"
+                rm -f "$file"
+            fi
+        done
+        
+        print_info "Cleanup completed"
+    fi
+    
+    # Reset cleanup flag
+    CLEANUP_ON_EXIT=false
+}
+
+# Cleanup function for signals
+cleanup_on_signal() {
+    print_warning "🛑 Operation interrupted by user"
+    CLEANUP_ON_EXIT=true
+    exit 1
+}
+
+# Backup existing project
+backup_existing_project() {
+    local backup_name="${PROJECT_ID}.backup.$(date +%Y%m%d_%H%M%S)"
+    print_info "📦 Backing up existing project to: $backup_name"
+    
+    mv "$PROJECT_ID" "$backup_name" || {
+        print_error "Failed to backup existing project"
+        exit 1
+    }
+    
+    print_success "Backup created: $backup_name"
+}
