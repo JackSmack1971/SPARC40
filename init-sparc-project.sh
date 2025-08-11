@@ -2317,7 +2317,52 @@ EOF
 
 # Generate MCP configuration
 generate_mcp_config() {
-  cat <<EOF
+  # Derived flags
+  local sec_tools_enabled="false"
+  [[ "$SECURITY_LEVEL" =~ ^(high|enterprise)$ ]] && sec_tools_enabled="true"
+
+  # Derived policy values
+  local retention_days=30
+  case "$SECURITY_LEVEL" in
+    high) retention_days=60 ;;
+    enterprise) retention_days=90 ;;
+  esac
+  local log_level="INFO"
+  [[ "$SECURITY_LEVEL" =~ ^(high|enterprise)$ ]] && log_level="DEBUG"
+
+  # Team config
+  local max_sessions=3 collab="informal"
+  case "$TEAM_SIZE" in
+    solo)       max_sessions=1  collab="individual" ;;
+    small)      max_sessions=3  collab="informal" ;;
+    medium)     max_sessions=8  collab="structured" ;;
+    large)      max_sessions=16 collab="formal" ;;
+    enterprise) max_sessions=50 collab="formal" ;;
+  esac
+
+  # Optional blocks
+  local cloud_block=""
+  if [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]]; then
+    cloud_block=$(cat <<CLOUD
+    ,"cloud-tools": { "name": "${CLOUD_PROVIDER} Cloud Integration", "enabled": true,
+      "allowedModes": ["sparc-devops-engineer","sparc-platform-engineer"],
+      "cloudProvider": "${CLOUD_PROVIDER}", "securityLevel": "${SECURITY_LEVEL}" }
+CLOUD
+)
+  fi
+
+  local mon_block=""
+  if [[ "$INCLUDE_MONITORING" =~ ^[Yy] ]]; then
+    mon_block=$(cat <<MON
+    ,"monitoring-tools": { "name": "Monitoring & Observability", "enabled": true,
+      "allowedModes": ["sparc-post-deployment-monitor","sparc-sre-engineer"],
+      "securityLevel": "${SECURITY_LEVEL}" }
+MON
+)
+  fi
+
+  # Emit JSON to stdout (consumed by create_file_safe)
+  cat <<JSON
 {
   "description": "Enhanced MCP configuration for ${PROJECT_NAME}",
   "version": "${TEMPLATE_VERSION}",
@@ -2326,47 +2371,28 @@ generate_mcp_config() {
   "mcpServers": {
     "research-tools": { "name": "Research & Analysis Tools", "enabled": true,
       "allowedModes": ["sparc-domain-intelligence","data-researcher","rapid-fact-checker"],
-      "securityLevel": "${SECURITY_LEVEL}"
-    },
+      "securityLevel": "${SECURITY_LEVEL}" },
     "development-tools": { "name": "Development & Code Analysis", "enabled": true,
       "allowedModes": ["sparc-code-implementer","sparc-architect","sparc-tdd-engineer","sparc-performance-engineer"],
-      "securityLevel": "${SECURITY_LEVEL}"
-    },
+      "securityLevel": "${SECURITY_LEVEL}" },
     "security-tools": { "name": "Security Analysis & Review",
-      "enabled": $( [[ \"$SECURITY_LEVEL\" =~ ^(high|enterprise)$ ]] && echo true || echo false ),
+      "enabled": ${sec_tools_enabled},
       "allowedModes": ["sparc-security-reviewer","sparc-security-architect","adversarial-testing-agent"],
-      "securityLevel": "${SECURITY_LEVEL}"
-    }$( [[ "$INCLUDE_CLOUD" =~ ^[Yy] ]] && cat <<'CLOUD'
-,
-    "cloud-tools": { "name": "'"$CLOUD_PROVIDER"' Cloud Integration", "enabled": true,
-      "allowedModes": ["sparc-devops-engineer","sparc-platform-engineer"],
-      "cloudProvider": "'"$CLOUD_PROVIDER"'", "securityLevel": "'"$SECURITY_LEVEL"'"
-    }
-CLOUD
-)$( [[ "$INCLUDE_MONITORING" =~ ^[Yy] ]] && cat <<'MON'
-,
-    "monitoring-tools": { "name": "Monitoring & Observability", "enabled": true,
-      "allowedModes": ["sparc-post-deployment-monitor","sparc-sre-engineer"],
-      "securityLevel": "'"$SECURITY_LEVEL"'"
-    }
-MON
-)
+      "securityLevel": "${SECURITY_LEVEL}" }${cloud_block}${mon_block}
   },
   "securityPolicies": {
-    "dataRetention": { "enabled": true, "maxRetentionDays": $(case \"$SECURITY_LEVEL\" in enterprise) echo 90 ;; high) echo 60 ;; *) echo 30 ;; esac)},
-    "accessLogging": { "enabled": true, "logLevel": \"$(case \"$SECURITY_LEVEL\" in enterprise|high) echo DEBUG ;; *) echo INFO ;; esac)\ },
-    "encryptionRequired": $( [[ \"$SECURITY_LEVEL\" =~ ^(high|enterprise)$ ]] && echo true || echo false )
+    "dataRetention": { "enabled": true, "maxRetentionDays": ${retention_days} },
+    "accessLogging": { "enabled": true, "logLevel": "${log_level}" },
+    "encryptionRequired": ${sec_tools_enabled}
   },
   "teamConfiguration": {
     "teamSize": "${TEAM_SIZE}",
-    "maxConcurrentSessions": $(case \"$TEAM_SIZE\" in solo) echo 1 ;; small) echo 3 ;; medium) echo 8 ;; large) echo 16 ;; enterprise) echo 50 ;; esac),
-    "collaborationMode": \"$(case \"$TEAM_SIZE\" in solo) echo individual ;; small) echo informal ;; medium) echo structured ;; large|enterprise) echo formal ;; esac)\
+    "maxConcurrentSessions": ${max_sessions},
+    "collaborationMode": "${collab}"
   }
 }
-EOF
-}EOF
+JSON
 }
-
 # Generate project rules
 generate_project_rules() {
     cat << EOF
