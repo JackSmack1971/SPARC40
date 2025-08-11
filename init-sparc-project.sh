@@ -5182,7 +5182,7 @@ generate_component_guide() {
 ## Component Architecture
 
 ### Component Structure
-```
+` + "```" + `
 components/
 ├── ui/                          # Basic UI components
 │   ├── Button/
@@ -5193,10 +5193,10 @@ components/
 │   └── Input/
 ├── layout/                      # Layout components
 └── feature/                     # Feature-specific components
-```
+` + "```" + `
 
 ### Component Template
-```typescript
+` + "```" + `typescript
 interface ButtonProps {
   variant: 'primary' | 'secondary';
   size: 'small' | 'medium' | 'large';
@@ -5219,7 +5219,7 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-```
+` + "```" + `
 
 ## Best Practices
 
@@ -5231,7 +5231,6 @@ export const Button: React.FC<ButtonProps> = ({
 
 EOF
 }
-
 # =============================================================================
 # CLI ARGUMENT PARSING
 # =============================================================================
