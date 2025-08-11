@@ -2391,7 +2391,7 @@ MON
     "collaborationMode": "${collab}"
   }
 }
-JSON
+EOF
 }
 # Generate project rules
 generate_project_rules() {
