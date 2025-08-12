@@ -54,7 +54,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -79,7 +80,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -154,7 +156,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -179,7 +182,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -222,7 +226,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -247,7 +252,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -272,7 +278,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -372,7 +379,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -479,7 +487,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Security regression tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -622,7 +631,8 @@
             "fileRegex": "^tests/.*\\.(ts|tsx|js|jsx)$",
             "description": "Unit/integration tests"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -647,7 +657,8 @@
             "fileRegex": "^docs/qa/.*\\.(md|mdx)$",
             "description": "QA docs"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
@@ -897,7 +908,8 @@
             "fileRegex": "^docs/qa/.*\\.(md|mdx)$",
             "description": "QA docs"
           }
-        ]
+        ],
+        "mcp"
       ]
     },
     {
