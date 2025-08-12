@@ -187,6 +187,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -379,6 +380,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -445,6 +447,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -475,6 +478,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -560,6 +564,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -591,6 +596,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -652,6 +658,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -716,6 +723,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -747,6 +755,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -779,6 +788,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
@@ -861,6 +871,7 @@ customModes:
   groups:
   - read
   - browser
+  - mcp
   - - edit
     - fileRegex: ^\.roo/handoffs/.*\.(md|mdx|json)$
       description: Handoff coordination only
